@@ -64,9 +64,9 @@ class HUDHelpers
 	}
 	
 	void Destroy()
-	{
+	{ 	
 		timerActive = false;
-		timerTimeLeft = 0;
+		timerTimeLeft = -1;
 		shouldStartTimer = false;
 		hudRoot.RemoveFromHierarchy();
 	}
