@@ -1,0 +1,141 @@
+SCR_EditorManagerEntity {
+ ID "644E9701343B7524"
+ components {
+  SCR_AccessKeysEditorComponent "{644E9701343B76C7}" {
+  }
+  SCR_BudgetEditorComponent "{644E9701343B76BA}" {
+   m_MaxBudgets {
+    SCR_EntityBudgetValue "{644E9701343B76B5}" {
+     m_Value 5000
+    }
+    SCR_EntityBudgetValue "{644E9701343B76B2}" {
+     m_BudgetType AI
+     m_Value 100
+    }
+    SCR_EntityBudgetValue "{644E9701343B76AF}" {
+     m_BudgetType VEHICLES
+     m_Value 30
+    }
+    SCR_EntityBudgetValue "{644E9701343B76AD}" {
+     m_BudgetType SYSTEMS
+     m_Value 300
+    }
+   }
+  }
+  SCR_CameraDataEditorComponent "{644E9701343B76AB}" {
+  }
+  SCR_DebugEditorComponent "{644E9701343B76AA}" {
+  }
+  SCR_EditorVONControllerComponent "{644E9701343B76A8}" {
+  }
+  SCR_HighlightedEditorComponent "{644E9701343B76A7}" {
+  }
+  SCR_InputLayoutEditorComponent "{644E9701343B76A6}" {
+   m_Layout "{E40A4B5CC61E7FF2}UI/layouts/Editor/EditorToggle/EditorToggle.layout"
+  }
+  SCR_MapEditorComponent "{644E9701343B76A0}" {
+  }
+  SCR_MenuEditorComponent "{644E9701343B769E}" {
+   m_EffectsActivate {
+    SCR_SoundEditorEffect "{644E9701343B7691}" {
+     m_sSound "SOUND_E_OPEN"
+    }
+   }
+   m_EffectsDeactivate {
+    SCR_SoundEditorEffect "{644E9701343B768E}" {
+     m_sSound "SOUND_E_CLOSE"
+    }
+   }
+  }
+  SCR_MusicEditorComponent "{644E9701343B768D}" {
+  }
+  SCR_PauseGameTimeEditorComponent "{644E9701343B768C}" {
+  }
+  SCR_PingEditorComponent "{644E9701343B768B}" {
+   m_EffectsSendPingFromPlayer {
+    SCR_SoundEditorEffect "{644E9701343B7689}" {
+     m_sSound "SOUND_E_PINGFROMPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B7688}" {
+     m_Prefab "{712601A9A89CA03C}PrefabsEditable/System/E_PingEntity.et"
+     m_bNoEntities 1
+     m_bReplacePrevious 0
+    }
+   }
+   m_EffectsSendPingFromEditor {
+    SCR_SoundEditorEffect "{644E9701343B767D}" {
+     m_sSound "SOUND_E_PINGTOPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B767C}" {
+     m_Prefab "{6143F22A2E336CF8}PrefabsEditable/System/E_PingEntity_GM.et"
+     m_bNoEntities 1
+     m_bReplacePrevious 0
+    }
+   }
+   m_EffectsSendPingUnlimitedOnlyFromPlayer {
+    SCR_SoundEditorEffect "{644E9701343B7677}" {
+     m_sSound "SOUND_E_PINGFROMPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B7676}" {
+     m_Prefab "{6143F22A2E336CF9}PrefabsEditable/System/E_PingEntity_UnlimitedOnly.et"
+    }
+   }
+   m_EffectsSendPingUnlimitedOnlyFromEditor {
+    SCR_SoundEditorEffect "{644E9701343B7668}" {
+     m_sSound "SOUND_E_PINGTOPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B7667}" {
+     m_Prefab "{6143F22A2E336CF9}PrefabsEditable/System/E_PingEntity_UnlimitedOnly.et"
+    }
+   }
+   m_EffectsReceivePingFromPlayer {
+    SCR_SoundEditorEffect "{644E9701343B7665}" {
+     m_sSound "SOUND_E_PINGFROMPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B7664}" {
+     m_Prefab "{712601A9A89CA03C}PrefabsEditable/System/E_PingEntity.et"
+     m_bNoEntities 1
+     m_bReplacePrevious 0
+    }
+   }
+   m_EffectsReceivePingFromEditor {
+    SCR_SoundEditorEffect "{644E9701343B7662}" {
+     m_sSound "SOUND_E_PINGTOPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B7661}" {
+     m_Prefab "{6143F22A2E336CF8}PrefabsEditable/System/E_PingEntity_GM.et"
+     m_bNoEntities 1
+     m_bReplacePrevious 0
+    }
+   }
+   m_EffectsReceivePingUnlimitedOnlyFromPlayer {
+    SCR_SoundEditorEffect "{644E9701343B7660}" {
+     m_sSound "SOUND_E_PINGFROMPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B765E}" {
+     m_Prefab "{6143F22A2E336CF9}PrefabsEditable/System/E_PingEntity_UnlimitedOnly.et"
+    }
+   }
+   m_EffectsReceivePingUnlimitedOnlyFromEditor {
+    SCR_SoundEditorEffect "{644E9701343B765C}" {
+     m_sSound "SOUND_E_PINGTOPLAYERS"
+    }
+    SCR_EntityEditorEffect "{644E9701343B765B}" {
+     m_Prefab "{6143F22A2E336CF9}PrefabsEditable/System/E_PingEntity_UnlimitedOnly.et"
+    }
+   }
+  }
+  SCR_PlayerDelegateEditorComponent "{644E9701343B7659}" {
+   m_PlayerDelegatePrefab "{A788190C069077B8}PrefabsEditable/System/E_PlayerDelegate.et"
+  }
+  SCR_PlayersManagerEditorComponent "{644E9701343B7658}" {
+   m_DefaultPlayer "{26A9756790131354}Prefabs/Characters/Factions/BLUFOR/US_Army/Character_US_Rifleman.et"
+  }
+  SCR_PrefabsCacheEditorComponent "{644E9701343B7653}" {
+  }
+  RplComponent "{644E9701343B7652}" {
+   Streamable Disabled
+  }
+ }
+ coords 0 0 0
+}

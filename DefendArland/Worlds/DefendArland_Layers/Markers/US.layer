@@ -1,0 +1,14 @@
+SCR_SpawnPoint SpawnPoint_US_1 : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
+ components {
+  SCR_MapDescriptorComponent "{54C659A97C47BDE2}" {
+   UnitType Infantry
+  }
+ }
+ coords 1380.968 36.313 2353.76
+ angleY 80.165
+ m_bTimedSpawnPoint 1
+ m_Info SCR_UIInfo "{56B4CC4ECACA2C37}" {
+  Name "DEFEND"
+ }
+ m_fRespawnTime 20
+}

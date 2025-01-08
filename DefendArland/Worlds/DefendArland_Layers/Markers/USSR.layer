@@ -1,0 +1,49 @@
+$grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
+ ussr_spawn_1 {
+  coords 1397.341 38.81 2137.286
+  angleX 14.876
+ }
+ ussr_spawn_2 {
+  coords 1520.763 35.327 2059.223
+  angleX 0.891
+  angleY 0.098
+  angleZ 2.685
+ }
+ ussr_spawn_3 {
+  coords 1615.118 29.506 2084.297
+  angleX 8.082
+  angleY -10.04
+  angleZ -10.315
+ }
+ ussr_spawn_4 {
+  coords 1650.781 41.125 2188.154
+  angleY 0.112
+ }
+ ussr_spawn_5 {
+  coords 1618.75 40.816 2367.183
+  angleX -0.001
+  angleY -0.028
+  angleZ -2.684
+ }
+ ussr_spawn_6 {
+  coords 1579.867 38.709 2506.922
+  angleX -2.682
+  angleY -0.098
+  angleZ 0.899
+ }
+ ussr_spawn_7 {
+  coords 1323.875 36.343 2655.654
+ }
+ ussr_spawn_8 {
+  coords 1167.196 39.322 2461.172
+  angleX -25.904
+  angleY -8.206
+  angleZ 17.672
+ }
+ ussr_spawn_9 {
+  coords 1156.333 38.681 2072.066
+  angleX -0.897
+  angleY 0.125
+  angleZ 0.893
+ }
+}

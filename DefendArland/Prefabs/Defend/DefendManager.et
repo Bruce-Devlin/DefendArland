@@ -1,0 +1,8 @@
+DefendManager {
+ ID "6446C17B3747CDFE"
+ components {
+  RplComponent "{6446C3CE74136A7A}" {
+  }
+ }
+ coords 1408.644 40.8 2355.679
+}

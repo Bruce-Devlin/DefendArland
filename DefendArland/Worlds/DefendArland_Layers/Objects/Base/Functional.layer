@@ -1,0 +1,113 @@
+GenericEntity : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Weapons_US_Pistols.et" {
+ coords 1381.102 36.91 2347.709
+ angleY -85.068
+ angleZ 5.383
+}
+Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_MobileHQ.et" {
+ components {
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+   LightsEnabled 1
+  }
+  SCR_AIVehicleUsageComponent "{60E4E37C467714E8}" {
+   m_bCanBePiloted 0
+  }
+  SCR_FuelManagerComponent "{5622A70CD78A9E2C}" {
+   FuelNodes {
+    SCR_FuelNode "{5622A70CD4036C5A}" {
+     m_fInitialFuelTankState 0
+    }
+   }
+  }
+  SCR_TutorialFakeBaseComponent "{609E92594500AFA0}" {
+   m_sBaseName "DEFEND"
+   m_sBaseNameLonger "DEFEND ARLAND"
+   m_sBaseCallSign "DEFEND"
+   m_eServices 38
+  }
+  SCR_VehicleSpawnProtectionComponent "{54D6FBC0CE49F6D9}" {
+   m_bIsLocked 1
+  }
+ }
+ coords 1378.183 36.343 2363.868
+ angleY -7.24
+ Flags 1027
+}
+GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
+ coords 1380.975 36.869 2344.622
+ angleX 0.28
+ angleY -89.131
+ angleZ 2.363
+}
+GenericEntity : "{466A6AA84E5F900F}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/WeaponRackCabinetArsenal_US_Basic.et" {
+ coords 1381.477 36.236 2349.584
+ angleX 0.021
+ angleY -88.656
+ angleZ -0.895
+}
+GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Military/Compositions/US/E_BuildingService_US.et" {
+ components {
+  SCR_CampaignBuildingProviderComponent "{5EBCED04D0321687}" {
+   m_bIsMasterProvider 0
+   m_bUseMasterProvider 1
+   m_aBudgetsToEvaluate {
+    SCR_CampaignBuildingBudgetToEvaluateData "{5EBCED04CA3C69D6}" {
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D3991E97D}" {
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{5EBCED04CB171654}" {
+    }
+    SCR_CampaignBuildingMaxValueBudgetToEvaluateData "{5EFAB309A0482ACF}" {
+     m_iMaxValue 100
+    }
+   }
+  }
+  SCR_ResourceComponent "{5D7CC617AC1077DD}" {
+   m_aContainers {
+    SCR_ResourceContainer "{644A6E0B40E8814B}" {
+     m_eResourceRights FACTION
+     m_fResourceValueCurrent 5000
+    }
+   }
+  }
+ }
+ coords 1384.381 36.339 2352.16
+ angleY -90
+}
+GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {
+ coords 1381.192 37.133 2346.134
+ angleY -89.905
+}
+$grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuilding/FloodlightGenerator_S_US_01.et" {
+ {
+  coords 1392.708 36.129 2340.953
+  angleX 0.876
+  angleY -91.235
+  angleZ -0.914
+  {
+   GameEntity {
+    ID "5E64B54879740AB5"
+    coords 0 0 0
+    angleY 179.108
+   }
+  }
+ }
+ {
+  coords 1384.674 36.312 2357.381
+  angleY -175.04
+  {
+   GameEntity {
+    ID "5E64B54879740AB5"
+    coords 0 0 0
+    angleY 179.108
+   }
+   GenericEntity {
+    ID "5E6911EAF040169C"
+    components {
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+   }
+  }
+ }
+}
