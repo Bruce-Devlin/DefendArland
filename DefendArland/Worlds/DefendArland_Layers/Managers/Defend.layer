@@ -702,6 +702,26 @@ SCR_BaseGameMode GameMode_Defend {
        m_sAudioOneShot "SOUND_ONDEFEAT"
       }
      }
+     SCR_FactionGameOverScreenInfo "{6450D1BA5B871ED0}" {
+      m_GameOverScreenId LOOSE
+      m_GameOverContentLayout "{77DC985790BEDC1C}UI/layouts/HUD/GameOver/EndScreen/EndScreenContent_CombatPatrol.layout"
+      m_OptionalParams SCR_BaseGameOverScreenInfoOptional "{6450D1BA75C55F56}" {
+       m_sTitle "YOU LOSE"
+       m_sSubtitle "#skillissue"
+       m_sDebriefing "You died too many times, your whole team shares tickets."
+       m_sAudioOneShot "SOUND_ONDEFEAT"
+      }
+     }
+     SCR_FactionGameOverScreenInfo "{6450D1BA91367E1E}" {
+      m_GameOverScreenId VICTORY
+      m_GameOverContentLayout "{77DC985790BEDC1C}UI/layouts/HUD/GameOver/EndScreen/EndScreenContent_CombatPatrol.layout"
+      m_OptionalParams SCR_BaseGameOverScreenInfoOptional "{6450D1BA91367EAF}" {
+       m_sTitle "YOU WIN"
+       m_sSubtitle "congrats"
+       m_sDebriefing "You died too many times, your whole team shares tickets."
+       m_sAudioOneShot "SOUND_ONDEFEAT"
+      }
+     }
     }
    }
   }
@@ -3942,51 +3962,33 @@ SCR_BaseGameMode GameMode_Defend {
    }
   }
   SCR_WelcomeScreenComponent "{644ED76F4EB73DA5}" {
-   Enabled 0
    m_sHeaderTitle "DEFEND ARLAND"
    m_sHeaderSubtitle "Defend our position until help arrives"
-   m_BaseLayout SCR_WelcomeScreenThreeHorizontalColumns "{644ED76F4EB71516}" {
-    m_LeftColumn SCR_WelcomeScreenFactionContent "{644ED76F4EB714C8}" {
-     m_sTitleText "#AR-DeployScreen_AvailableFactionsTitle"
-     m_sBottomTitleText "#AR-DeployScreen_MoreFactions"
+   m_BaseLayout SCR_DebriefingScreenUnevenFourTiles "{6450D1B23F4EF07B}" {
+    m_TopLeftTile SCR_DebriefingScreenSummaryContent "{6450D1B22501FDD3}" {
+     m_sTitleText "DEFEND ARLAND"
+     m_sSubtitleText "DEFEND ARLAND"
+     m_sSubtitleLostText "DEFEND ARLAND"
+     m_sDescriptionText "The Russian have us surrounded, we need to defend our position!"
     }
-    m_MiddleColumn SCR_WelcomeScreenMissionObjectivesContent "{644ED76F4EB714EA}" {
-     m_sTitleText "#AR-DebriefingScreen_Objectives"
-     m_aMissionObjectives {
-      SCR_WelcomeScreenMissionObjectives "{644ED76F4EB714D9}" {
-       m_sObjectiveQuadName "Defend"
-       m_sDescription "#AR-BriefingCampaign_VictoryCondition_01"
+    m_TopRightTile SCR_DebriefingScreenBigImageContent "{6450D1B25D4DA678}" {
+     m_sContentImage "{29D8AD9BCEC17268}UI/Textures/MissionLoadingScreens/placeholder_1_UI.edds"
+    }
+    m_BottomLeftTile SCR_DebriefingScreenStatisticsContent "{6450D1B2C44E817E}" {
+     m_sTitleText "STATS:"
+     m_aStatistics {
+      SCR_DebriefingScreenStatisticDeaths "{6450D1B2C20700D8}" {
       }
-      SCR_WelcomeScreenMissionObjectives "{644ED76F4EB714E3}" {
-       m_sObjectiveQuadName "Seize"
-       m_sDescription "#AR-BriefingCampaign_VictoryCondition_02"
-      }
-      SCR_WelcomeScreenMissionObjectives "{644ED76F4EB714ED}" {
-       m_sObjectiveQuadName "Reconfigure"
-       m_sDescription "#AR-BriefingCampaign_VictoryCondition_03"
+      SCR_DebriefingScreenStatisticKills "{6450D1B2CC093EF8}" {
       }
      }
     }
-    m_RightColumn SCR_WelcomeScreenIntroductionContent "{644ED76F4EB71509}" {
+    m_BottomRightTile SCR_DebriefingScreenSummaryContent "{6450D1B2B340871A}" {
      m_bIsInteractible 1
-     m_sTitleText "#AR-FieldManual_Category_Introduction_Title"
-     m_aIntroduction {
-      SCR_WelcomeScreenIntroduction "{644ED76F4EB71507}" {
-       m_sContentImage "{F355C5692BEDC1E5}UI/Textures/FieldManual/MPModes/Conflict/Images/Conflict_loadScreen_UI.edds"
-       m_sContentTitleText "#AR-BriefingCampaign_Hint_Name_01"
-       m_sContentDescriptionText "#AR-FieldManual_Page_Conflict_Text_02"
-      }
-      SCR_WelcomeScreenIntroduction "{644ED76F4EB71501}" {
-       m_sContentImage "{EFF804FB17026599}UI/Textures/FieldManual/MPModes/Conflict/Images/Conflict_service_antenna_UI.edds"
-       m_sContentTitleText "#AR-BriefingCampaign_Hint_Name_02"
-       m_sContentDescriptionText "#AR-BriefingCampaign_Hint_Description_02"
-      }
-      SCR_WelcomeScreenIntroduction "{644ED76F4EB71508}" {
-       m_sContentImage "{E00CCCF1DB6DE5F3}UI/Textures/FieldManual/MPModes/Conflict/Images/Conflict_service_supply_UI.edds"
-       m_sContentTitleText "#AR-BriefingCampaign_Hint_Name_03"
-       m_sContentDescriptionText "#AR-BriefingCampaign_Hint_Description_03"
-      }
-     }
+     m_sTitleText "A GAMEMODE BY DEVLIN"
+     m_sSubtitleText "A GAMEMODE BY DEVLIN"
+     m_sSubtitleLostText "A GAMEMODE BY DEVLIN"
+     m_sDescriptionText "https://publiczeus.com"
     }
    }
   }

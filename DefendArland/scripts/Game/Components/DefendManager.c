@@ -396,29 +396,8 @@ class DefendManager: GenericEntity
 		
 		if (!gameMode.IsRunning())
 			return;
-		
-		if (DefendHelpers.IsHost())
-		{
-			SendHUDUpdate(0);
-		}
-		
-		hud.timerActive = false;
-		hud.timerTimeLeft = 0;
-		hud.shouldStartTimer = false;
-		
-		currentWave = 0;
-		livesLeft = 0;
-		localPlayerId = 0;
-		isHost = false;
-		localPlayerInitComplete = false;
-		serverPlayerInitComplete = false;
-		activePlayerIds.Clear();
-		activeAIGroups.Clear();
-		SetCanBuild(true);		
-		
-		GetGame().GetCallqueue().Clear();
-		
-		gameMode.EndGameMode(SCR_GameModeEndData.CreateSimple(type, -1, usIndex));
+
+		gameMode.EndGameMode(SCR_GameModeEndData.CreateSimple(type, winnerId, usIndex));
 	}
 	
 	override void EOnActivate(IEntity owner)
@@ -485,7 +464,7 @@ class DefendManager: GenericEntity
 			DefendHelpers.Log("Running Server Loop", "Server loop running.");
 			if (livesLeft < 1)
 			{
-				EndGame(EGameOverTypes.LOOSE, 0);
+				EndGame(EGameOverTypes.LOOSE, 1);
 			}
 			
 			if (CountAliveAI() > 0)
@@ -693,7 +672,7 @@ class DefendManager: GenericEntity
 		_canBuild = allowed;
 	}
 	
-	static ref HintHelpers hint = new HintHelpers();
+ 	static ref HintHelpers hint = new HintHelpers();
 	static ref HUDHelpers hud = new HUDHelpers();
 	const static string WB_DEFEND_CATEGORY = "Defend Manager";
 	protected static ref array<ref DefendPlayer> players = {};
