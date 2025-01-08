@@ -8,6 +8,11 @@ class HUDHelpers
 
 	protected bool initComplete = false;
 	protected int widgetId = 0;
+	
+	bool hasInitComplete()
+	{
+		return initComplete;
+	}
 
 	
  	void Init(string uiHUDLayout, bool isDebug) 
@@ -68,6 +73,8 @@ class HUDHelpers
 		timerActive = false;
 		timerTimeLeft = -1;
 		shouldStartTimer = false;
+		initComplete = false;
+		GetGame().GetCallqueue().Clear();
 		hudRoot.RemoveFromHierarchy();
 	}
 	
@@ -439,7 +446,6 @@ class DefendManager: GenericEntity
 		if (DefendHelpers.IsHost())
 		{
 			DefendHelpers.Log("Is Host", "Is currently the game host.");
-			hud.Init(uiHUDLayout, debugMode);
 			isHost = true;
 			localPlayerId = -1;
 			
@@ -458,8 +464,6 @@ class DefendManager: GenericEntity
 	{
 		DefendHelpers.Log("Init Player", "Init called for player id: " + playerId);
 		localPlayerId = playerId;
-		
-		hud.Init(uiHUDLayout, debugMode);
 				
 		localPlayerInitComplete = true;
 	}
@@ -759,7 +763,6 @@ class DefendManager: GenericEntity
 			DefendHelpers.Log("Allow player building", "Building allowed: " + CanBuild());
 		}
 		else DefendHelpers.Log("Not Defend Gamemode?", "Couldn't find GameModeDefend entity!");
-		
 	}
 	
 	void SendHUDUpdate(int wave, int secondsUntilNext = 0, int playerId = 0)

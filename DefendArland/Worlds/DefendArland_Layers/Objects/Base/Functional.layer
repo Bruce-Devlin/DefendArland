@@ -143,6 +143,11 @@ $grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuildi
   {
    GameEntity {
     ID "5E64B54879740AB5"
+    components {
+     SCR_BaseInteractiveLightComponent "{587E9C1D47ACAF0D}" {
+      m_eInitialLightState LIT
+     }
+    }
     coords 0 0 0
     angleY 179.108
    }
@@ -154,6 +159,11 @@ $grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuildi
   {
    GameEntity {
     ID "5E64B54879740AB5"
+    components {
+     SCR_BaseInteractiveLightComponent "{587E9C1D47ACAF0D}" {
+      m_eInitialLightState LIT
+     }
+    }
     coords 0 0 0
     angleY 179.108
    }

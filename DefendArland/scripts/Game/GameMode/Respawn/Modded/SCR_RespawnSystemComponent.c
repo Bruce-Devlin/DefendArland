@@ -23,27 +23,30 @@ modded class SCR_RespawnSystemComponent
 		
 		int id = requestComponent.GetPlayerId();
 		SetHelpers();
-			
-		dm.SetPlayerState(id, true);
 		
-		int livesLeft = DefendHelpers.Get().livesLeft;
-		bool isFirstTime = !dm.activePlayerIds.Contains(id);
-		
-		if (isFirstTime)
+		if (dm != null)
 		{
-			DefendHelpers.Log("Spawned Player", "Player with the ID: " + id + " has been spawned for the first time.");
-			
-			dm.activePlayerIds.Insert(id);
-			
-			GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
-		}
-		else
-		{
-			DefendHelpers.Log("Respawned Player", "Player with the ID: " + id + " has been respawned");
-			GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
-		}
+			dm.SetPlayerState(id, true);
 		
-		GetGame().GetCallqueue().CallLater(dm.SendHUDUpdate, 1000, false, dm.currentWave, dm.hud.timerTimeLeft, id)
+			int livesLeft = DefendHelpers.Get().livesLeft;
+			bool isFirstTime = !dm.activePlayerIds.Contains(id);
+			
+			if (isFirstTime)
+			{
+				DefendHelpers.Log("Spawned Player", "Player with the ID: " + id + " has been spawned for the first time.");
+				
+				dm.activePlayerIds.Insert(id);
+				
+				GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
+			}
+			else
+			{
+				DefendHelpers.Log("Respawned Player", "Player with the ID: " + id + " has been respawned");
+				GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
+			}
+			
+			GetGame().GetCallqueue().CallLater(dm.SendHUDUpdate, 1000, false, dm.currentWave, dm.hud.timerTimeLeft, id);
+		}
 	}
 	
 	override bool PreparePlayerEntity_S(SCR_SpawnRequestComponent requestComponent, SCR_SpawnHandlerComponent handlerComponent, SCR_SpawnData data, IEntity entity)
@@ -90,6 +93,16 @@ modded class SCR_RespawnSystemComponent
 	protected void RpcDo_PlayerSpawned(int playerId, bool first, int livesLeft) 
 	{
 		DefendHelpers.Log("RpcDo: Player Spawned", playerId.ToString() + " | " + first);
+		SetHelpers();
+		
+		if (first)
+		{
+			if (!dm.hud.hasInitComplete())
+			{
+				dm.hud.Init(dm.uiHUDLayout, dm.debugMode);
+			}
+		}
+		
 		GetGame().GetCallqueue().Call(CheckPlayerSpawn, playerId, first, livesLeft);
 	}
 	

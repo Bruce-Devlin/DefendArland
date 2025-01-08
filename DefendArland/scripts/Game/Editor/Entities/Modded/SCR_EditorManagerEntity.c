@@ -11,7 +11,6 @@ modded class SCR_EditorManagerEntity
 		{
 			if (showErrorNotification)
 				SCR_NotificationsComponent.SendToPlayer(GetPlayerID(), ENotification.EDITOR_CANNOT_OPEN);
-	
 			return;
 		}
 	}
