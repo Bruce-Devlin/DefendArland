@@ -1,4 +1,23 @@
 GenericEntity : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Weapons_US_Pistols.et" {
+ components {
+  SCR_ArsenalComponent "{589F01C9C8D4A475}" {
+   m_eSupplyCostType RESPAWN_COST
+   m_eSupportedArsenalItemTypes 393526
+  }
+  SCR_ResourceComponent "{5E5ABDF371AE8B21}" {
+   m_aContainers {
+    SCR_ResourceContainer "{6450BD5AD5CA8CE6}" {
+     m_eResourceRights FACTION
+     m_eStorageType STORED
+     m_fResourceValueCurrent 5000
+     m_fResourceValueMax 5000
+    }
+   }
+  }
+  SCR_ResupplySupportStationComponent "{5E2CE1BA1701C633}" {
+   m_iBaseSupplyCostOnUse 1
+  }
+ }
  coords 1381.102 36.91 2347.709
  angleY -85.068
  angleZ 5.383
@@ -33,6 +52,23 @@ Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
  Flags 1027
 }
 GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
+ components {
+  SCR_ArsenalComponent "{589F01C9C8D4A475}" {
+   m_eSupplyCostType RESPAWN_COST
+   m_eSupportedArsenalItemTypes 588928
+  }
+  SCR_ResourceComponent "{5E5ABDF371AE8B21}" {
+   m_aContainers {
+    SCR_ResourceContainer "{6450BD5B34CB51BD}" {
+     m_fResourceValueCurrent 5000
+     m_fResourceValueMax 5000
+    }
+   }
+  }
+  SCR_ResupplySupportStationComponent "{5E2CE1BA1701C633}" {
+   Enabled 0
+  }
+ }
  coords 1380.975 36.869 2344.622
  angleX 0.28
  angleY -89.131
@@ -47,7 +83,6 @@ GenericEntity : "{466A6AA84E5F900F}Prefabs/Compositions/Misc/CustomEntities/Inte
 GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Military/Compositions/US/E_BuildingService_US.et" {
  components {
   SCR_CampaignBuildingProviderComponent "{5EBCED04D0321687}" {
-   m_bIsMasterProvider 0
    m_bUseMasterProvider 1
    m_aBudgetsToEvaluate {
     SCR_CampaignBuildingBudgetToEvaluateData "{5EBCED04CA3C69D6}" {
@@ -66,6 +101,7 @@ GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mili
     SCR_ResourceContainer "{644A6E0B40E8814B}" {
      m_eResourceRights FACTION
      m_fResourceValueCurrent 5000
+     m_fResourceValueMax 5000
     }
    }
   }
@@ -74,6 +110,27 @@ GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mili
  angleY -90
 }
 GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {
+ components {
+  SCR_ArsenalComponent "{589F01C9C8D4A475}" {
+   m_eSupplyCostType RESPAWN_COST
+   m_eSupportedArsenalItemTypes 98926
+  }
+  SCR_ResourceComponent "{5E5ABDF371AE8B21}" {
+   m_aContainers {
+    SCR_ResourceContainer "{6450BD5B12B20639}" {
+     m_fResourceValueCurrent 5000
+     m_fResourceValueMax 5000
+    }
+   }
+   m_aDisabledResourceTypes {
+    0
+   }
+   m_eDebugVisualizationFlags 0
+  }
+  SCR_ResupplySupportStationComponent "{5E2CE1BA1701C633}" {
+   Enabled 0
+  }
+ }
  coords 1381.192 37.133 2346.134
  angleY -89.905
 }

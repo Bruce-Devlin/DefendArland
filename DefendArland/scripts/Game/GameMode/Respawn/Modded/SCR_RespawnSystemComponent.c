@@ -38,7 +38,7 @@ modded class SCR_RespawnSystemComponent
 		{
 			DefendHelpers.Log("Spawn Protection", "Spawn protecting entity");
 			damageManager.EnableDamageHandling(false);
-			GetGame().GetCallqueue().CallLater(DisableSafeSpawn, 10000, false, damageManager);
+			GetGame().GetCallqueue().CallLater(DisableSafeSpawn, 20000, false, damageManager);
 		}
 		
 		return super.PreparePlayerEntity_S(requestComponent, handlerComponent, data, entity);
@@ -66,9 +66,8 @@ modded class SCR_RespawnSystemComponent
 	void PlayerSpawned(int playerId, bool first, int livesLeft = 0)
 	{
 		DefendHelpers.Log("Sending PlayerSpawned", "Player " + playerId + " spawned, firstTime: " + first);
-		GetGame().GetCallqueue().Call(ShowIntro1, 10);
+		if (DefendHelpers.IsHost()) GetGame().GetCallqueue().Call(CheckPlayerSpawn, playerId, first, livesLeft);
 
-		
 		Rpc(RpcDo_PlayerSpawned, playerId, first, livesLeft);
 	}
 	
@@ -77,6 +76,11 @@ modded class SCR_RespawnSystemComponent
 	protected void RpcDo_PlayerSpawned(int playerId, bool first, int livesLeft) 
 	{
 		DefendHelpers.Log("RpcDo: Player Spawned", playerId.ToString() + " | " + first);
+		CheckPlayerSpawn(playerId, first, livesLeft);
+	}
+	
+	protected void CheckPlayerSpawn(int playerId, bool first, int livesLeft)
+	{
 		PlayerController controller = GetGame().GetPlayerController();
 		DefendManager dm = DefendHelpers.Get();
 		
@@ -93,7 +97,7 @@ modded class SCR_RespawnSystemComponent
 				}
 				else 
 				{
-					hint.ShowHint("Respawned", "You've just been respawned, you have a few seconds of spawn protection which will prevent you from dying again but be more careful as we only have " + livesLeft + " lives left until the mission is failed.", 10);	
+					hint.ShowHint(livesLeft.ToString() + " lives left", "You've just been respawned, you have a few seconds of spawn protection which will prevent you from dying again immediately but be more careful as all players only have " + livesLeft + " lives left until the mission is failed.", 10);	
 				}
 			}	
 			else

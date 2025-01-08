@@ -389,6 +389,7 @@ class DefendManager: GenericEntity
 			return;
 		
 		gameMode.EndGameMode(SCR_GameModeEndData.CreateSimple(type, -1, usIndex));
+		OnGameDestroyed();
 	}
 	
 	override void EOnActivate(IEntity owner)
@@ -398,6 +399,11 @@ class DefendManager: GenericEntity
 	
 	void OnGameDestroyed()
 	{
+		if (DefendHelpers.IsHost())
+		{
+			SendHUDUpdate(0);
+		}
+		
 		hud.timerActive = false;
 		hud.timerTimeLeft = 0;
 		hud.shouldStartTimer = false;
