@@ -4014,7 +4014,6 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1892.123 11.234 1820.938
- numberOfWaves 5
  balenceEnemies 1
  numberOfEnemiesPerWave 2
  secondsBeforeStarting 10

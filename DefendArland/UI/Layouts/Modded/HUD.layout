@@ -4,27 +4,27 @@ FrameWidgetClass {
   ImageWidgetClass "{644F2C1DAB9862C4}" : "{199E5807E8619522}UI/layouts/WidgetLibrary/WLib_Separator.layout" {
    Name "Separator"
    Slot FrameWidgetSlot "{644F2C1DAB9862E5}" {
-    PositionX 17.696
-    OffsetLeft 17.696
-    PositionY 147.575
-    OffsetTop 147.575
-    SizeX 217.516
-    OffsetRight -235.213
+    PositionX 16.694
+    OffsetLeft 16.694
+    PositionY 177.634
+    OffsetTop 177.634
+    SizeX 217.517
+    OffsetRight -234.211
     SizeY 5.306
-    OffsetBottom -152.881
+    OffsetBottom -182.94
    }
   }
   RichTextWidgetClass "{644A1D81E4F5C554}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
    Name "Wave"
    Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
-    PositionX 19.565
-    OffsetLeft 19.565
-    PositionY 98.781
-    OffsetTop 98.781
+    PositionX 18.563
+    OffsetLeft 18.563
+    PositionY 128.84
+    OffsetTop 128.84
     SizeX 316.672
-    OffsetRight -336.237
+    OffsetRight -335.235
     SizeY 40
-    OffsetBottom -138.781
+    OffsetBottom -168.84
    }
    Text ""
    "Vertical Alignment" Center
@@ -36,14 +36,14 @@ FrameWidgetClass {
   RichTextWidgetClass "{644A6E07A626F31E}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
    Name "Timer"
    Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
-    PositionX 19.427
-    OffsetLeft 19.427
-    PositionY 157.244
-    OffsetTop 157.244
+    PositionX 18.425
+    OffsetLeft 18.425
+    PositionY 187.303
+    OffsetTop 187.303
     SizeX 815.051
-    OffsetRight -834.478
+    OffsetRight -833.476
     SizeY 40
-    OffsetBottom -197.244
+    OffsetBottom -227.303
    }
    Text ""
    "Font Size" 25
@@ -56,14 +56,14 @@ FrameWidgetClass {
   RichTextWidgetClass "{644F2C1D5FAC9C54}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
    Name "Enemies"
    Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
-    PositionX 20.383
-    OffsetLeft 20.383
-    PositionY 197.574
-    OffsetTop 197.574
-    SizeX 815.051
-    OffsetRight -835.433
+    PositionX 17.709
+    OffsetLeft 17.709
+    PositionY 228.469
+    OffsetTop 228.469
+    SizeX 815.05
+    OffsetRight -832.76
     SizeY 40
-    OffsetBottom -237.574
+    OffsetBottom -268.469
    }
    Text ""
    "Font Size" 25
