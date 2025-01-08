@@ -1,6 +1,6 @@
 GameProject {
  ID "DefendArland"
- GUID "6446F8532F090003"
+ GUID "6446361B19019C23"
  TITLE "DefendArland"
  Dependencies {
   "58D0FB3206B6F859"
