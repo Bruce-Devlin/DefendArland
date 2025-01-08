@@ -7,6 +7,7 @@ class HUDHelpers
 	protected ImageWidget separatorWidget;
 
 	protected bool initComplete = false;
+	protected int widgetId = 0;
 
 	
  	void Init(string uiHUDLayout, bool isDebug) 
@@ -60,6 +61,14 @@ class HUDHelpers
 		{
 			return "";
 		}
+	}
+	
+	void Destroy()
+	{
+		timerActive = false;
+		timerTimeLeft = 0;
+		shouldStartTimer = false;
+		hudRoot.RemoveFromHierarchy();
 	}
 	
 	void ShowHUD(int currWave, int timerSeconds = 0, int totalEnemies = 0)
@@ -407,9 +416,7 @@ class DefendManager: GenericEntity
 	
 	void OnGameDestroyed()
 	{	
-		hud.timerActive = false;
-		hud.timerTimeLeft = 0;
-		hud.shouldStartTimer = false;
+		hud.Destroy();
 		
 		currentWave = 0;
 		livesLeft = 0;
