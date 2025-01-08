@@ -1,14 +1,29 @@
 modded class SCR_RespawnSystemComponent
 {
-	protected ref HintHelpers hint = new HintHelpers();
+	protected static ref HintHelpers hint = null;
+	protected DefendManager dm = null;
+	
+	protected void SetHelpers()
+	{
+		if (dm == null) dm = DefendHelpers.Get();
+		if (dm != null)
+		{
+			hint = dm.hint;
+			if (hint == null)
+			{
+				DefendHelpers.Log("ERROR", "Was unable to find hint helpers!");
+			}
+		}
+		else DefendHelpers.Log("Not Defend", "Couldn't find Defend Manager so not in Game Mode.");
+	}
 	
 	override void OnPlayerSpawnFinalize_S(SCR_SpawnRequestComponent requestComponent, SCR_SpawnHandlerComponent handlerComponent, SCR_SpawnData data, IEntity entity)
 	{
 		super.OnPlayerSpawnFinalize_S(requestComponent, handlerComponent, data, entity);
 		
 		int id = requestComponent.GetPlayerId();
-		DefendManager dm = DefendHelpers.Get();
-		
+		SetHelpers();
+			
 		dm.SetPlayerState(id, true);
 		
 		int livesLeft = DefendHelpers.Get().livesLeft;
@@ -53,7 +68,6 @@ modded class SCR_RespawnSystemComponent
 	override void OnPlayerRegistered_S(int playerId)
 	{
 		super.OnPlayerRegistered_S(playerId);
-		
 	}
 	
 	override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
@@ -76,14 +90,14 @@ modded class SCR_RespawnSystemComponent
 	protected void RpcDo_PlayerSpawned(int playerId, bool first, int livesLeft) 
 	{
 		DefendHelpers.Log("RpcDo: Player Spawned", playerId.ToString() + " | " + first);
-		CheckPlayerSpawn(playerId, first, livesLeft);
+		GetGame().GetCallqueue().Call(CheckPlayerSpawn, playerId, first, livesLeft);
 	}
 	
-	protected void CheckPlayerSpawn(int playerId, bool first, int livesLeft)
+	void CheckPlayerSpawn(int playerId, bool first, int livesLeft)
 	{
 		PlayerController controller = GetGame().GetPlayerController();
-		DefendManager dm = DefendHelpers.Get();
-		
+		SetHelpers();
+			
 		if (controller != null)
 		{
 			int currPlayerId = controller.GetPlayerId();
@@ -110,13 +124,13 @@ modded class SCR_RespawnSystemComponent
 	
 	protected void ShowIntro1(int secondsToDisplay)
 	{
+		SetHelpers();
 		hint.ShowHint("Prepare to defend.", "Soon russians will try to attack our position, they have us surrounded... Gear up and get ready to fight for our lives.", secondsToDisplay);	
 		GetGame().GetCallqueue().CallLater(ShowIntro2, secondsToDisplay * 1000, false, secondsToDisplay);
 	}
 	
 	protected void ShowIntro2(int secondsToDisplay)
 	{
-		DefendManager dm = DefendHelpers.Get();
 		if (dm.endlessMode)
 		{
 			hint.ShowHint("Survive Forever...", "We have to hold this position for as long as we can!");

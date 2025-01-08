@@ -710,6 +710,7 @@ SCR_BaseGameMode GameMode_Defend {
    m_iPlayableGroupFrequencyOffset 500
   }
   SCR_HintManagerComponent "{644ED76F4E8E746A}" {
+   m_bIgnoreHintSettings 1
   }
   SCR_MapConfigComponent "{644ED76F4E8E741D}" {
    m_sSpawnMapConfigPath "{901F9ED2088BBCA4}Configs/Map/MapSpawnConflict.conf"

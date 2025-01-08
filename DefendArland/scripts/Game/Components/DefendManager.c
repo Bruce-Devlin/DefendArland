@@ -184,6 +184,15 @@ class HintHelpers
 		
 		if (hintComponent != null)
 		{
+			if (hintComponent.GetCurrentHint() != null)
+			{
+				bool canHide = hintComponent.Hide();
+				if (!canHide)
+				{
+					DefendHelpers.Log("ERROR", "Couldn't hide current Hint for new one.");
+				}
+			}
+			
 			bool hintShown = hintComponent.ShowHint(hintInfo);
 			if (hintShown) DefendHelpers.Log("Hint Shown", "You should have seen the hint by now.");
 			else DefendHelpers.Log("ERROR", "Couldn't show hint!");
@@ -388,8 +397,28 @@ class DefendManager: GenericEntity
 		if (!gameMode.IsRunning())
 			return;
 		
+		if (DefendHelpers.IsHost())
+		{
+			SendHUDUpdate(0);
+		}
+		
+		hud.timerActive = false;
+		hud.timerTimeLeft = 0;
+		hud.shouldStartTimer = false;
+		
+		currentWave = 0;
+		livesLeft = 0;
+		localPlayerId = 0;
+		isHost = false;
+		localPlayerInitComplete = false;
+		serverPlayerInitComplete = false;
+		activePlayerIds.Clear();
+		activeAIGroups.Clear();
+		SetCanBuild(true);		
+		
+		GetGame().GetCallqueue().Clear();
+		
 		gameMode.EndGameMode(SCR_GameModeEndData.CreateSimple(type, -1, usIndex));
-		OnGameDestroyed();
 	}
 	
 	override void EOnActivate(IEntity owner)
@@ -398,12 +427,7 @@ class DefendManager: GenericEntity
 	}
 	
 	void OnGameDestroyed()
-	{
-		if (DefendHelpers.IsHost())
-		{
-			SendHUDUpdate(0);
-		}
-		
+	{	
 		hud.timerActive = false;
 		hud.timerTimeLeft = 0;
 		hud.shouldStartTimer = false;
@@ -718,29 +742,6 @@ class DefendManager: GenericEntity
 	[Attribute(defvalue: "ussr_waypoint", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
 	string waypointPositionName;
 	
-	void RequestHUDUpdate()
-	{
-		DefendHelpers.Log("Sending HUD Request Update", "Sending HUD Request Update, id: " + localPlayerId);
-		if (DefendHelpers.IsHost()) 
-		{
-			SendHUDUpdate(currentWave, hud.timerTimeLeft, localPlayerId);
-		}
-		Rpc(RpcAsk_RequestHUDUpdate, localPlayerId);
-		DefendHelpers.Log("Sending HUD Request Update Done ", "Done sending HUD Request Update, id: " + localPlayerId);
-	}
-	
-	[RplRpc(RplChannel.Unreliable, RplRcver.Server)]	
-	protected void RpcAsk_RequestHUDUpdate(int requestPlayerId) 
-	{
-		DefendHelpers.Log("RpcAsk: Request HUD Update", currentWave.ToString() + " | " + hud.timerTimeLeft + " | " + requestPlayerId);
-
-		if (DefendHelpers.IsHost())
-		{
-			SendHUDUpdate(currentWave, hud.timerTimeLeft, requestPlayerId);
-		}
-		else DefendHelpers.Log("RpcAsk: Request HUD Update but not server", currentWave.ToString() + " | " + hud.timerTimeLeft + " | " + requestPlayerId);
-	}
-	
 	void SendAllowBuilding(bool allowed)
 	{
 		DefendHelpers.Log("Sending Allow Building", "Sending Allow Building to: " + allowed);
@@ -749,7 +750,7 @@ class DefendManager: GenericEntity
 		Rpc(RpcDo_AllowBuilding, allowed);
 	}
 	
-	[RplRpc(RplChannel.Unreliable, RplRcver.Broadcast)]	
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]	
 	protected void RpcDo_AllowBuilding(bool allowed) 
 	{
 		DefendHelpers.Log("RpcDo: Allow Building", "Set allow building to " + allowed);
