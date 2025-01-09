@@ -8,6 +8,7 @@ class HUDHelpers
 
 	protected bool initComplete = false;
 	protected int widgetId = 0;
+	protected DefendManager dm = null;
 	
 	bool hasInitComplete()
 	{
@@ -20,12 +21,12 @@ class HUDHelpers
 		DefendHelpers.Log("Init HUD", "Starting HUD");
 		hudRoot = GetGame().GetWorkspace().CreateWidgets(uiHUDLayout);
 		timerDebug = isDebug;
+		dm = DefendHelpers.Get();
       
 		waveTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Wave"));
 		timerTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Timer"));
 		enemiesTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Enemies"));
 		separatorWidget = ImageWidget.Cast(hudRoot.FindAnyWidget("Separator"));
-
 
 		if (waveTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD wave Text!");
 		if (timerTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD timer Text!");
@@ -37,7 +38,6 @@ class HUDHelpers
 	
 	protected string FormatWaves(int wave)
 	{
-		DefendManager dm = DefendHelpers.Get();
 		string textToShow = "WAVE " + wave + "/" + dm.numberOfWaves;
 		return textToShow;
 	}
@@ -86,7 +86,7 @@ class HUDHelpers
 		if (!initComplete)
 			return;
 		
-		if (DefendHelpers.IsHost()) totalEnemies = DefendManager.CountAliveAI();
+		if (DefendHelpers.IsHost()) totalEnemies = dm.CountAliveAI();
 		DefendHelpers.Log("Showing HUD", "Wave: " + currWave + " | Timer: " + timerSeconds + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
 		
 		if (timerActive)
@@ -138,10 +138,10 @@ class HUDHelpers
 		DefendHelpers.Log("HUD Set Visible", "The HUD should now be visible.");
 	}
 	
-	static int timerTimeLeft = -1;
-	static bool timerActive = false;
-	static bool shouldStartTimer = false;
-	static bool timerDebug = false;
+	int timerTimeLeft = -1;
+	bool timerActive = false;
+	bool shouldStartTimer = false;
+	bool timerDebug = false;
 	
 	void StartTimer(int time, int enemies, int wave)
 	{
@@ -185,12 +185,11 @@ class HUDHelpers
 		timerTextWidget.SetText(FormatTimer(timerTimeLeft));
 		if (timerTextWidget.GetText() == "")
 		{
-			timerTextWidget.SetText(FormatEnemies(DefendManager.CountAliveAI()));
+			timerTextWidget.SetText(FormatEnemies(dm.CountAliveAI()));
 			enemiesTextWidget.SetText("");
 		}
-		else enemiesTextWidget.SetText(FormatEnemies(DefendManager.CountAliveAI()));
+		else enemiesTextWidget.SetText(FormatEnemies(dm.CountAliveAI()));
 		
-		DefendManager dm = DefendHelpers.Get();
 		if (DefendHelpers.IsHost()) dm.SendHUDUpdate(wave, timerTimeLeft, "", 0);
 		
 		GetGame().GetCallqueue().Call(StartTimer, initialTime, initalEnemiesLeft, wave);
@@ -326,7 +325,7 @@ class DefendManagerClass: GenericEntityClass
 
 class DefendManager: GenericEntity
 {
-	static void RegisterDeath(int deadID)
+	void RegisterDeath(int deadID)
 	{
 		if (DefendHelpers.IsHost())
 		{
@@ -338,7 +337,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static void RegisterKill(int killerID, int kills)
+	void RegisterKill(int killerID, int kills)
 	{
 		if (DefendHelpers.IsHost())
 		{
@@ -349,7 +348,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static void RegisterAIDeath(IEntity deadAI)
+	void RegisterAIDeath(IEntity deadAI)
 	{
 		if (DefendHelpers.IsHost())
 		{
@@ -357,7 +356,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static void SetPlayerState(int playerID, bool alive)
+	void SetPlayerState(int playerID, bool alive)
 	{
 		if (DefendHelpers.IsHost())
 		{
@@ -368,7 +367,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static ref array<DefendPlayer> GetAlivePlayers()
+	ref array<DefendPlayer> GetAlivePlayers()
 	{
 		ref array<DefendPlayer> alivePlayers = {};
 		for (int i; i < players.Count(); i++)
@@ -379,13 +378,13 @@ class DefendManager: GenericEntity
 		return alivePlayers;
 	} 
 	
-	static void AddPlayer(DefendPlayer player)
+	void AddPlayer(DefendPlayer player)
 	{
 		DefendHelpers.Log("Player joined", "Player " + player.name + " joined (" + player.id + ")");
 		players.Insert(player);
 	}
 	
-	static void RemovePlayer(int playerID)
+	void RemovePlayer(int playerID)
 	{
 		for (int i; i < players.Count(); i++)
 		{
@@ -401,7 +400,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static ref DefendPlayer GetPlayer(int id)
+	ref DefendPlayer GetPlayer(int id)
 	{
 		DefendPlayer playerToReturn = null;
 		for (int i; i < players.Count(); i++)
@@ -635,7 +634,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	static int CountAliveAI()
+	int CountAliveAI()
 	{
 		int totalAIAlive = 0;
 		array<AIAgent> agents = {};
@@ -726,15 +725,15 @@ class DefendManager: GenericEntity
 
 	protected bool gameStarted = false;
 	protected bool victoryAcheivable = false;
-	static int currentWave = 0;
-	static int livesLeft = 0;
+	int currentWave = 0;
+	int livesLeft = 0;
 	protected bool waitingForPlayers = true;
-	static int localPlayerId = 0;
-	static bool isHost = false;
-	static bool localPlayerInitComplete = false;
-	static bool serverPlayerInitComplete = false;
-	static ref array<int> activePlayerIds = {};
-	static ref array<SCR_AIGroup> activeAIGroups = {};
+	int localPlayerId = 0;
+	protected bool isHost = false;
+	bool localPlayerInitComplete = false;
+	bool serverPlayerInitComplete = false;
+	ref array<int> activePlayerIds = {};
+	ref array<SCR_AIGroup> activeAIGroups = {};
 	protected int vehicleCount = 0;
 	
 	protected bool _canBuild = true;
@@ -749,10 +748,10 @@ class DefendManager: GenericEntity
 		_canBuild = allowed;
 	}
 	
- 	static ref HintHelpers hint = new HintHelpers();
-	static ref HUDHelpers hud = new HUDHelpers();
+ 	ref HintHelpers hint = new HintHelpers();
+	ref HUDHelpers hud = new HUDHelpers();
 	const static string WB_DEFEND_CATEGORY = "Defend Manager";
-	protected static ref array<ref DefendPlayer> players = {};
+	protected ref array<ref DefendPlayer> players = {};
 
 	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
 	bool debugMode;
@@ -768,6 +767,8 @@ class DefendManager: GenericEntity
 	bool allowVehicles;
 	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
 	int maxVehicles;
+	[Attribute(defvalue: "4", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "2 10 1")]
+	int oddsOfVehicleSpawn;
 	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]
 	int numberOfEnemiesPerWave;
 	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]

@@ -80,6 +80,16 @@ GenericEntity : "{466A6AA84E5F900F}Prefabs/Compositions/Misc/CustomEntities/Inte
 }
 GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Military/Compositions/US/E_BuildingService_US.et" {
  components {
+  SCR_CampaignBuildingBudgetEditorComponent "{6452BED35EB5DCAB}" {
+   m_MaxBudgets {
+    SCR_EntityBudgetValue "{6452BED35897793B}" {
+     m_BudgetType CAMPAIGN
+     m_Value 10
+    }
+   }
+  }
+  SCR_CampaignBuildingPlacingObstructionEditorComponent "{6452BED309CD1886}" {
+  }
   SCR_CampaignBuildingProviderComponent "{5EBCED04D0321687}" {
    m_bUseMasterProvider 1
    m_aBudgetsToEvaluate {
@@ -88,9 +98,28 @@ GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mili
     SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D3991E97D}" {
     }
     SCR_CampaignBuildingRankBudgetToEvaluateData "{5EBCED04CB171654}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{5EBCED04CC71C935}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D30F1B0C9}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D29A18976}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D215EE9B8}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D143A118D}" {
+     m_eBudget RANK_PRIVATE
+    }
+    SCR_CampaignBuildingRankBudgetToEvaluateData "{60EC916D119F8FC0}" {
+     m_eBudget RANK_PRIVATE
     }
     SCR_CampaignBuildingMaxValueBudgetToEvaluateData "{5EFAB309A0482ACF}" {
-     m_iMaxValue 100
+     m_iMaxValue 300
     }
    }
   }

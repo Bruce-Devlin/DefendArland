@@ -13,6 +13,10 @@ SCR_BaseGameMode GameMode_Defend {
     SCR_EntityBudgetValue "{644ED76F4EB73D85}" {
      m_Value 10
     }
+    SCR_EntityBudgetValue "{6452BED1D8093F05}" {
+     m_BudgetType CAMPAIGN
+     m_Value 10
+    }
    }
   }
   SCR_CampaignBuildingEditorComponent "{644ED76F4EB7B117}" {
@@ -305,8 +309,16 @@ SCR_BaseGameMode GameMode_Defend {
    m_sProviderDisplayName "#AR-MapLocation_MilitaryBase"
    m_bUserActionActivationOnly 1
    m_bIsMasterProvider 1
+   m_bUseMasterProvider 1
    m_bRegisterAtBase 1
    m_fBuildingRadius 100
+   m_aBudgetsToEvaluate {
+    SCR_CampaignBuildingBudgetToEvaluateData "{6452BED29EFBAA98}" {
+     m_eBudget PROPS
+     m_bUseMasterProviderBudget 1
+     m_bShowBudgetInUI 1
+    }
+   }
    m_aAvailableTraits {
     29 28 108
    }
@@ -463,6 +475,8 @@ SCR_BaseGameMode GameMode_Defend {
    }
   }
   SCR_GameModeHealthSettings "{644ED76F4E8E2A38}" {
+   m_bKillIndefinitelyUnconsciousPlayers 1
+   m_bPermitUnconsciousness 0
    m_bPermitUnconsciousVON 1
   }
   SCR_GameOverScreenManagerComponent "{644ED76F4E8E747D}" {
@@ -4016,8 +4030,9 @@ DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et
  numberOfEnemiesPerWave 2
  maxNumberOfEnemyVehSpawns 4
  secondsBeforeStarting 10
- secondsBeforeFirstWaveToPrepare 20
+ secondsBeforeFirstWaveToPrepare 160
  secondsBeforeSpawnEnemy 5
+ secondsBeforeReinforcements 30
  spawnGroupsInf {
   "{0CCDB10F3701A4E3}Prefabs/Groups/OPFOR/Spetsnaz/DefendGroup_USSR_Spetsnaz_Squad.et" "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }
