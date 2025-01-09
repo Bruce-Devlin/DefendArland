@@ -42,6 +42,7 @@ Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
    m_sBaseNameLonger "DEFEND ARLAND"
    m_sBaseCallSign "DEFEND"
    m_eServices 38
+   m_bAntennaWidgetVisible 1
   }
   SCR_VehicleSpawnProtectionComponent "{54D6FBC0CE49F6D9}" {
    m_bIsLocked 1
@@ -64,9 +65,6 @@ GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/Inte
      m_fResourceValueMax 5000
     }
    }
-  }
-  SCR_ResupplySupportStationComponent "{5E2CE1BA1701C633}" {
-   Enabled 0
   }
  }
  coords 1380.975 36.869 2344.622
@@ -106,8 +104,8 @@ GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mili
    }
   }
  }
- coords 1384.381 36.339 2352.16
- angleY -90
+ coords 1377.44 36.339 2349.914
+ angleY 90
 }
 GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {
  components {

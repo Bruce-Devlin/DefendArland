@@ -45,7 +45,7 @@ modded class SCR_RespawnSystemComponent
 				GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
 			}
 			
-			GetGame().GetCallqueue().CallLater(dm.SendHUDUpdate, 1000, false, dm.currentWave, dm.hud.timerTimeLeft, id);
+			GetGame().GetCallqueue().CallLater(dm.SendHUDUpdate, 1000, false, dm.currentWave, dm.hud.timerTimeLeft, "", id);
 		}
 	}
 	
@@ -100,6 +100,7 @@ modded class SCR_RespawnSystemComponent
 			if (!dm.hud.hasInitComplete())
 			{
 				dm.hud.Init(dm.uiHUDLayout, dm.debugMode);
+				dm.hud.ShowHUD(0);
 			}
 		}
 		

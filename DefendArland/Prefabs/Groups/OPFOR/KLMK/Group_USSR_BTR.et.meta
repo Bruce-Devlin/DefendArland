@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{D353E91B45B9D663}Prefabs/Groups/OPFOR/KLMK/Group_USSR_SentryTeam_KLMK.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass PS5 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

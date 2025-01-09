@@ -3976,12 +3976,6 @@ SCR_BaseGameMode GameMode_Defend {
     }
     m_BottomLeftTile SCR_DebriefingScreenStatisticsContent "{6450D1B2C44E817E}" {
      m_sTitleText "STATS:"
-     m_aStatistics {
-      SCR_DebriefingScreenStatisticDeaths "{6450D1B2C20700D8}" {
-      }
-      SCR_DebriefingScreenStatisticKills "{6450D1B2CC093EF8}" {
-      }
-     }
     }
     m_BottomRightTile SCR_DebriefingScreenSummaryContent "{6450D1B2B340871A}" {
      m_bIsInteractible 1
@@ -4018,12 +4012,14 @@ SCR_BaseGameMode GameMode_Defend {
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1892.123 11.234 1820.938
  balenceEnemies 1
+ allowVehicles 1
  numberOfEnemiesPerWave 2
+ maxNumberOfEnemyVehSpawns 4
  secondsBeforeStarting 10
- secondsBeforeFirstWaveToPrepare 130
- secondsBeforeSpawnEnemy 10
+ secondsBeforeFirstWaveToPrepare 20
+ secondsBeforeSpawnEnemy 5
  spawnGroupsInf {
-  "{0CCDB10F3701A4E3}Prefabs/Groups/OPFOR/Spetsnaz/DefendGroup_USSR_Spetsnaz_Squad.et"
+  "{0CCDB10F3701A4E3}Prefabs/Groups/OPFOR/Spetsnaz/DefendGroup_USSR_Spetsnaz_Squad.et" "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }
  spawnGroupsVeh {
   "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"

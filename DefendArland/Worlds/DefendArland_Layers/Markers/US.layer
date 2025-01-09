@@ -4,8 +4,10 @@ SCR_SpawnPoint SpawnPoint_US_1 : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoi
    UnitType Infantry
   }
  }
- coords 1380.968 36.313 2353.76
- angleY 80.165
+ coords 1378.708 36.227 2344.505
+ angleX 0.586
+ angleY 49.148
+ angleZ -1.688
  m_bTimedSpawnPoint 1
  m_Info SCR_UIInfo "{56B4CC4ECACA2C37}" {
   Name "DEFEND"
