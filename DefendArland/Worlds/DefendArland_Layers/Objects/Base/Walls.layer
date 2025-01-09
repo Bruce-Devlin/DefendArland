@@ -5,22 +5,10 @@ $grp SCR_DestructibleEntity : "{43EB690D46E15669}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1394.946 0 2348.133
+  coords 1393.812 -0.063 2350.19
   angleX -3.315
   angleY 90.57
   angleZ -0.044
-  Flags 525315
- }
- {
-  components {
-   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
-    Enabled 0
-   }
-  }
-  coords 1394.822 0 2339.434
-  angleX -2.663
-  angleY 90.651
-  angleZ -1.818
   Flags 525315
  }
  {
@@ -46,7 +34,7 @@ $grp SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1394.889 -0.001 2342.302
+  coords 1393.755 -0.049 2344.359
   angleX -3.576
   angleY 90.493
   angleZ -0.031
@@ -58,7 +46,7 @@ $grp SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1394.766 0 2333.698
+  coords 1394.044 0 2333.683
   angleY 90.491
   Flags 525315
  }
@@ -107,7 +95,7 @@ $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.203 36.157 2347.058
+  coords 1393.073 36.174 2347.016
   angleX -4.483
   angleY 91.071
   angleZ 0.809
@@ -129,7 +117,7 @@ $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.244 36.004 2344.532
+  coords 1393.114 36.021 2344.49
   angleY 91.134
   Flags 3
  }
@@ -148,7 +136,7 @@ $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.303 36.106 2341.934
+  coords 1393.173 36.123 2341.892
   angleX -3.576
   angleY 91.138
   angleZ -0.071
@@ -169,7 +157,7 @@ $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.154 36.094 2331.967
+  coords 1393.432 36.094 2331.952
   angleX 0.018
   angleY 91.134
   angleZ -0.895
@@ -190,48 +178,7 @@ $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.058 36.093 2337.089
-  angleX -0.895
-  angleY 91.134
-  angleZ -0.018
-  Flags 66563
- }
- {
-  components {
-   MeshObject "{5872F0EB7FA40561}" {
-    ClutterOccluder 0
-    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
-     Mins -1.692 -0.11 -0.598
-     Maxs 1.737 1.353 0.615
-    }
-   }
-   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
-    Enabled 1
-   }
-   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
-    EnableDamage 0
-   }
-  }
-  coords 1394.096 36.093 2334.565
-  angleY 91.134
-  Flags 66563
- }
- {
-  components {
-   MeshObject "{5872F0EB7FA40561}" {
-    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
-     Mins -1.692 -0.11 -0.598
-     Maxs 1.737 1.353 0.615
-    }
-   }
-   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
-    Enabled 1
-   }
-   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
-    EnableDamage 0
-   }
-  }
-  coords 1394.162 36.091 2339.348
+  coords 1393.032 36.108 2339.306
   angleX -0.895
   angleY 91.134
   angleZ -0.018
@@ -305,7 +252,7 @@ $grp GenericEntity : "{BE16EE8FAA315FE2}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.188 36.093 2332.26
+  coords 1393.466 36.093 2332.245
   angleY 88.821
   Flags 66563
  }
@@ -324,47 +271,7 @@ $grp GenericEntity : "{BE16EE8FAA315FE2}Prefabs/Props/Military/Sandbags/Sandbag_
     EnableDamage 0
    }
   }
-  coords 1394.182 36.093 2335.625
-  angleY 88.821
-  Flags 66563
- }
- {
-  components {
-   MeshObject "{5872F0EB7FA40561}" {
-    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
-     Mins -1.692 -0.11 -0.598
-     Maxs 1.737 1.353 0.615
-    }
-   }
-   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
-    Enabled 1
-   }
-   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
-    EnableDamage 0
-   }
-  }
-  coords 1394.244 36.091 2338.755
-  angleX -0.895
-  angleY 88.821
-  angleZ 0.018
-  Flags 66563
- }
- {
-  components {
-   MeshObject "{5872F0EB7FA40561}" {
-    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
-     Mins -1.692 -0.11 -0.598
-     Maxs 1.737 1.353 0.615
-    }
-   }
-   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
-    Enabled 1
-   }
-   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
-    EnableDamage 0
-   }
-  }
-  coords 1394.182 36.113 2342.117
+  coords 1393.091 36.181 2342.095
   angleX -3.576
   angleY 88.816
   angleZ 0.074
@@ -411,7 +318,7 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
    Flags 66563
   }
   GenericEntity : "{2C166D8DBBA47738}Prefabs/Structures/Military/Flags/FlagPole_02/FlagPole_02_base.et" {
-   coords 4.83 0.635 -10.317
+   coords 4.81 0.652 -9.186
    angleY 46.593
    Flags 66563
   }
@@ -549,7 +456,7 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
-    coords -0.434 0.12 -10.122
+    coords -0.454 0.137 -8.991
     angleY -144.736
     Flags 66563
    }
@@ -590,7 +497,7 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
-   coords 5.195 0.135 -10.348
+   coords 5.175 0.152 -9.217
    angleY 6.432
    Flags 66563
   }

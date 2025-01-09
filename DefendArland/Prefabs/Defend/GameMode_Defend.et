@@ -1,4 +1,5 @@
-SCR_BaseGameMode GameMode_Defend {
+SCR_BaseGameMode {
+ ID "6453189DD55E020D"
  components {
   SCR_AdditionalGameModeSettingsComponent "{644ED76F4E89AE85}" {
   }
@@ -4015,20 +4016,12 @@ SCR_BaseGameMode GameMode_Defend {
  PlayerControllerPrefab "{D39FCAB93FC4FB02}Prefabs/Characters/Core/DefaultPlayerControllerMP_Campaign.et"
  {
   SCR_EditorSettingsEntity {
+   ID "6453189DD55E020C"
    m_EditorManagerPrefab "{788933FFDC706A68}Prefabs/Editor/EditorManager.et"
    m_bOverrideBaseModes 1
    m_SkipStreamingRules {
     2
    }
   }
- }
-}
-DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
- coords 1891.401 11.234 1820.923
- debugMode 1
- secondsBeforeFirstWaveToPrepare 160
- secondsBeforeReinforcements 160
- namesOfDoorsToForceOpen {
-  "lockeddoor1" "lockeddoor2" "lockeddoor3" "lockeddoor4" "lockeddoor5" "lockeddoor6" "lockeddoor7"
  }
 }

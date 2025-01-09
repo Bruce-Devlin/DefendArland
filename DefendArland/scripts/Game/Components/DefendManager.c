@@ -36,9 +36,11 @@ class HUDHelpers
 		initComplete = true;
 	} 
 	
-	protected string FormatWaves(int wave)
+	protected string FormatWaves(int currWave, int maxWave)
 	{
-		string textToShow = "WAVE " + wave + "/" + dm.numberOfWaves;
+		string maxWaveText = "";
+		if (maxWave != 0) maxWaveText = "/" + maxWave.ToString();
+		string textToShow = "WAVE " + currWave.ToString() + maxWaveText;
 		return textToShow;
 	}
 	
@@ -81,13 +83,13 @@ class HUDHelpers
 		hudRoot.RemoveFromHierarchy();
 	}
 	
-	void ShowHUD(int currWave, int timerSeconds = 0, int totalEnemies = 0, string customText = "")
+	void ShowHUD(int currWave, int maxWave, int timerSeconds = 0, int totalEnemies = 0, string customText = "")
 	{
 		if (!initComplete)
 			return;
 		
 		if (DefendHelpers.IsHost()) totalEnemies = dm.CountAliveAI();
-		DefendHelpers.Log("Showing HUD", "Wave: " + currWave + " | Timer: " + timerSeconds + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
+		DefendHelpers.Log("Showing HUD", "Wave: " + currWave + "/" + maxWave + " | Timer: " + timerSeconds + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
 		
 		if (timerActive)
 		{
@@ -100,7 +102,7 @@ class HUDHelpers
 		if (currWave != 0)
 		{
 			if (customText == "") 
-				waveTextWidget.SetText(FormatWaves(currWave));
+				waveTextWidget.SetText(FormatWaves(currWave, maxWave));
 			else
 				waveTextWidget.SetText(customText);
 
@@ -114,7 +116,7 @@ class HUDHelpers
 				if (timerTimeLeft == 0) timerTimeLeft = -1;
 				
 				shouldStartTimer = true;
-				GetGame().GetCallqueue().Call(StartTimer, timerSeconds, totalEnemies, currWave);
+				GetGame().GetCallqueue().Call(StartTimer, timerSeconds, totalEnemies, currWave, maxWave);
 				DefendHelpers.Log("HUD Started timer", "Wave timer text set.");
 			}
 		}
@@ -143,7 +145,7 @@ class HUDHelpers
 	bool shouldStartTimer = false;
 	bool timerDebug = false;
 	
-	void StartTimer(int time, int enemies, int wave)
+	void StartTimer(int time, int enemies, int currWave, int maxWave)
 	{
 		if (timerDebug) DefendHelpers.Log("Timer active: " + timerActive, "HUD timer is " + timerActive + " with " + timerTimeLeft + " seconds left & " + enemies + " enemies remaining");
 		if (timerTimeLeft == -1 && !timerActive && shouldStartTimer)
@@ -171,17 +173,17 @@ class HUDHelpers
 		if (timerActive && timerTimeLeft > 0 || enemies > 0)
 		{
 			if (timerDebug) DefendHelpers.Log("HUD Timer pre-tick", "Waiting for 1 second tick...");
-			GetGame().GetCallqueue().CallLater(TimerTick, 1000, false, time, enemies, wave);
+			GetGame().GetCallqueue().CallLater(TimerTick, 1000, false, time, enemies, currWave, maxWave);
 			return;
 		}
 	}
 	
-	void TimerTick(int initialTime, int initalEnemiesLeft, int wave)
+	void TimerTick(int initialTime, int initalEnemiesLeft, int currWave, int maxWave)
 	{
 		if (timerDebug) DefendHelpers.Log("HUD Timer Tick", "HUD timer ticked.");
 		if (timerTimeLeft > 0) timerTimeLeft = timerTimeLeft - 1;
 		
-		waveTextWidget.SetText(FormatWaves(wave));
+		waveTextWidget.SetText(FormatWaves(currWave, maxWave));
 		timerTextWidget.SetText(FormatTimer(timerTimeLeft));
 		if (timerTextWidget.GetText() == "")
 		{
@@ -190,9 +192,9 @@ class HUDHelpers
 		}
 		else enemiesTextWidget.SetText(FormatEnemies(dm.CountAliveAI()));
 		
-		if (DefendHelpers.IsHost()) dm.SendHUDUpdate(wave, timerTimeLeft, "", 0);
+		if (DefendHelpers.IsHost()) dm.SendHUDUpdate(currWave, maxWave, timerTimeLeft, "", 0);
 		
-		GetGame().GetCallqueue().Call(StartTimer, initialTime, initalEnemiesLeft, wave);
+		GetGame().GetCallqueue().Call(StartTimer, initialTime, initalEnemiesLeft, currWave, maxWave);
 	}
 }
 
@@ -454,6 +456,8 @@ class DefendManager: GenericEntity
 	{
 		DefendHelpers.Log("Init Mission", "Init called for mission");
 		
+		ForceOpenDoors();
+		
 		if (DefendHelpers.IsHost())
 		{
 			DefendHelpers.Log("Is Host", "Is currently the game host.");
@@ -463,7 +467,7 @@ class DefendManager: GenericEntity
 			hud.Init(uiHUDLayout, debugMode);
 			
 			GetGame().GetCallqueue().Call(WaitForPlayers);
-			GetGame().GetCallqueue().CallLater(ServerUpdateLoop, 1000, true);
+			GetGame().GetCallqueue().CallLater(ServerUpdateLoop, serverLoopIntervalSeconds * 1000, true);
 			serverPlayerInitComplete = true;
 		}
 		else
@@ -471,7 +475,7 @@ class DefendManager: GenericEntity
 			DefendHelpers.Log("Not Host", "Not currently the game host.");
 		}
 		
-		GetGame().GetCallqueue().CallLater(PlayerUpdateLoop, 1000, true);
+		GetGame().GetCallqueue().CallLater(PlayerUpdateLoop, playerLoopIntervalSeconds * 1000, true);
 	}
 	
 	void InitPlayerLocal(int playerId)
@@ -486,7 +490,7 @@ class DefendManager: GenericEntity
 	{
 		if (!waitingForPlayers && gameStarted)
 		{
-			DefendHelpers.Log("Running Server Loop", "Server loop running.");
+			if (serverLoopDebugLogging) DefendHelpers.Log("Running Server Loop", "Server loop running.");
 			if (livesLeft < 1)
 			{
 				EndGame(EGameOverTypes.LOOSE, 1);
@@ -494,15 +498,11 @@ class DefendManager: GenericEntity
 			
 			if (CountAliveAI() > 0)
 			{
-				DefendHelpers.Log("Running Server AI Loop", "Server AI loop running.");
-
-				CheckAI();
-				
-				if (GetGame().GetCallqueue().GetRemainingTime(RemindAI) != 0)
+				if (!checkingAI && !checkAIQueued)
 				{
-					GetGame().GetCallqueue().CallLater(RemindAI, 10000, false);
+					checkAIQueued = true;
+					GetGame().GetCallqueue().CallLater(CheckAI, aiLoopIntervalSeconds * 1000, false);		
 				}
-				
 			}
 			else DefendHelpers.Log("No AI Alive", "No AI are alive right now.");
 			
@@ -516,17 +516,27 @@ class DefendManager: GenericEntity
 	
 	protected void PlayerUpdateLoop()
 	{
-		DefendHelpers.Log("Running Player Loop", "Player loop running.");
+		if (playerLoopDebugLogging) DefendHelpers.Log("Running Player Loop", "Player loop running.");
 		PlayerController myController = GetGame().GetPlayerController();
 
 		if (myController != null)
 		{
 			CheckIfDeserting(myController);
 		}
-		else DefendHelpers.Log("No Player Controller", "The player doesnt currently have a player controller.");
+		else if (playerLoopDebugLogging) DefendHelpers.Log("No Player Controller", "The player doesnt currently have a player controller.");
 	}
 	
-	int deserterHurtMultipler = 0;
+	void ForceOpenDoors()
+	{
+		foreach (int i, string door : namesOfDoorsToForceOpen)
+		{
+			IEntity doorEntity = GetGame().GetWorld().FindEntityByName(namesOfDoorsToForceOpen[i]);
+			DoorComponent doorComp = DoorComponent.Cast(doorEntity.FindComponent(DoorComponent));
+			doorComp.SetControlValue(1);
+		}
+	}
+	
+	int deserterHurtMultipler = 1;
 	void CheckIfDeserting(PlayerController myController)
 	{
 		IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
@@ -538,68 +548,160 @@ class DefendManager: GenericEntity
 			vector myPosition = myEntity.GetOrigin();
 				
 			float myDistance = vector.Distance(myPosition, waypointPos);
+			ChimeraCharacter myChar = ChimeraCharacter.Cast(myEntity);
+
 			
 			if (myDistance > 90)
 			{
-				hint.ShowHint("Deserting!", "You have left the area of operation, this will not be tolorated and you're currently losing health!");
 				DefendHelpers.Log("Player Deserting", "A player is deserting!");
-				SCR_ChimeraCharacter myChar = SCR_ChimeraCharacter.Cast(myEntity);
 				if (myChar != null)
 				{
 					DamageManagerComponent dmgManager = myChar.GetDamageManager();
 					
-					dmgManager.SetHealthScaled(dmgManager.GetHealthScaled()-(0.008 * deserterHurtMultipler));
-					deserterHurtMultipler++;
+					if (dmgManager.IsDamageHandlingEnabled())
+					{
+						myChar.GetCharacterController().SetMovement(myChar.GetCharacterController().GetMovementSpeed() - (0.05 * deserterHurtMultipler), vector.Zero);
+						dmgManager.SetHealthScaled(dmgManager.GetHealthScaled() - (0.1 * deserterHurtMultipler));
+						deserterHurtMultipler++;
+						hint.ShowHint("Deserting!", "You have left the area of operation, this will not be tolorated and you're currently losing health!", playerLoopIntervalSeconds);
+					}
 				}
 			}
 			else if (myDistance > 75)
 			{
-				hint.ShowHint("Where are you going?", "You're leaving the area of operation turn back now of be labeled a deserter!");
+				hint.ShowHint("Where are you going?", "You're leaving the area of operation turn back now or be labeled a deserter!", playerLoopIntervalSeconds);
 			}
-			else deserterHurtMultipler = 0;		
+			else
+			{
+				if (myChar != null)
+					myChar.GetCharacterController().SetMovement(1, vector.Zero);
+				deserterHurtMultipler = 1;
+			}	
 		}
 		else DefendHelpers.Log("No Player Entity", "The player currently has no entity attached to it.");
+	}
+	
+	
+	bool checkAIQueued = false;
+	bool checkingAI = false;
+	protected void CheckAI()
+	{
+		checkingAI = true;
+		checkAIQueued = false;
+		DefendHelpers.Log("Running Server AI Loop", "Server AI loop running to check AI.");
+		
+		CheckAIAlive();
+		RemindAI();
+		
+		checkingAI = false;
+	}
+	
+	void CheckAIAlive()
+	{
+		for (int aiGroupInd; aiGroupInd < activeAIGroups.Count(); aiGroupInd++)
+		{
+			IEntity groupEntity = activeAIGroups[aiGroupInd];
+			SCR_AIGroup currGroup = activeAIGroups[aiGroupInd];
+			
+			int agentCount = currGroup.GetAgentsCount();
+			int maxAgents = currGroup.GetMaxMembers();	
+			
+			if (currGroup.IsSlave())
+			{
+				DefendHelpers.Log("AI Group Is Slave", "AI Group Is a Slave");
+				return;
+			}
+
+			array<AIAgent> agents = {};
+			currGroup.GetAgents(agents);
+			
+			array<SCR_ChimeraCharacter> characters = {};
+			
+			foreach (AIAgent agent : agents)
+			{
+				SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(agent.GetControlledEntity());
+				if (char != null)
+					characters.Insert(char);
+			}
+
+			
+			int countDeadMembers = 0;
+			
+			DefendHelpers.Log("Checking group", "Group " + (aiGroupInd+1) + "/" + activeAIGroups.Count() + " and has " + characters.Count() + " characters");
+			
+			for (int charInd; charInd < characters.Count(); charInd++)
+			{	
+				SCR_ChimeraCharacter currChar = characters[charInd];
+				ChimeraCharacter character = currChar;
+				SCR_DamageManagerComponent dmgComp = character.GetDamageManager();
+				float health = dmgComp.GetHealthScaled();
+				if (health <= 0) countDeadMembers++; 
+			}
+			
+			if (countDeadMembers == characters.Count()) activeAIGroups.RemoveItem(currGroup);
+		}
+		
+		DefendHelpers.Log("Total AI Alive: ", CountAliveAI().ToString());
 	}
 	
 	void RemindAI()
 	{
 		foreach(int i, SCR_AIGroup group : activeAIGroups)
 		{
-			DefendHelpers.Log("Reminding AI (" + i + "/" + activeAIGroups.Count() + ")", "Remind AI that they're supposed to be doing something...");
+			DefendHelpers.Log("Reminding AI (" + (i+1).ToString() + "/" + activeAIGroups.Count() + ")", "Remind AI that they're supposed to be doing something...");
 
 			array<AIWaypoint> waypoints = {};
 			group.GetWaypoints(waypoints);
 			IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+			bool inVeh = false;
+			
+			array<AIAgent> groupAgents = {};
+			group.GetAgents(groupAgents);
 
-			if (waypoints.Count() == 0)
+			foreach (AIAgent agent : groupAgents)
 			{
-				DefendHelpers.Log("AI isn't busy", "AI #" + i + " didn't have anything to do!");
-				float distance = vector.Distance(group.GetLeaderEntity().GetOrigin(), waypointPosition.GetOrigin());
-				DefendHelpers.Log("AI isn't busy", "AI #" + i + " didn't have anything to do and is " + distance + " away from obj!");
-
-				if (distance < 10)
+				SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(agent.GetControlledEntity());
+				if (char != null)
 				{
-					DefendHelpers.Log("AI is within their waypoint", "AI is within their waypoint radius.");
-					SetWaypoint(group, patrolWaypointType, waypointPosition.GetOrigin());
-				}
-				else
-				{
-					SetWaypoint(group, moveWaypointType, waypointPosition.GetOrigin());
+					if (char.IsInVehicle()) 
+						inVeh = true;
 				}
 			}
-			else 
+			
+			
+			if (!inVeh)
 			{
-				AIWaypoint currWaypoint = waypoints[0];
-				if (currWaypoint.IsWithinCompletionRadius(group))
+				if (waypoints.Count() == 0)
 				{
-					DefendHelpers.Log("AI is within their waypoint", "AI #" + i + " is busy but within their waypoint location");
-				
-					SetWaypoint(group, patrolWaypointType, waypointPosition.GetOrigin());
+					DefendHelpers.Log("AI isn't busy", "AI #" + (i+1).ToString() + " didn't have anything to do!");
+					float distance = vector.Distance(group.GetLeaderEntity().GetOrigin(), waypointPosition.GetOrigin());
+					DefendHelpers.Log("AI isn't busy", "AI #" + (i+1).ToString() + " didn't have anything to do and is " + distance + " away from obj!");
+	
+					
+					if (distance < 10 && !inVeh)
+					{
+						DefendHelpers.Log("AI is within their waypoint", "AI is within their waypoint radius.");
+						SetWaypoint(group, patrolWaypointType, waypointPosition.GetOrigin());
+					}
+					else
+					{
+						SetWaypoint(group, moveWaypointType, waypointPosition.GetOrigin());
+					}
 				}
-				else
+				else 
 				{
-					DefendHelpers.Log("AI is busy", "AI #" + i + " is busy going to a waypoint");
-					GetGame().GetCallqueue().CallLater(CheckRemindAI, 20000, false, group, currWaypoint);
+					AIWaypoint currWaypoint = waypoints[0];
+					if (currWaypoint.IsWithinCompletionRadius(group))
+					{
+						DefendHelpers.Log("AI is within their waypoint", "AI #" + (i+1).ToString() + " is busy but within their waypoint location");
+					
+						SetWaypoint(group, patrolWaypointType, waypointPosition.GetOrigin());
+					}
+					else
+					{
+						DefendHelpers.Log("AI is busy", "AI #" + (i+1).ToString() + " is busy going to a waypoint");
+						GetGame().GetCallqueue().CallLater(CheckRemindAI, 20000, false, group, currWaypoint);
+					}
 				}
 			}
 		}
@@ -670,58 +772,6 @@ class DefendManager: GenericEntity
 		}
 		return totalAIAlive;
 	}
-	
-	
-	
-	protected void CheckAI()
-	{
-		DefendHelpers.Log("Checking AI", "Checking health of alive AI Groups");
-
-		for (int aiGroupInd; aiGroupInd < activeAIGroups.Count(); aiGroupInd++)
-		{
-			IEntity groupEntity = activeAIGroups[aiGroupInd];
-			SCR_AIGroup currGroup = activeAIGroups[aiGroupInd];
-			
-			int agentCount = currGroup.GetAgentsCount();
-			int maxAgents = currGroup.GetMaxMembers();	
-			
-			if (currGroup.IsSlave())
-			{
-				DefendHelpers.Log("AI Group Is Slave", "AI Group Is a Slave");
-				return;
-			}
-
-			array<AIAgent> agents = {};
-			currGroup.GetAgents(agents);
-			
-			array<SCR_ChimeraCharacter> characters = {};
-			
-			foreach (AIAgent agent : agents)
-			{
-				SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(agent.GetControlledEntity());
-				if (char != null)
-					characters.Insert(char);
-			}
-
-			
-			int countDeadMembers = 0;
-			
-			DefendHelpers.Log("Checking group", "Group " + (aiGroupInd+1) + "/" + activeAIGroups.Count() + " and has " + characters.Count() + " characters");
-			
-			for (int charInd; charInd < characters.Count(); charInd++)
-			{	
-				SCR_ChimeraCharacter currChar = characters[charInd];
-				ChimeraCharacter character = currChar;
-				SCR_DamageManagerComponent dmgComp = character.GetDamageManager();
-				float health = dmgComp.GetHealthScaled();
-				if (health <= 0) countDeadMembers++; 
-			}
-			
-			if (countDeadMembers == characters.Count()) activeAIGroups.RemoveItem(currGroup);
-		}
-		
-		DefendHelpers.Log("Total AI Alive: ", CountAliveAI().ToString());
-	}
 
 	protected bool gameStarted = false;
 	protected bool victoryAcheivable = false;
@@ -755,9 +805,24 @@ class DefendManager: GenericEntity
 
 	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
 	bool debugMode;
+	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	bool serverLoopDebugLogging;
+	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	bool playerLoopDebugLogging;
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	int serverLoopIntervalSeconds;
+	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	int aiLoopIntervalSeconds;
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	int playerLoopIntervalSeconds;
 	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
 	int numberOfWaves;
-	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "0 100 0")]
+	int GetNumberOfWaves()
+	{
+		if (endlessMode) return 0;
+		else return numberOfWaves;
+	}
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "0 100 1")]
 	int numberOfLives;
 	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
 	bool endlessMode;
@@ -767,7 +832,7 @@ class DefendManager: GenericEntity
 	bool allowVehicles;
 	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
 	int maxVehicles;
-	[Attribute(defvalue: "4", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "2 10 1")]
+	[Attribute(defvalue: "4", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
 	int oddsOfVehicleSpawn;
 	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]
 	int numberOfEnemiesPerWave;
@@ -778,9 +843,9 @@ class DefendManager: GenericEntity
 	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
 	int pointsPerKill;
 	
-	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 20 10")]
+	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 20 1")]
 	int secondsBeforeStarting;
-	[Attribute(defvalue: "30", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 300 01")]
+	[Attribute(defvalue: "30", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 300 1")]
 	int secondsBeforeFirstWaveToPrepare;
 	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 5 1")]
 	int secondsBeforeSpawnEnemy;
@@ -793,6 +858,9 @@ class DefendManager: GenericEntity
 	
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_CATEGORY)]
 	ref array<ref string> spawnGroupsVeh;
+	
+	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_CATEGORY)]
+	ref array<ref string> namesOfDoorsToForceOpen;
 	
 	[Attribute(defvalue: "{DF63ECA1E31B61B1}UI/Layouts/Modded/HUD.layout", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
 	string uiHUDLayout;
@@ -834,7 +902,7 @@ class DefendManager: GenericEntity
 			{
 				if (editor.IsOpened())
 				{
-					if (!allowed) 
+					if (!CanBuild()) 
 					{
 						editor.Close();
 					}
@@ -851,21 +919,21 @@ class DefendManager: GenericEntity
 		else DefendHelpers.Log("Not Defend Gamemode?", "Couldn't find GameModeDefend entity!");
 	}
 	
-	void SendHUDUpdate(int wave, int secondsUntilNext = 0, string customText = "", int playerId = 0)
+	void SendHUDUpdate(int wave, int maxWave, int secondsUntilNext = 0, string customText = "", int playerId = 0)
 	{
 		DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
-		if (DefendHelpers.IsHost()) hud.ShowHUD(wave, secondsUntilNext, CountAliveAI(), customText);
+		if (DefendHelpers.IsHost()) hud.ShowHUD(wave, maxWave, secondsUntilNext, CountAliveAI(), customText);
 		
-		Rpc(RpcDo_ShowHUDUpdate, wave, secondsUntilNext, CountAliveAI(), customText, playerId);
+		Rpc(RpcDo_ShowHUDUpdate, wave, maxWave, secondsUntilNext, CountAliveAI(), customText, playerId);
 	}
 	
 	[RplRpc(RplChannel.Unreliable, RplRcver.Broadcast)]	
-	protected void RpcDo_ShowHUDUpdate(int wave, int secondsUntilNext, int enemies, string customText, int playerId) 
+	protected void RpcDo_ShowHUDUpdate(int wave, int maxWave, int secondsUntilNext, int enemies, string customText, int playerId) 
 	{
-		DefendHelpers.Log("RpcDo: Show HUD Update", wave.ToString() + " | " + secondsUntilNext + " secs | custom text: " + customText + " | Enemies: " + enemies + " | " + playerId);
+		DefendHelpers.Log("RpcDo: Show HUD Update", wave.ToString() + "/" + maxWave + " | " + secondsUntilNext + " secs | custom text: " + customText + " | Enemies: " + enemies + " | " + playerId);
 		if (localPlayerId == playerId || playerId == 0)
 		{
-			hud.ShowHUD(wave, secondsUntilNext, enemies, customText);
+			hud.ShowHUD(wave, maxWave, secondsUntilNext, enemies, customText);
 		}
 		else DefendHelpers.Log("Not me, ignoring hud update", "PlayerID: " + playerId);
 	}
@@ -928,16 +996,19 @@ class DefendManager: GenericEntity
 		currentWave++;
 		SendAllowBuilding(false);
 		
-		SendHint("Wave " + (currentWave) + "/" + numberOfWaves, "Prepare yourself, the next wave should be arriving now...");
+		string waveTitle = "Wave " + currentWave.ToString() + "/" + GetNumberOfWaves();
+		if (endlessMode) waveTitle = "Wave " + currentWave.ToString();
+		
+		SendHint(waveTitle, "Prepare yourself, the next wave should be arriving now...");
 		
 		if (currentWave != numberOfWaves)
 		{
 			int timeBeforeNextWave = secondsBeforeSpawnEnemy + secondsBeforeReinforcements;
-			SendHUDUpdate(currentWave, secondsBeforeReinforcements);
+			SendHUDUpdate(currentWave, GetNumberOfWaves(), secondsBeforeReinforcements);
 		}
 		else
 		{
-			SendHUDUpdate(currentWave, 0);
+			SendHUDUpdate(currentWave, GetNumberOfWaves(), 0);
 		}
 		
 		
@@ -968,7 +1039,7 @@ class DefendManager: GenericEntity
 		for (int enemy; enemy < maxEnemies; enemy++)
 		{
 			DefendHelpers.Log("Enemy " + (enemy+1) + "/" + maxEnemies, "Spawned enemy " + (enemy+1) + " of "  + maxEnemies + ".");
-			bool isVeh = (DefendHelpers.GenerateRandom(1,4) == 1);
+			bool isVeh = (DefendHelpers.GenerateRandom(1,oddsOfVehicleSpawn) == 1);
 			if (allowVehicles)
 			{
 				DefendHelpers.Log("Enemy Is Vehicle: ", isVeh.ToString());
@@ -1002,18 +1073,34 @@ class DefendManager: GenericEntity
 			if (vehicle) 
 			{
 				IEntity spawnPosition = GetGame().GetWorld().FindEntityByName(spawnPositionVehPrefix + spawnID);
-				GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition.GetOrigin(), waypointPosition.GetOrigin(), vehicle);
+				GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 			}	
 			else
 			{
 				IEntity spawnPosition = GetGame().GetWorld().FindEntityByName(spawnPositionInfPrefix + spawnID);
-				GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition.GetOrigin(), waypointPosition.GetOrigin(), vehicle);
+				GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 			}
 		}
 		
 	}
 	
-	protected SCR_AIGroup SpawnVehicle(string unitToSpawn, vector spawnAt)
+	protected void AISpawner(string groupToSpawn, IEntity spawnEntity, vector waypointPosition, bool isVehicle)
+	{
+		DefendHelpers.Log("Spawning AI...", "AI Spawner started.");
+		
+		SCR_AIGroup group = null;
+		
+		if (isVehicle)
+			group = SpawnVehicle(groupToSpawn, spawnEntity);
+		else
+			group = SpawnInfantry(groupToSpawn, spawnEntity);
+		
+			
+		GetGame().GetCallqueue().CallLater(SetWaypoint, 10000, false, group, moveWaypointType, waypointPosition);
+		GetGame().GetCallqueue().CallLater(AddAIGroup, 10000, false, group, group);
+	}
+	
+	protected SCR_AIGroup SpawnVehicle(string unitToSpawn, IEntity spawnAt)
 	{
 		Resource resource = DefendHelpers.GenerateAndValidateResource(unitToSpawn);
 		
@@ -1023,18 +1110,22 @@ class DefendManager: GenericEntity
 			return null;
 		}
 		
-		Vehicle vehicle = Vehicle.Cast(GetGame().SpawnEntityPrefab(resource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt)));
+		Vehicle vehicle = Vehicle.Cast(GetGame().SpawnEntityPrefab(resource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt.GetOrigin())));
+		
+		IEntity vehEntity = vehicle;
+		vehEntity.SetYawPitchRoll(spawnAt.GetYawPitchRoll());
+				
 		SCR_AIGroup group = SpawnInfantry("{1A5F0D93609DA5DA}Prefabs/Groups/OPFOR/Group_USSR_ManeuverGroup.et", spawnAt);
 		string getInWaypointName = "{B049D4C74FBC0C4D}Prefabs/AI/Waypoints/AIWaypoint_GetInNearest.et";
 		Resource pilotResource = DefendHelpers.GenerateAndValidateResource(getInWaypointName);
 
-		AIWaypoint waypoint = AIWaypoint.Cast(GetGame().SpawnEntityPrefab(pilotResource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt)));
+		AIWaypoint waypoint = AIWaypoint.Cast(GetGame().SpawnEntityPrefab(pilotResource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt.GetOrigin())));
 
 		group.AddWaypoint(waypoint);
 		return group;
 	}
 	
-	protected SCR_AIGroup SpawnInfantry(string unitToSpawn, vector spawnAt)
+	protected SCR_AIGroup SpawnInfantry(string unitToSpawn, IEntity spawnAt)
 	{
 		Resource resource = DefendHelpers.GenerateAndValidateResource(unitToSpawn);
 		
@@ -1044,8 +1135,10 @@ class DefendManager: GenericEntity
 			return null;
 		}
 		
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetGame().SpawnEntityPrefab(resource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt.GetOrigin())));		
 		
-		SCR_AIGroup group = SCR_AIGroup.Cast(GetGame().SpawnEntityPrefab(resource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt)));		
+		IEntity groupEntity = group;
+		groupEntity.SetYawPitchRoll(spawnAt.GetYawPitchRoll());
 		
 		if (group == null)
 		{
@@ -1055,27 +1148,6 @@ class DefendManager: GenericEntity
 		else DefendHelpers.Log("Group Spawned", "Group spawned...");
 		
 		return group;
-	}
-	
-	protected void AISpawner(string groupToSpawn, vector spawnAt, vector waypointPosition, bool isVehicle)
-	{
-		DefendHelpers.Log("Spawning AI...", "AI Spawner started.");
-		
-		SCR_AIGroup group = null;
-		
-		if (isVehicle)
-			group = SpawnVehicle(groupToSpawn, spawnAt);
-		else
-			group = SpawnInfantry(groupToSpawn, spawnAt);
-		
-			
-		GetGame().GetCallqueue().CallLater(SetWaypoint, 10000, false, group, moveWaypointType, waypointPosition);
-		GetGame().GetCallqueue().CallLater(AddAIGroup, 10000, false, group, group);
-	}
-	
-	protected void AddAIGroup(SCR_AIGroup groupToAdd)
-	{
-		activeAIGroups.Insert(groupToAdd);
 	}
 	
 	protected void SetWaypoint(SCR_AIGroup group, string type, vector target)
@@ -1096,5 +1168,10 @@ class DefendManager: GenericEntity
 		}
 				
 		group.AddWaypoint(waypoint);
+	}
+	
+	protected void AddAIGroup(SCR_AIGroup groupToAdd)
+	{
+		activeAIGroups.Insert(groupToAdd);
 	}
 }

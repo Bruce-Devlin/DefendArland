@@ -10,6 +10,29 @@ SCR_DestructibleEntity : "{43EB690D46E15669}Prefabs/Structures/Walls/Concrete/Co
  angleZ -0.073
  Flags 525315
 }
+SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concrete/ConcreteWall_01/ConcreteWall_01_3m.et" {
+ components {
+  NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+   Enabled 0
+  }
+ }
+ coords 1393.909 -0.034 2341.36
+ angleY 91.264
+}
+StaticModelEntity : "{785F322AC3DFD4B9}Prefabs/Compositions/Misc/SubCompositions/Furniture/Chair_Light_US_01.et" {
+ coords 1377.481 36.268 2350.862
+ angleY 90
+ {
+  GameEntity {
+   ID "5CB0D99099663927"
+   components {
+    SCR_BaseInteractiveLightComponent "{5876E7CF88610C12}" {
+     m_eInitialLightState LIT
+    }
+   }
+  }
+ }
+}
 $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
  ussr_spawn_1 {
   coords 1397.341 38.81 2137.286
@@ -84,5 +107,26 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleX 1.661
   angleY 92.717
   angleZ 2.764
+ }
+}
+SCR_DestructibleEntity : "{B0B51F4725BDE9A2}Prefabs/Structures/Walls/Concrete/ConcreteWall_01/ConcreteWall_01_Pole.et" {
+ components {
+  NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+   Enabled 0
+  }
+ }
+ coords 1393.862 -0.06 2338.193
+ angleX -0.884
+ angleY -92.476
+ angleZ -1.795
+}
+$grp GameEntity : "{E7FD0B8019E96F73}Prefabs/Structures/BuildingParts/Lights/LampTower_01.et" {
+ {
+  coords 1377.783 39.163 2352.98
+  angleY 90
+ }
+ {
+  coords 1377.831 39.175 2354.625
+  angleY 90
  }
 }

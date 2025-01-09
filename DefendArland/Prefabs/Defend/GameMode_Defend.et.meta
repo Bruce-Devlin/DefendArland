@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{12A6D69A8BD0BA63}Prefabs/Defend/GameModeDefend1.et"
+ Name "{2CC0262E26D1A034}Prefabs/Defend/GameMode_Defend.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

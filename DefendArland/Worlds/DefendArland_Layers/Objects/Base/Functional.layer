@@ -163,7 +163,7 @@ GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/A
 }
 $grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuilding/FloodlightGenerator_S_US_01.et" {
  {
-  coords 1392.708 36.129 2340.953
+  coords 1392.137 36.188 2344.218
   angleX 0.876
   angleY -91.235
   angleZ -0.914
@@ -178,10 +178,30 @@ $grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuildi
     coords 0 0 0
     angleY 179.108
    }
+   GenericEntity {
+    ID "5E6911EAF040169C"
+    coords -1.267 0 -1.187
+   }
+   GenericEntity {
+    ID "5E6911EAF04016AB"
+    coords -1.813 0 -0.234
+   }
+   GenericEntity {
+    ID "5E6911EAF0401966"
+    coords 0.186 0 -1.242
+   }
+   GenericEntity {
+    ID "5E6911EAF0401879"
+    coords -2.8 0 -0.402
+   }
+   GenericEntity {
+    ID "5E6911EAF040186D"
+    coords 2.478 0 0.151
+   }
   }
  }
  {
-  coords 1384.674 36.312 2357.381
+  coords 1384.779 36.312 2358.589
   angleY -175.04
   {
    GameEntity {
