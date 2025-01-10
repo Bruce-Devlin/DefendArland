@@ -93,6 +93,12 @@ modded class SCR_RespawnSystemComponent
 	protected void RpcDo_PlayerSpawned(int playerId, bool first, int livesLeft) 
 	{
 		DefendHelpers.Log("RpcDo: Player Spawned", playerId.ToString() + " | " + first);
+
+		GetGame().GetCallqueue().Call(CheckPlayerSpawn, playerId, first, livesLeft);
+	}
+	
+	void CheckPlayerSpawn(int playerId, bool first, int livesLeft)
+	{
 		SetHelpers();
 		
 		if (first)
@@ -100,15 +106,10 @@ modded class SCR_RespawnSystemComponent
 			if (!dm.hud.hasInitComplete())
 			{
 				dm.hud.Init(dm.uiHUDLayout, dm.debugMode);
-				dm.hud.ShowHUD(0,0);
+				dm.hud.ShowHUD(0,0,livesLeft);
 			}
 		}
 		
-		GetGame().GetCallqueue().Call(CheckPlayerSpawn, playerId, first, livesLeft);
-	}
-	
-	void CheckPlayerSpawn(int playerId, bool first, int livesLeft)
-	{
 		PlayerController controller = GetGame().GetPlayerController();
 		SetHelpers();
 			

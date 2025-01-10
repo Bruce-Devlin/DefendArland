@@ -34,7 +34,7 @@ FrameWidgetClass {
    }
   }
   RichTextWidgetClass "{644A6E07A626F31E}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
-   Name "Timer"
+   Name "Lives"
    Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
     PositionX 18.425
     OffsetLeft 18.425
@@ -54,16 +54,36 @@ FrameWidgetClass {
    }
   }
   RichTextWidgetClass "{644F2C1D5FAC9C54}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
-   Name "Enemies"
+   Name "Timer"
    Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
-    PositionX 17.709
-    OffsetLeft 17.709
+    PositionX 18.179
+    OffsetLeft 18.179
     PositionY 228.469
     OffsetTop 228.469
-    SizeX 815.05
+    SizeX 814.581
     OffsetRight -832.76
     SizeY 40
     OffsetBottom -268.469
+   }
+   Text ""
+   "Font Size" 25
+   "Min Font Size" 25
+   "Vertical Alignment" Center
+   FontProperties FontProperties "{546AF489DFD25402}" {
+    Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+   }
+  }
+  RichTextWidgetClass "{6454EC967993B3E6}" : "{5E0F8422A1F05728}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Heading2.layout" {
+   Name "Enemies"
+   Slot FrameWidgetSlot "{644A1D81E4F5C573}" {
+    PositionX 18.393
+    OffsetLeft 18.393
+    PositionY 270.016
+    OffsetTop 270.016
+    SizeX 815.051
+    OffsetRight -833.444
+    SizeY 40
+    OffsetBottom -310.016
    }
    Text ""
    "Font Size" 25

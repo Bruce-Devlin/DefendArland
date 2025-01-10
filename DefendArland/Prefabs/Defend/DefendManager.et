@@ -5,13 +5,15 @@ DefendManager {
   }
  }
  coords 1408.644 40.8 2355.679
+ playerLoopIntervalSeconds 3
  balenceEnemies 1
  allowVehicles 1
+ oddsOfVehicleSpawn 5
  numberOfEnemiesPerWave 2
  maxNumberOfEnemyVehSpawns 4
  secondsBeforeStarting 10
- secondsBeforeFirstWaveToPrepare 130
- secondsBeforeReinforcements 130
+ secondsBeforeFirstWaveToPrepare 160
+ secondsBeforeReinforcements 160
  spawnGroupsInf {
   "{0CCDB10F3701A4E3}Prefabs/Groups/OPFOR/Spetsnaz/DefendGroup_USSR_Spetsnaz_Squad.et" "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }

@@ -5,7 +5,6 @@ modded class SCR_DoorUserAction
 		DefendManager dm = DefendHelpers.Get();
 		if (dm != null)
 		{
-			DefendHelpers.Log("Jammed Door: " + pOwnerEntity.GetName(), dm.jammedDoors.Count().ToString());
 			DoorComponent comp = DoorComponent.Cast(pOwnerEntity.FindComponent(DoorComponent));
 			bool isDoorJammed = (pOwnerEntity.GetName() == "JammedDoor");
 

@@ -2,6 +2,7 @@ class HUDHelpers
 {
 	protected Widget hudRoot;
 	protected RichTextWidget waveTextWidget;
+	protected RichTextWidget livesTextWidget;
 	protected RichTextWidget timerTextWidget;
 	protected RichTextWidget enemiesTextWidget;
 	protected ImageWidget separatorWidget;
@@ -24,11 +25,13 @@ class HUDHelpers
 		dm = DefendHelpers.Get();
       
 		waveTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Wave"));
+		livesTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Lives"));
 		timerTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Timer"));
 		enemiesTextWidget = RichTextWidget.Cast(hudRoot.FindAnyWidget("Enemies"));
 		separatorWidget = ImageWidget.Cast(hudRoot.FindAnyWidget("Separator"));
 
 		if (waveTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD wave Text!");
+		if (livesTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD lives Text!");
 		if (timerTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD timer Text!");
 		if (enemiesTextWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD enemies Text!");
 		if (separatorWidget == null) DefendHelpers.Log("Error", "Failed to find the HUD separator Widget!");
@@ -42,6 +45,19 @@ class HUDHelpers
 		if (maxWave != 0) maxWaveText = "/" + maxWave.ToString();
 		string textToShow = "WAVE " + currWave.ToString() + maxWaveText;
 		return textToShow;
+	}
+	
+	protected string FormatLives(int livesLeft)
+	{
+		if (livesLeft != 0)
+		{
+			string textToShow = "Team respawns remaining: " + livesLeft;
+			return textToShow;
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 	protected string FormatTimer(int timerSeconds)
@@ -83,17 +99,16 @@ class HUDHelpers
 		hudRoot.RemoveFromHierarchy();
 	}
 	
-	void ShowHUD(int currWave, int maxWave, int timerSeconds = 0, int totalEnemies = 0, string customText = "")
+	void ShowHUD(int currWave, int maxWave, int livesRemaining, int timerSeconds = 0, int totalEnemies = 0, string customText = "")
 	{
 		if (!initComplete)
 			return;
 		
-		if (DefendHelpers.IsHost()) totalEnemies = dm.CountAliveAI();
-		DefendHelpers.Log("Showing HUD", "Wave: " + currWave + "/" + maxWave + " | Timer: " + timerSeconds + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
+		DefendHelpers.Log("Showing HUD", "Wave: " + currWave + "/" + maxWave + " | Timer: " + timerSeconds + " | Lives Remaining: " + livesRemaining + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
 		
 		if (timerActive)
 		{
-			timerTimeLeft = timerSeconds;
+			timerTimeLeft = -1;			
 			timerActive = false;
 			GetGame().GetCallqueue().RemoveByName(this, "StartTimer");
 			GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
@@ -101,31 +116,20 @@ class HUDHelpers
 		
 		if (currWave != 0)
 		{
-			if (customText == "") 
-				waveTextWidget.SetText(FormatWaves(currWave, maxWave));
-			else
-				waveTextWidget.SetText(customText);
-
-			timerTextWidget.SetText(FormatTimer(timerSeconds));
-			enemiesTextWidget.SetText(FormatEnemies(totalEnemies));
+			UpdateHUDDisplayValues(currWave, maxWave, timerSeconds, totalEnemies, livesRemaining, customText);
 			
 			DefendHelpers.Log("HUD Text Set", "Wave text set.");
 			
-			if (timerSeconds != 0 || totalEnemies != 0 && DefendHelpers.IsHost())
+			if ((timerSeconds > 0 || totalEnemies > 0) && DefendHelpers.IsHost())
 			{
-				if (timerTimeLeft == 0) timerTimeLeft = -1;
-				
 				shouldStartTimer = true;
-				GetGame().GetCallqueue().Call(StartTimer, timerSeconds, totalEnemies, currWave, maxWave);
+				GetGame().GetCallqueue().Call(StartTimer, timerSeconds, totalEnemies, livesRemaining, currWave, maxWave);
 				DefendHelpers.Log("HUD Started timer", "Wave timer text set.");
 			}
 		}
 		else
 		{
-			if (customText == "")
-				waveTextWidget.SetText("PREPARE YOUR DEFENSES!");
-			else
-				waveTextWidget.SetText(customText);
+			UpdateHUDDisplayValues(0, maxWave, 0, 0, livesRemaining, "PREPARE YOUR DEFENSES");
 			
 			GetGame().GetCallqueue().RemoveByName(this, "StartTimer");
 			GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
@@ -145,9 +149,9 @@ class HUDHelpers
 	bool shouldStartTimer = false;
 	bool timerDebug = false;
 	
-	void StartTimer(int time, int enemies, int currWave, int maxWave)
+	void StartTimer(int time, int enemies, int livesLeft, int currWave, int maxWave)
 	{
-		if (timerDebug) DefendHelpers.Log("Timer active: " + timerActive, "HUD timer is " + timerActive + " with " + timerTimeLeft + " seconds left & " + enemies + " enemies remaining");
+		if (timerDebug) DefendHelpers.Log("Timer active: " + timerActive, "HUD timer is " + timerActive + " with " + time + " seconds left & " + enemies + " enemies remaining");
 		if (timerTimeLeft == -1 && !timerActive && shouldStartTimer)
 		{
 			if (timerDebug) DefendHelpers.Log("Started HUD timer", "HUD timer will start ticking.");
@@ -163,38 +167,52 @@ class HUDHelpers
 			if (timerDebug) DefendHelpers.Log("Stopped HUD timer", "HUD timer will no longer tick.");
 			GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
 			timerActive = false;
-			timerTimeLeft = -1;
+				timerTimeLeft = -1;
 			
 			waveTextWidget.SetText("");
 			timerTextWidget.SetText("");
 			enemiesTextWidget.SetText("");
 		}
 		
-		if (timerActive && timerTimeLeft > 0 || enemies > 0)
+		if (timerActive && (timerTimeLeft > 0 || enemies > 0))
 		{
 			if (timerDebug) DefendHelpers.Log("HUD Timer pre-tick", "Waiting for 1 second tick...");
-			GetGame().GetCallqueue().CallLater(TimerTick, 1000, false, time, enemies, currWave, maxWave);
+			GetGame().GetCallqueue().CallLater(TimerTick, 1000, false, time, enemies, livesLeft, currWave, maxWave);
 			return;
 		}
 	}
 	
-	void TimerTick(int initialTime, int initalEnemiesLeft, int currWave, int maxWave)
-	{
-		if (timerDebug) DefendHelpers.Log("HUD Timer Tick", "HUD timer ticked.");
+	void TimerTick(int timeLeft, int initalEnemiesLeft, int initialLivesLeft, int currWave, int maxWave)
+	{	
 		if (timerTimeLeft > 0) timerTimeLeft = timerTimeLeft - 1;
+		if (timerDebug) DefendHelpers.Log("HUD Timer Tick", "HUD timer ticked with " + timerTimeLeft + " seconds left.");
 		
-		waveTextWidget.SetText(FormatWaves(currWave, maxWave));
-		timerTextWidget.SetText(FormatTimer(timerTimeLeft));
-		if (timerTextWidget.GetText() == "")
-		{
-			timerTextWidget.SetText(FormatEnemies(dm.CountAliveAI()));
-			enemiesTextWidget.SetText("");
-		}
-		else enemiesTextWidget.SetText(FormatEnemies(dm.CountAliveAI()));
+		UpdateHUDDisplayValues(currWave, maxWave, timerTimeLeft, initalEnemiesLeft, initialLivesLeft);
 		
 		if (DefendHelpers.IsHost()) dm.SendHUDUpdate(currWave, maxWave, timerTimeLeft, "", 0);
 		
-		GetGame().GetCallqueue().Call(StartTimer, initialTime, initalEnemiesLeft, currWave, maxWave);
+		GetGame().GetCallqueue().Call(StartTimer, timerTimeLeft, initalEnemiesLeft, initialLivesLeft, currWave, maxWave);
+	}
+	
+	protected void UpdateHUDDisplayValues(int currWave, int maxWave, int timeLeft, int enemiesLeft, int livesRemaining, string customText = "")
+	{
+		if (customText == "")
+			waveTextWidget.SetText(FormatWaves(currWave, maxWave));
+		else
+			waveTextWidget.SetText(customText);
+		
+		livesTextWidget.SetText(FormatLives(livesRemaining));
+
+		if (timeLeft <= 0)
+		{
+			timerTextWidget.SetText(FormatEnemies(enemiesLeft));
+			enemiesTextWidget.SetText("");
+		}
+		else
+		{
+			timerTextWidget.SetText(FormatTimer(timeLeft));
+			enemiesTextWidget.SetText(FormatEnemies(enemiesLeft));
+		}
 	}
 }
 
@@ -239,7 +257,30 @@ class DefendPlayer
 	int id = "";
 	int kills = 0;
 	int deaths = 0;
+	protected int deserterWarnings = 0;
+	protected bool isDeserter = false;
 	bool alive = false;
+	
+	void AddDeserterWarning()
+	{
+		deserterWarnings++;
+	}
+	
+	int GetDeserterWarnings()
+	{
+		return deserterWarnings;
+	}
+	
+	bool IsDeserter()
+	{
+		return isDeserter;
+	}
+	
+	void SetDeserter(bool value)
+	{
+		if (!value) deserterWarnings = 0;
+		isDeserter = value;
+	}
 	
 	void AddKills(int killsToAdd)
 	{
@@ -413,7 +454,7 @@ class DefendManager: GenericEntity
 		return playerToReturn;
 	}
 	
-	protected void EndGame(EGameOverTypes type, int winnerId = 1)
+	void EndGame(EGameOverTypes type, int winnerId = 1)
 	{
 		currentWave = 0;
 		DefendHelpers.Log("End Game", "The game was ended due to: " + type);
@@ -504,6 +545,8 @@ class DefendManager: GenericEntity
 			}
 			else DefendHelpers.Log("No AI Alive", "No AI are alive right now.");
 			
+			if (punishDeserters) CheckForDeserters();
+			
 			if (currentWave == numberOfWaves && !victoryAcheivable)
 			{
 				victoryAcheivable = true;
@@ -515,63 +558,66 @@ class DefendManager: GenericEntity
 	protected void PlayerUpdateLoop()
 	{
 		if (playerLoopDebugLogging) DefendHelpers.Log("Running Player Loop", "Player loop running.");
-		PlayerController myController = GetGame().GetPlayerController();
-
-		if (myController != null)
-		{
-			CheckIfDeserting(myController);
-		}
-		else if (playerLoopDebugLogging) DefendHelpers.Log("No Player Controller", "The player doesnt currently have a player controller.");
 	}
-	
-	int deserterHurtMultipler = 1;
-	void CheckIfDeserting(PlayerController myController)
+
+	protected void CheckForDeserters()
 	{
 		IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
 		vector waypointPos = waypointPosition.GetOrigin();
 		
-		IEntity myEntity = myController.GetControlledEntity();
-		if (myEntity != null)
+		foreach (DefendPlayer player : GetAlivePlayers())
 		{
-			vector myPosition = myEntity.GetOrigin();
-				
-			float myDistance = vector.Distance(myPosition, waypointPos);
-			ChimeraCharacter myChar = ChimeraCharacter.Cast(myEntity);
-
-			
-			if (myDistance > 90)
+			IEntity playerEntity = GetGame().GetPlayerManager().GetPlayerControlledEntity(player.id);
+			if (playerEntity != null)
 			{
-				DefendHelpers.Log("Player Deserting", "A player is deserting!");
-				if (myChar != null)
-				{
-					DamageManagerComponent dmgManager = myChar.GetDamageManager();
+				vector playerPosition = playerEntity.GetOrigin();
 					
-					if (dmgManager.IsDamageHandlingEnabled())
+				float myDistance = vector.Distance(playerPosition, waypointPos);
+				
+				if (myDistance > 90)
+				{
+					player.SetDeserter(true);
+					DefendHelpers.Log("Player Deserting", "Player " + player.name + " #" + player.id + " is deserting!");
+					
+					SCR_ChimeraCharacter scrChar = SCR_ChimeraCharacter.Cast(playerEntity);
+					if (scrChar != null)
 					{
-						myChar.GetCharacterController().SetMovement(myChar.GetCharacterController().GetMovementSpeed() - (0.05 * deserterHurtMultipler), vector.Zero);
-						dmgManager.SetHealthScaled(dmgManager.GetHealthScaled() - (0.1 * deserterHurtMultipler));
-						deserterHurtMultipler++;
-						hint.ShowHint("Deserting!", "You have left the area of operation, this will not be tolorated and you're currently losing health!", playerLoopIntervalSeconds);
+						CharacterControllerComponent charController = scrChar.GetCharacterController();
+	
+						if (charController.GetLifeState() == ECharacterLifeState.ALIVE)
+						{
+							if (player.GetDeserterWarnings() > numberOfWarningsForDeserters)
+							{
+								SendHint("Deserter!", "You have left the area of operation, this will not be tolorated and you have been executed.", serverLoopIntervalSeconds, player.id);
+								charController.ForceDeath();
+							}
+							else
+							{
+								SendHint("Deserting! (warning " + player.GetDeserterWarnings().ToString() + "/" + numberOfWarningsForDeserters.ToString() + ")", "You have left the area of operation, this will not be tolorated and you're currently losing health!", serverLoopIntervalSeconds, player.id);
+								player.AddDeserterWarning();
+							}
+						}
 					}
+					else DefendHelpers.Log("ERROR", "Couldn't find player character!");
+					player.SetDeserter(true);
 				}
+				else if (myDistance > 75)
+				{
+					SendHint("Where are you going?", "You're leaving the area of operation turn back now or be labeled a deserter!", serverLoopIntervalSeconds, player.id);
+					player.SetDeserter(false);
+				}
+				else
+				{
+					player.SetDeserter(false);
+				}	
 			}
-			else if (myDistance > 75)
-			{
-				hint.ShowHint("Where are you going?", "You're leaving the area of operation turn back now or be labeled a deserter!", playerLoopIntervalSeconds);
-			}
-			else
-			{
-				if (myChar != null)
-					myChar.GetCharacterController().SetMovement(1, vector.Zero);
-				deserterHurtMultipler = 1;
-			}	
+			else DefendHelpers.Log("No Player Entity", "The player currently has no entity attached to it.");
 		}
-		else DefendHelpers.Log("No Player Entity", "The player currently has no entity attached to it.");
 	}
 	
 	
-	bool checkAIQueued = false;
-	bool checkingAI = false;
+	protected bool checkAIQueued = false;
+	protected bool checkingAI = false;
 	protected void CheckAI()
 	{
 		checkingAI = true;
@@ -584,55 +630,57 @@ class DefendManager: GenericEntity
 		checkingAI = false;
 	}
 	
-	void CheckAIAlive()
+	protected void CheckAIAlive()
 	{
 		for (int aiGroupInd; aiGroupInd < activeAIGroups.Count(); aiGroupInd++)
 		{
 			IEntity groupEntity = activeAIGroups[aiGroupInd];
 			SCR_AIGroup currGroup = activeAIGroups[aiGroupInd];
-			
-			int agentCount = currGroup.GetAgentsCount();
-			int maxAgents = currGroup.GetMaxMembers();	
-			
-			if (currGroup.IsSlave())
+			if (currGroup != null)
 			{
-				DefendHelpers.Log("AI Group Is Slave", "AI Group Is a Slave");
-				return;
-			}
-
-			array<AIAgent> agents = {};
-			currGroup.GetAgents(agents);
-			
-			array<SCR_ChimeraCharacter> characters = {};
-			
-			foreach (AIAgent agent : agents)
-			{
-				SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(agent.GetControlledEntity());
-				if (char != null)
-					characters.Insert(char);
-			}
-
-			
-			int countDeadMembers = 0;
-			
-			DefendHelpers.Log("Checking group", "Group " + (aiGroupInd+1) + "/" + activeAIGroups.Count() + " and has " + characters.Count() + " characters");
-			
-			for (int charInd; charInd < characters.Count(); charInd++)
-			{	
-				SCR_ChimeraCharacter currChar = characters[charInd];
-				ChimeraCharacter character = currChar;
-				SCR_DamageManagerComponent dmgComp = character.GetDamageManager();
-				float health = dmgComp.GetHealthScaled();
-				if (health <= 0) countDeadMembers++; 
-			}
-			
-			if (countDeadMembers == characters.Count()) activeAIGroups.RemoveItem(currGroup);
+				int agentCount = currGroup.GetAgentsCount();
+				int maxAgents = currGroup.GetMaxMembers();	
+				
+				if (currGroup.IsSlave())
+				{
+					DefendHelpers.Log("AI Group Is Slave", "AI Group Is a Slave");
+					return;
+				}
+	
+				array<AIAgent> agents = {};
+				currGroup.GetAgents(agents);
+				
+				array<SCR_ChimeraCharacter> characters = {};
+				
+				foreach (AIAgent agent : agents)
+				{
+					SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(agent.GetControlledEntity());
+					if (char != null)
+						characters.Insert(char);
+				}
+	
+				
+				int countDeadMembers = 0;
+				
+				DefendHelpers.Log("Checking group", "Group " + (aiGroupInd+1) + "/" + activeAIGroups.Count() + " and has " + characters.Count() + " characters");
+				
+				for (int charInd; charInd < characters.Count(); charInd++)
+				{	
+					SCR_ChimeraCharacter currChar = characters[charInd];
+					ChimeraCharacter character = currChar;
+					SCR_DamageManagerComponent dmgComp = character.GetDamageManager();
+					float health = dmgComp.GetHealthScaled();
+					if (health <= 0) countDeadMembers++; 
+				}
+				
+				if (countDeadMembers == characters.Count()) activeAIGroups.RemoveItem(currGroup);
+			}			
 		}
 		
 		DefendHelpers.Log("Total AI Alive: ", CountAliveAI().ToString());
 	}
 	
-	void RemindAI()
+	protected void RemindAI()
 	{
 		foreach(int i, SCR_AIGroup group : activeAIGroups)
 		{
@@ -695,7 +743,7 @@ class DefendManager: GenericEntity
 		}
 	}
 	
-	void CheckRemindAI(SCR_AIGroup group, AIWaypoint waypoint)
+	protected void CheckRemindAI(SCR_AIGroup group, AIWaypoint waypoint)
 	{
 		array<AIWaypoint> waypoints = {};
 		if (group == null)
@@ -789,6 +837,7 @@ class DefendManager: GenericEntity
 	
  	ref HintHelpers hint = new HintHelpers();
 	ref HUDHelpers hud = new HUDHelpers();
+	
 	const static string WB_DEFEND_CATEGORY = "Defend Manager";
 	protected ref array<ref DefendPlayer> players = {};
 
@@ -823,6 +872,14 @@ class DefendManager: GenericEntity
 	[Attribute(defvalue: "0", category: WB_DEFEND_GAMEPLAY)]
 	bool balenceEnemies;
 	
+	const static string WB_DEFEND_PLAYERS = "Defend | Players";
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_PLAYERS, "1 10 1")]
+	int pointsPerKill;
+	[Attribute(defvalue: "1", category: WB_DEFEND_PLAYERS)]
+	bool punishDeserters;
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_PLAYERS, "1 50 1")]
+	int numberOfWarningsForDeserters;
+	
 	const static string WB_DEFEND_VEHICLES = "Defend | Vehicles";
 	[Attribute(defvalue: "0", category: WB_DEFEND_VEHICLES)]
 	bool allowVehicles;
@@ -837,11 +894,7 @@ class DefendManager: GenericEntity
 	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_INFANTRY, "1 30 1")]
 	int maxNumberOfEnemyInfSpawns;
 	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_INFANTRY, "1 30 1")]
-	int maxNumberOfEnemyVehSpawns;
-	
-	const static string WB_DEFEND_SCORE = "Defend | Score";
-	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_SCORE, "1 10 1")]
-	int pointsPerKill;
+	int maxNumberOfEnemyVehSpawns;	
 	
 	const static string WB_DEFEND_TIMING = "Defend | Timing";
 	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_TIMING, "10 20 1")]
@@ -924,35 +977,38 @@ class DefendManager: GenericEntity
 	void SendHUDUpdate(int wave, int maxWave, int secondsUntilNext = 0, string customText = "", int playerId = 0)
 	{
 		DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
-		if (DefendHelpers.IsHost()) hud.ShowHUD(wave, maxWave, secondsUntilNext, CountAliveAI(), customText);
+		if (DefendHelpers.IsHost()) hud.ShowHUD(wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText);
 		
-		Rpc(RpcDo_ShowHUDUpdate, wave, maxWave, secondsUntilNext, CountAliveAI(), customText, playerId);
+		Rpc(RpcDo_ShowHUDUpdate, wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText, playerId);
 	}
 	
 	[RplRpc(RplChannel.Unreliable, RplRcver.Broadcast)]	
-	protected void RpcDo_ShowHUDUpdate(int wave, int maxWave, int secondsUntilNext, int enemies, string customText, int playerId) 
+	protected void RpcDo_ShowHUDUpdate(int wave, int maxWave, int lives, int secondsUntilNext, int enemies, string customText, int playerId) 
 	{
 		DefendHelpers.Log("RpcDo: Show HUD Update", wave.ToString() + "/" + maxWave + " | " + secondsUntilNext + " secs | custom text: " + customText + " | Enemies: " + enemies + " | " + playerId);
 		if (localPlayerId == playerId || playerId == 0)
 		{
-			hud.ShowHUD(wave, maxWave, secondsUntilNext, enemies, customText);
+			hud.ShowHUD(wave, maxWave, lives, secondsUntilNext, enemies, customText);
 		}
 		else DefendHelpers.Log("Not me, ignoring hud update", "PlayerID: " + playerId);
 	}
 	
-	void SendHint(string header, string message, int secondsToShow = 10, bool showTimer = true)
+	void SendHint(string header, string message, int secondsToShow = 10, bool showTimer = true, int playerId = 0)
 	{
 		DefendHelpers.Log("Sending Hint", "Sending hint: " + header + " | " + message + " | " + secondsToShow + " secs");
 		if (DefendHelpers.IsHost()) hint.ShowHint(header, message, secondsToShow, showTimer);
 		
-		Rpc(RpcDo_ShowHint, header, message, secondsToShow, showTimer);
+		Rpc(RpcDo_ShowHint, header, message, secondsToShow, showTimer, playerId);
 	}
 	
 	[RplRpc(RplChannel.Unreliable, RplRcver.Broadcast)]	
-	protected void RpcDo_ShowHint(string header, string message, int secondsToShow, bool showTimer) 
+	protected void RpcDo_ShowHint(string header, string message, int secondsToShow, bool showTimer, int playerId) 
 	{
 		DefendHelpers.Log("RpcDo: Show Hint", header + " | " + message);
-		hint.ShowHint(header, message, secondsToShow, showTimer);
+		if (localPlayerId == playerId || playerId == 0)
+		{
+			hint.ShowHint(header, message, secondsToShow, showTimer);
+		}
 	}
 	
 	protected void WaitForPlayers()
@@ -1033,7 +1089,7 @@ class DefendManager: GenericEntity
 	protected void EnemyTimerTick()
 	{
 		int maxEnemies = numberOfEnemiesPerWave;
-		if (balenceEnemies)
+		if (balenceEnemies && GetAlivePlayers().Count() > 1)
 		{
 			maxEnemies = maxEnemies * GetAlivePlayers().Count();
 		}
