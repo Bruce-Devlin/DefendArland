@@ -93,7 +93,7 @@ class HUDHelpers
 		
 		if (timerActive)
 		{
-			timerTimeLeft = -1;
+			timerTimeLeft = timerSeconds;
 			timerActive = false;
 			GetGame().GetCallqueue().RemoveByName(this, "StartTimer");
 			GetGame().GetCallqueue().RemoveByName(this, "TimerTick");

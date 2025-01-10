@@ -6,9 +6,9 @@ modded class SCR_DoorOpenerEntity
 	override void EOnInit(IEntity owner)
 	{
 		// server only
-		RplComponent rplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
-		if (rplComponent && !rplComponent.IsMaster())
-			return;
+		//RplComponent rplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
+		//if (rplComponent && !rplComponent.IsMaster())
+			//return;
 		
 		// capture doors around
 		m_aQueriedDoors = {};

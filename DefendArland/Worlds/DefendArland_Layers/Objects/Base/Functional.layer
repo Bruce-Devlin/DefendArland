@@ -47,9 +47,6 @@ Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
   SCR_VehicleSpawnProtectionComponent "{54D6FBC0CE49F6D9}" {
    m_bIsLocked 1
   }
-  ActionsManagerComponent "{C97BE5489221AE18}" {
-   Enabled 0
-  }
  }
  coords 1378.183 36.343 2363.868
  angleY -7.24
