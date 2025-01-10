@@ -47,6 +47,9 @@ Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
   SCR_VehicleSpawnProtectionComponent "{54D6FBC0CE49F6D9}" {
    m_bIsLocked 1
   }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   Enabled 0
+  }
  }
  coords 1378.183 36.343 2363.868
  angleY -7.24
@@ -133,7 +136,7 @@ GenericEntity BuildingTable : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mili
    }
   }
  }
- coords 1377.44 36.339 2349.914
+ coords 1377.615 36.339 2355.401
  angleY 90
 }
 GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {
@@ -163,7 +166,7 @@ GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/A
 }
 $grp GenericEntity : "{96D71CB478F8DF27}Prefabs/Compositions/Misc/FreeRoamBuilding/FloodlightGenerator_S_US_01.et" {
  {
-  coords 1392.137 36.188 2344.218
+  coords 1392.137 36.147 2344.218
   angleX 0.876
   angleY -91.235
   angleZ -0.914

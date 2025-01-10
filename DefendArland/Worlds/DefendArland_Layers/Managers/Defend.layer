@@ -4026,9 +4026,7 @@ SCR_BaseGameMode GameMode_Defend {
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
  debugMode 1
+ oddsOfVehicleSpawn 5
  secondsBeforeFirstWaveToPrepare 160
  secondsBeforeReinforcements 160
- namesOfDoorsToForceOpen {
-  "lockeddoor1" "lockeddoor2" "lockeddoor3" "lockeddoor4" "lockeddoor5" "lockeddoor6" "lockeddoor7"
- }
 }

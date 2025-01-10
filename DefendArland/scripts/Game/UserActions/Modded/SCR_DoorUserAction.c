@@ -5,11 +5,12 @@ modded class SCR_DoorUserAction
 		DefendManager dm = DefendHelpers.Get();
 		if (dm != null)
 		{
-			string doorName = pOwnerEntity.GetName();
-			bool shouldKeepOpen = dm.namesOfDoorsToForceOpen.Contains(doorName);
+			DefendHelpers.Log("Jammed Door: " + pOwnerEntity.GetName(), dm.jammedDoors.Count().ToString());
+			DoorComponent comp = DoorComponent.Cast(pOwnerEntity.FindComponent(DoorComponent));
+			bool isDoorJammed = (pOwnerEntity.GetName() == "JammedDoor");
 
-			if (!shouldKeepOpen) super.PerformAction(pOwnerEntity, pUserEntity);
-			else dm.hint.ShowHint("Can't interact with this door", "This door seems to be magically jammed open.")
+			if (isDoorJammed) dm.hint.ShowHint("Can't interact with this door", "This door seems to be magically jammed open.");
+			else super.PerformAction(pOwnerEntity, pUserEntity);
 		}
 	}
 }

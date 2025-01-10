@@ -5,7 +5,7 @@ $grp SCR_DestructibleEntity : "{43EB690D46E15669}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1393.812 -0.063 2350.19
+  coords 1393.972 -0.07 2350.188
   angleX -3.315
   angleY 90.57
   angleZ -0.044
@@ -34,7 +34,7 @@ $grp SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1393.755 -0.049 2344.359
+  coords 1393.915 -0.056 2344.357
   angleX -3.576
   angleY 90.493
   angleZ -0.031
@@ -279,7 +279,7 @@ $grp GenericEntity : "{BE16EE8FAA315FE2}Prefabs/Props/Military/Sandbags/Sandbag_
  }
 }
 GenericEntity : "{BFF74A287E8300FB}Prefabs/Structures/Signs/Military/Sign_CommandPost_US_01.et" {
- coords 1377.272 35.933 2351.579
+ coords 1377.447 35.933 2357.066
  angleY 91.462
 }
 GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_single_burlap.et" {

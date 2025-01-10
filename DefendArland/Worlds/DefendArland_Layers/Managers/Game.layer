@@ -19,6 +19,23 @@ SCR_FactionManager FactionManager_USxUSSR : "{589540B35EBA8CDC}Prefabs/MP/Manage
   }
  }
 }
+$grp SCR_DoorOpenerEntity {
+ {
+  coords 1398.827 36.489 2330.726
+  m_fRadius 4
+  m_fJamDoorOpen 1
+ }
+ {
+  coords 1435.461 36.281 2280.037
+  m_fRadius 4
+  m_fJamDoorOpen 1
+ }
+ {
+  coords 1334.416 37.178 2356.696
+  m_fRadius 4
+  m_fJamDoorOpen 1
+ }
+}
 SCR_BaseTaskManager TaskManager : "{1AC69CD7907FB4F8}Prefabs/ScenarioFramework/Tasks/TaskManager.et" {
  coords 1891.659 11.576 1823.161
  {
@@ -33,6 +50,12 @@ SCR_BaseTaskManager TaskManager : "{1AC69CD7907FB4F8}Prefabs/ScenarioFramework/T
    m_BackgroundTransparency 0
   }
  }
+}
+GenericEntity ussr_veh_spawn_5 : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
+ coords 1384.419 38.542 2156.674
+ angleX 1.562
+ angleY -27.361
+ angleZ -2.821
 }
 SCR_LoadoutManager LoadoutManager_USxUSSR : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
  coords 1891.659 11.839 1825.161

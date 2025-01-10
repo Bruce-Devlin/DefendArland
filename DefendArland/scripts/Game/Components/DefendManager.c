@@ -455,9 +455,7 @@ class DefendManager: GenericEntity
 	void InitMission()
 	{
 		DefendHelpers.Log("Init Mission", "Init called for mission");
-		
-		ForceOpenDoors();
-		
+				
 		if (DefendHelpers.IsHost())
 		{
 			DefendHelpers.Log("Is Host", "Is currently the game host.");
@@ -524,16 +522,6 @@ class DefendManager: GenericEntity
 			CheckIfDeserting(myController);
 		}
 		else if (playerLoopDebugLogging) DefendHelpers.Log("No Player Controller", "The player doesnt currently have a player controller.");
-	}
-	
-	void ForceOpenDoors()
-	{
-		foreach (int i, string door : namesOfDoorsToForceOpen)
-		{
-			IEntity doorEntity = GetGame().GetWorld().FindEntityByName(namesOfDoorsToForceOpen[i]);
-			DoorComponent doorComp = DoorComponent.Cast(doorEntity.FindComponent(DoorComponent));
-			doorComp.SetControlValue(1);
-		}
 	}
 	
 	int deserterHurtMultipler = 1;
@@ -785,6 +773,7 @@ class DefendManager: GenericEntity
 	ref array<int> activePlayerIds = {};
 	ref array<SCR_AIGroup> activeAIGroups = {};
 	protected int vehicleCount = 0;
+	ref array<DoorComponent> jammedDoors = {};
 	
 	protected bool _canBuild = true;
 	bool CanBuild()
@@ -803,76 +792,89 @@ class DefendManager: GenericEntity
 	const static string WB_DEFEND_CATEGORY = "Defend Manager";
 	protected ref array<ref DefendPlayer> players = {};
 
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	const static string WB_DEFEND_DEBUG = "Defend | Debug";
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG)]
 	bool debugMode;
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG)]
 	bool serverLoopDebugLogging;
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG)]
 	bool playerLoopDebugLogging;
-	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	
+	const static string WB_DEFEND_LOOPS = "Defend | Loops";
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_LOOPS, "1 100 1")]
 	int serverLoopIntervalSeconds;
-	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_LOOPS, "1 100 1")]
 	int aiLoopIntervalSeconds;
-	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 100 1")]
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_LOOPS, "1 100 1")]
 	int playerLoopIntervalSeconds;
-	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
+	
+	const static string WB_DEFEND_GAMEPLAY = "Defend | Gameplay";
+	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "1 10 1")]
 	int numberOfWaves;
 	int GetNumberOfWaves()
 	{
 		if (endlessMode) return 0;
 		else return numberOfWaves;
 	}
-	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "0 100 1")]
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "0 100 1")]
 	int numberOfLives;
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "0", category: WB_DEFEND_GAMEPLAY)]
 	bool endlessMode;
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "0", category: WB_DEFEND_GAMEPLAY)]
 	bool balenceEnemies;
-	[Attribute(defvalue: "0", category: WB_DEFEND_CATEGORY)]
+	
+	const static string WB_DEFEND_VEHICLES = "Defend | Vehicles";
+	[Attribute(defvalue: "0", category: WB_DEFEND_VEHICLES)]
 	bool allowVehicles;
-	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_VEHICLES, "1 10 1")]
 	int maxVehicles;
-	[Attribute(defvalue: "4", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
+	[Attribute(defvalue: "4", UIWidgets.Slider, category: WB_DEFEND_VEHICLES, "1 10 1")]
 	int oddsOfVehicleSpawn;
-	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]
+	
+	const static string WB_DEFEND_INFANTRY = "Defend | Infantry";
+	[Attribute(defvalue: "3", UIWidgets.Slider, category: WB_DEFEND_INFANTRY, "1 30 1")]
 	int numberOfEnemiesPerWave;
-	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]
+	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_INFANTRY, "1 30 1")]
 	int maxNumberOfEnemyInfSpawns;
-	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 30 1")]
+	[Attribute(defvalue: "9", UIWidgets.Slider, category: WB_DEFEND_INFANTRY, "1 30 1")]
 	int maxNumberOfEnemyVehSpawns;
-	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 10 1")]
+	
+	const static string WB_DEFEND_SCORE = "Defend | Score";
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_SCORE, "1 10 1")]
 	int pointsPerKill;
 	
-	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 20 1")]
+	const static string WB_DEFEND_TIMING = "Defend | Timing";
+	[Attribute(defvalue: "60", UIWidgets.Slider, category: WB_DEFEND_TIMING, "10 20 1")]
 	int secondsBeforeStarting;
-	[Attribute(defvalue: "30", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "10 300 1")]
+	[Attribute(defvalue: "30", UIWidgets.Slider, category: WB_DEFEND_TIMING, "10 300 1")]
 	int secondsBeforeFirstWaveToPrepare;
-	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "1 5 1")]
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_TIMING, "1 5 1")]
 	int secondsBeforeSpawnEnemy;
-	[Attribute(defvalue: "120", UIWidgets.Slider, category: WB_DEFEND_CATEGORY, "30 300 1")]
+	[Attribute(defvalue: "120", UIWidgets.Slider, category: WB_DEFEND_TIMING, "30 300 1")]
 	int secondsBeforeReinforcements;
 	
 	
-	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_CATEGORY)]
+	const static string WB_DEFEND_SPAWNGROUPS = "Defend | Spawn Groups";
+	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_SPAWNGROUPS)]
 	ref array<ref string> spawnGroupsInf;
 	
-	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_CATEGORY)]
+	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_SPAWNGROUPS)]
 	ref array<ref string> spawnGroupsVeh;
 	
-	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_CATEGORY)]
-	ref array<ref string> namesOfDoorsToForceOpen;
-	
-	[Attribute(defvalue: "{DF63ECA1E31B61B1}UI/Layouts/Modded/HUD.layout", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	const static string WB_DEFEND_RESOURCES = "Defend | Resources";
+	[Attribute(defvalue: "{DF63ECA1E31B61B1}UI/Layouts/Modded/HUD.layout", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES)]
 	string uiHUDLayout;
-	[Attribute(defvalue: "{750A8D1695BD6998}Prefabs/AI/Waypoints/AIWaypoint_Move.et", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "{750A8D1695BD6998}Prefabs/AI/Waypoints/AIWaypoint_Move.et", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES)]
 	string moveWaypointType;
-	[Attribute(defvalue: "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES)]
 	string patrolWaypointType;
-	[Attribute(defvalue: "ussr_spawn_", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	
+	const static string WB_DEFEND_MARKERNAMES = "Defend | Marker Names";
+	[Attribute(defvalue: "ussr_spawn_", UIWidgets.EditBox, category: WB_DEFEND_MARKERNAMES)]
 	string spawnPositionInfPrefix;
-	[Attribute(defvalue: "ussr_veh_spawn_", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "ussr_veh_spawn_", UIWidgets.EditBox, category: WB_DEFEND_MARKERNAMES)]
 	string spawnPositionVehPrefix;
-	[Attribute(defvalue: "ussr_waypoint", UIWidgets.EditBox, category: WB_DEFEND_CATEGORY)]
+	[Attribute(defvalue: "ussr_waypoint", UIWidgets.EditBox, category: WB_DEFEND_MARKERNAMES)]
 	string waypointPositionName;
 	
 	void SendAllowBuilding(bool allowed)

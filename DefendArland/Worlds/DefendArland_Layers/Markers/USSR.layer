@@ -16,11 +16,11 @@ SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concrete/Co
    Enabled 0
   }
  }
- coords 1393.909 -0.034 2341.36
+ coords 1394.069 -0.039 2341.358
  angleY 91.264
 }
 StaticModelEntity : "{785F322AC3DFD4B9}Prefabs/Compositions/Misc/SubCompositions/Furniture/Chair_Light_US_01.et" {
- coords 1377.481 36.268 2350.862
+ coords 1377.564 36.268 2356.206
  angleY 90
  {
   GameEntity {
@@ -30,6 +30,7 @@ StaticModelEntity : "{785F322AC3DFD4B9}Prefabs/Compositions/Misc/SubCompositions
      m_eInitialLightState LIT
     }
    }
+   coords -0.023 0.5 -0.047
   }
  }
 }
@@ -115,18 +116,8 @@ SCR_DestructibleEntity : "{B0B51F4725BDE9A2}Prefabs/Structures/Walls/Concrete/Co
    Enabled 0
   }
  }
- coords 1393.862 -0.06 2338.193
+ coords 1394.022 -0.067 2338.191
  angleX -0.884
  angleY -92.476
  angleZ -1.795
-}
-$grp GameEntity : "{E7FD0B8019E96F73}Prefabs/Structures/BuildingParts/Lights/LampTower_01.et" {
- {
-  coords 1377.783 39.163 2352.98
-  angleY 90
- }
- {
-  coords 1377.831 39.175 2354.625
-  angleY 90
- }
 }
