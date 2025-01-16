@@ -90,6 +90,144 @@ If you would like to contribute to the development of DefendArland, feel free to
 ### Issues
 If you encounter any issues with the mod or have suggestions for improvements, please open an issue on the GitHub repository.
 
+
+## Configuration
+
+The **DefendManager** class contains several configurable variables that control different aspects of the gameplay. These variables are used to fine-tune various settings related to game mechanics, gameplay flow, player behavior, AI management, and more.
+
+The following sections describe the key configuration variables that you can modify:
+
+
+### General Configuration
+You can modify these variables directly within the `DefendManager` class to tailor the gameplay experience to your needs. Whether adjusting difficulty, game timing, or the behavior of AI enemies, the configuration options provide great flexibility in customizing the game mode.
+
+### Debug and Logging Configuration
+
+- **debugMode** (`bool`): 
+  - Enable or disable debug mode (used to prevent game master removal and start specific waves in debug).
+  
+- **serverLoopDebugLogging** (`bool`): 
+  - Enable or disable server loop logging.
+  
+- **playerLoopDebugLogging** (`bool`): 
+  - Enable or disable player loop logging.
+  
+- **timerLoopLogging** (`bool`): 
+  - Enable or disable timer loop logging.
+  
+- **hintLogging** (`bool`): 
+  - Enable or disable logging for hints.
+  
+- **rpcLogging** (`bool`): 
+  - Enable or disable logging for RPC (Remote Procedure Call) actions.
+
+### Gameplay Timing Configuration
+
+- **serverLoopIntervalSeconds** (`int`): 
+  - Interval in seconds when the server loop will run.
+  
+- **aiLoopIntervalSeconds** (`int`): 
+  - Interval in seconds when the AI loop will run.
+  
+- **playerLoopIntervalSeconds** (`int`): 
+  - Interval in seconds when the player loop will run.
+  
+- **numberOfWaves** (`int`): 
+  - The total number of waves before extraction arrives. This value is overridden in endless mode.
+  
+- **numberOfLives** (`int`): 
+  - The total number of team lives available.
+
+- **endlessMode** (`bool`): 
+  - Enable or disable endless waves mode.
+  
+- **balenceEnemies** (`bool`): 
+  - Should the number of enemies spawned be multiplied by the number of players alive?
+
+- **enemiesLeftToFinishWave** (`int`): 
+  - The number of enemies required before the wave is considered finished and the enemies start retreating.
+
+- **metersUntilForceAIDeathWhenRetreating** (`int`): 
+  - The distance in meters that enemies need to be from the base before they are forced to die when retreating.
+
+### Building Configuration
+
+- **allowBuilding** (`bool`): 
+  - Enables or disables building by players during gameplay.
+  
+- **restrictBuildingDuringWaves** (`bool`): 
+  - Prevents building when enemies are approaching during waves.
+
+- **allowBuildingTimeBetweenWaves** (`bool`): 
+  - Allows building during the time between waves (if enabled, wave-building time is timed).
+
+### Player Configuration
+
+- **pointsPerKill** (`int`): 
+  - The number of points awarded to a player per enemy kill.
+  
+- **punishDeserters** (`bool`): 
+  - Enable or disable punishment for players who desert the battlefield.
+  
+- **numberOfWarningsForDeserters** (`int`): 
+  - The number of warnings a player receives before being punished for desertion.
+
+- **distanceToPunishDeserters** (`int`): 
+  - The distance in meters a player can move away from the base before being considered a deserter.
+
+### Vehicle Configuration
+
+- **allowVehicles** (`bool`): 
+  - Enables or disables vehicle spawning during gameplay.
+  
+- **maxVehicles** (`int`): 
+  - The maximum number of vehicles allowed to spawn during the game.
+
+- **oddsOfVehicleSpawn** (`int`): 
+  - The 1/X odds of spawning a vehicle per wave.
+
+### Enemy Infantry Configuration
+
+- **numberOfEnemiesPerWave** (`int`): 
+  - The maximum number of enemy groups to spawn per wave.
+
+- **maxAIGroupsPerWave** (`int`): 
+  - The maximum total number of AI groups that can spawn per wave.
+
+### Spawn Groups and Resources
+
+- **spawnGroupsInf** (`array<ref string>`): 
+  - List of infantry resource names for the OPFOR infantry to spawn randomly for each wave.
+  
+- **spawnGroupsVeh** (`array<ref string>`): 
+  - List of vehicle resource names for the OPFOR vehicles to spawn randomly for each wave.
+
+- **uiHUDLayout** (`string`): 
+  - The layout file for the HUD UI.
+
+- **moveWaypointType** (`string`): 
+  - The move waypoint resource used by the AI.
+
+- **patrolWaypointType** (`string`): 
+  - The patrol waypoint resource used by the AI.
+
+- **extractionVehicleTypes** (`array<ref string>`): 
+  - List of vehicle resource names used when selecting the extraction vehicle.
+
+### Extraction and Spawn Marker Configuration
+
+- **extractionMarkerPositions** (`array<ref string>`): 
+  - The names of the extraction markers.
+
+- **infantrySpawnPositions** (`array<ref string>`): 
+  - The names of the enemy infantry spawn markers.
+
+- **vehicleSpawnPositions** (`array<ref string>`): 
+  - The names of the enemy vehicle spawn markers.
+
+- **waypointPositionName** (`string`): 
+  - The name of the AI waypoint marker.
+
 ---
 
 Enjoy your survival experience in **DefendArland**—build, survive, and extract!
