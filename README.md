@@ -44,15 +44,12 @@ The `DefendManager` class is the heart of the gameplay. It manages the spawning 
 ## Installation
 
 ### Requirements:
-- **Arma Reforger** - This mod is designed for Arma Reforger and requires the base game to run.
-- **Conflict Gamemode** - Required for the building and arsenal mechanics used within the DefendArland gamemode.
+- **Arma Reforger Tools** - This mod is designed for Arma Reforger and requires the base game to run.
 
-### Steps to Install:
+### Steps to Play:
 
-1. Download or clone the repository to your local machine.
-2. Place the `DefendArland` mod folder into your Arma Reforger mods directory.
-3. Launch Arma Reforger and enable the **DefendArland** mod in your mod list.
-4. Host a local or dedicated server, or start a single-player game to begin playing the DefendArland gamemode.
+1. Launch Arma Reforger and search for and enable the **DefendArland** mod in the Mod Browser.
+2. Host a local or dedicated server to begin playing the DefendArland gamemode.
 
 ## Gameplay Walkthrough
 
@@ -97,6 +94,7 @@ The **DefendManager** class contains several configurable variables that control
 
 The following sections describe the key configuration variables that you can modify:
 
+<hr>
 
 ### General Configuration
 You can modify these variables directly within the `DefendManager` class to tailor the gameplay experience to your needs. Whether adjusting difficulty, game timing, or the behavior of AI enemies, the configuration options provide great flexibility in customizing the game mode.
