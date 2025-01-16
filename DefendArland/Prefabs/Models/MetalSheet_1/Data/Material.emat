@@ -1,0 +1,5 @@
+MatPBRBasic {
+ BCRMap "{85F47AC5524D1677}Prefabs/Models/MetalSheet_1/Data/BaseMap1.edds"
+ NMOMap "{B74273E07E390C20}Prefabs/Models/MetalSheet_1/Data/A Metalness Map.edds"
+ DetailNormalMap "{A04AED2713E38847}Prefabs/Models/MetalSheet_1/Data/A Roughness rusted 2.edds"
+}

@@ -1,0 +1,78 @@
+SCR_DestructibleEntity : "{ABE1EFC16D47A8C2}Prefabs/Structures/Core/Wall_MultiPhase_Base.et" {
+ ID "51E2F0F09703F07B"
+ components {
+  MeshObject "{56DE7C8DCD0F4E0A}" {
+   Object "{CBE612004765F191}Assets/Structures/Walls/Metal/MetalWall_01_3m.xob"
+  }
+  NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+   Enabled 0
+  }
+  RigidBody "{56DE7C8DDE282E03}" {
+   ResponseIndex "SmallDestructible"
+   ModelGeometry 1
+   Static 1
+  }
+ }
+ coords 5117.738 0.001 7074.204
+ placement slopelandcontact
+ MaxHealth 5000
+ "Explosive multiplier" 3
+ DamageReduction 100
+ FirstDestructionPhase SCR_BaseDestructionPhase "{5A18F297698A2425}" {
+  m_sPhaseModel "{CBE612004765F191}Assets/Structures/Walls/Metal/MetalWall_01_3m.xob"
+  m_aPhaseDestroySpawnObjects {
+   SCR_DebrisSpawnable "{645CB23191813A68}" {
+    m_vOffsetPosition 0 0.1 0
+    m_vOffsetRotation 10 0 0
+    m_ModelPrefabs {
+     "{E9386EBDF340466C}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_07_dst.xob" "{DF5F3BD5396B76DE}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_08_dst.xob" "{DAAAF812D2398C68}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_09_dst.xob"
+    }
+    m_eMaterialSoundType METAL_LIGHT
+   }
+   SCR_DebrisSpawnable "{645CB23191813A62}" {
+    m_vOffsetPosition 0 0.1 0
+    m_ModelPrefabs {
+     "{FEEF61A25E0BACB4}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_03_dst.xob" "{FB1AA265B5595602}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_02_dst.xob" "{F504E62D88AE59D8}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_01_dst.xob"
+    }
+    m_fMass 15
+    m_fRandomVelocityLinear 5
+    m_eMaterialSoundType ROCK_SMALL
+   }
+   SCR_ParticleSpawnable "{645CB23191813A7E}" {
+    m_vOffsetPosition 0 3 0
+    m_Particle "{71F42C3670B0AD04}Particles/Props/Dest_MetalWall.ptc"
+    m_bDirectional 0
+   }
+   SCR_DebrisSpawnable "{645CB23191813A70}" {
+    m_vOffsetPosition 0 0.1 0
+    m_vOffsetRotation 10 0 0
+    m_ModelPrefabs {
+     "{E7262AF5CEB749B6}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_04_dst.xob" "{E2D3E93225E5B300}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_05_dst.xob"
+    }
+    m_fMass 5
+    m_fRandomVelocityLinear 0.1
+    m_eMaterialSoundType METAL_POLE
+   }
+   SCR_DebrisSpawnable "{645CB23191813A73}" {
+    m_vOffsetRotation 10 0 0
+    m_ModelPrefabs {
+     "{D01BFB1F58BDF8F7}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_04.xob" "{D5EE38D8B3EF0241}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_05.xob" "{DBF07C908E180D9B}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_06.xob"
+    }
+    m_eMaterialSoundType METAL_LIGHT
+   }
+   SCR_DebrisSpawnable "{645CB23191813A0E}" {
+    m_vOffsetRotation 10 0 0
+    m_ModelPrefabs {
+     "{DE05BF57654AF72D}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_07.xob" "{C9D2B048C8011DF5}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_03.xob" "{CC27738F2353E743}Assets/Structures/Walls/Metal/Dst/TinWall_01_3m_dst_02.xob"
+    }
+    m_fMass 5
+    m_fRandomVelocityLinear 0.1
+    m_eMaterialSoundType METAL_POLE
+   }
+  }
+ }
+ LastDestructionPhase SCR_BaseDestructionPhase "{5A18F297606BF928}" {
+  m_sPhaseModel "{7A1F3955BEEABDE5}Assets/Structures/Walls/Metal/Dst/MetalWall_01_3m_D_00_dst.xob"
+ }
+ m_eMaterialSoundType BREAK_METAL
+}

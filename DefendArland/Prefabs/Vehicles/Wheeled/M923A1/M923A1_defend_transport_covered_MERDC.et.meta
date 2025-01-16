@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{8A5F4FBEB17B3070}Prefabs/Vehicles/Wheeled/M923A1/M923A1_defend_transport_covered_MERDC.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass PS5 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

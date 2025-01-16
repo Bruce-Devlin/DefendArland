@@ -1,0 +1,12 @@
+AttachToParent {
+ ID "645D240E3F6A64A8"
+ components {
+  MeshObject "{645D23050C2C939A}" {
+   Object "{4C9ADCFE646AE9B9}Prefabs/Models/MetalSheet_1/metalsheet.xob"
+  }
+ }
+ coords -0.959 2.216 1.191
+ angleY -176.978
+ scale 0.506
+ m_sParentName "Extraction"
+}

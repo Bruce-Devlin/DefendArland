@@ -43,9 +43,7 @@ modded class SCR_RespawnSystemComponent
 			{
 				DefendHelpers.Log("Respawned Player", "Player with the ID: " + id + " has been respawned");
 				GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
-			}
-			
-			GetGame().GetCallqueue().CallLater(dm.SendHUDUpdate, 1000, false, dm.currentWave, dm.GetNumberOfWaves(), dm.hud.timerTimeLeft, "", id);
+			}			
 		}
 	}
 	
@@ -101,15 +99,6 @@ modded class SCR_RespawnSystemComponent
 	{
 		SetHelpers();
 		
-		if (first)
-		{
-			if (!dm.hud.hasInitComplete())
-			{
-				dm.hud.Init(dm.uiHUDLayout, dm.debugMode);
-				dm.hud.ShowHUD(0,0,livesLeft);
-			}
-		}
-		
 		PlayerController controller = GetGame().GetPlayerController();
 		SetHelpers();
 			
@@ -123,10 +112,11 @@ modded class SCR_RespawnSystemComponent
 				if (first)
 				{
 					GetGame().GetCallqueue().CallLater(ShowIntro1, 5000, false, 10);
+					dm.hud.ShowHUD(0,0,0, customText:"STARTING GAME...");
 				}
 				else 
 				{
-					hint.ShowHint(livesLeft.ToString() + " lives left", "You've just been respawned, you have a few seconds of spawn protection which will prevent you from dying again immediately but be more careful as all players only have " + livesLeft + " lives left until the mission is failed.", 10);	
+					hint.ShowHint(livesLeft.ToString() + " lives left", "You've just been respawned, you have a few seconds of spawn protection which will prevent you from dying again immediately but be more careful as all players only have " + livesLeft + " lives left until the mission is failed.", 10, dm.localPlayerId, isDebug:dm.hintLogging);	
 				}
 			}	
 			else
@@ -140,7 +130,7 @@ modded class SCR_RespawnSystemComponent
 	protected void ShowIntro1(int secondsToDisplay)
 	{
 		SetHelpers();
-		hint.ShowHint("Prepare to defend.", "Soon russians will try to attack our position, they have us surrounded... Gear up and get ready to fight for our lives.", secondsToDisplay);	
+		hint.ShowHint("Prepare to defend.", "Soon russians will try to attack our position, they have us surrounded... Gear up and get ready to fight for our lives.", secondsToDisplay, dm.localPlayerId, isDebug:dm.hintLogging);	
 		GetGame().GetCallqueue().CallLater(ShowIntro2, secondsToDisplay * 1000, false, secondsToDisplay);
 	}
 	
@@ -148,11 +138,11 @@ modded class SCR_RespawnSystemComponent
 	{
 		if (dm.endlessMode)
 		{
-			hint.ShowHint("Survive Forever...", "We have to hold this position for as long as we can!");
+			hint.ShowHint("Survive Forever...", "We have to hold this position for as long as we can!", secondsToDisplay, dm.localPlayerId, isDebug:dm.hintLogging);
 		}
 		else
 		{
-			hint.ShowHint("Survive " + dm.numberOfWaves + " Waves...", "Backup is arriving soon, we just need to hold them off for a litte while longer!");
+			hint.ShowHint("Survive " + dm.GetNumberOfWaves() + " Waves...", "Backup is arriving soon, we just need to hold them off for a litte while longer!", secondsToDisplay, dm.localPlayerId, isDebug:dm.hintLogging);
 		}
 	}
 }

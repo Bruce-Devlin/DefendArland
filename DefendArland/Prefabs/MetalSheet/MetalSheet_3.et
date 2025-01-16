@@ -1,0 +1,10 @@
+GenericEntity {
+ ID "645D240E9075C59A"
+ components {
+  MeshObject "{645D240E6E1B629F}" {
+   Object "{757D7F2B4ACA0A30}Prefabs/Models/MetalSheet_3/metalsheet.xob"
+  }
+ }
+ coords 1.016 2.052 1.185
+ scale 0.53
+}

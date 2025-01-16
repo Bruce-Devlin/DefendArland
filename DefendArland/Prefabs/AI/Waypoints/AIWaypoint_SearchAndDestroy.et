@@ -1,0 +1,4 @@
+SCR_TimedWaypoint {
+ ID "50D6942848C89DA4"
+ CompletionRadius 150
+}

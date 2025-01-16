@@ -1,0 +1,27 @@
+AttachToParent {
+ ID "645D240C1528F3FC"
+ {
+  $grp AttachToParent : "{1E2B46FE461763D9}Prefabs/MetalSheet/MetalSheet_1.et" {
+   {
+    ID "645D240C1528C7DE"
+    components {
+     MeshObject "{645D23050C2C939A}" {
+      Object "{C8F6DE34096F60BD}Prefabs/Models/MetalSheet_2/metalsheet.xob"
+     }
+    }
+    angleY -1.934
+    scale 0.53
+   }
+   {
+    ID "645D240C1528F3FB"
+    components {
+     MeshObject "{645D23050C2C939A}" {
+      Object "{C8F6DE34096F60BD}Prefabs/Models/MetalSheet_2/metalsheet.xob"
+     }
+    }
+    angleY 178.066
+    scale 0.53
+   }
+  }
+ }
+}
