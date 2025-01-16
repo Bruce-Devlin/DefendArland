@@ -3985,8 +3985,9 @@ SCR_BaseGameMode GameMode_Defend {
      m_sSubtitleLostText "DEFEND ARLAND"
      m_sDescriptionText "The Russian have us surrounded, we need to defend our position!"
     }
-    m_TopRightTile SCR_DebriefingScreenBigImageContent "{6450D1B25D4DA678}" {
-     m_sContentImage "{29D8AD9BCEC17268}UI/Textures/MissionLoadingScreens/placeholder_1_UI.edds"
+    m_TopRightTile SCR_DebriefingScreenBigImageContent "{646134C666210C00}" {
+     m_sContentImage "{FA5953C4BF1BA215}Images/DefendImage1_Small.edds"
+     m_sBigImageLayout "{CDFD1562B1528AA9}UI/Layouts/Menus/DeployMenu/DebriefingScreenSmallImageTile.layout"
     }
     m_BottomLeftTile SCR_DebriefingScreenStatisticsContent "{6450D1B2C44E817E}" {
      m_sTitleText "STATS:"
@@ -4025,23 +4026,5 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
- serverLoopIntervalSeconds 1
- aiLoopIntervalSeconds 5
- numberOfWaves 5
- enemiesLeftToFinishWave 4
  numberOfEnemiesPerWave 3
- secondsBeforeReinforcements 60
- patrolWaypointType "{3AB6B883AF54D965}Prefabs/AI/Waypoints/AIWaypoint_Defend_ConflictBaseTeamBackup.et"
- extractionVehicleTypes {
-  "{8A5F4FBEB17B3070}Prefabs/Vehicles/Wheeled/M923A1/M923A1_defend_transport_covered_MERDC.et"
- }
- extractionMarkerPositions {
-  "us_extraction_1"
- }
- infantrySpawnPositions {
-  "ussr_spawn_1" "ussr_spawn_2" "ussr_spawn_3" "ussr_spawn_4" "ussr_spawn_5" "ussr_spawn_6" "ussr_spawn_7" "ussr_spawn_8" "ussr_spawn_9"
- }
- vehicleSpawnPositions {
-  "ussr_veh_spawn_1" "ussr_veh_spawn_2" "ussr_veh_spawn_3" "ussr_veh_spawn_4"
- }
 }

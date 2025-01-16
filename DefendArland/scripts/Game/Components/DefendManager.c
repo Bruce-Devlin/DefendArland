@@ -1537,6 +1537,8 @@ class DefendManager: GenericEntity
 	const static string WB_DEFEND_DEBUG = "Defend | Debug";
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug mode toggle, this is used to prevent game master removal. It is also required for used debug starting wave.")]
 	bool debugMode;
+	[Attribute(defvalue: "1", category: WB_DEFEND_DEBUG, desc: "This will prevent the local player from taking any damage. (requires debugMode = true)")]
+	bool allowPlayerDamage;
 	[Attribute(defvalue: "0", UIWidgets.Slider, category: WB_DEFEND_DEBUG, "0 999 1", desc: "This is will start the wave to start in. (requires debugMode = true | default = 0)")]
 	int debugStartingWave;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "Should log the server loop?")]

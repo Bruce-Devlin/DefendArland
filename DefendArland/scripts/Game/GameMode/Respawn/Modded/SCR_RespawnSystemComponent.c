@@ -8,7 +8,7 @@ modded class SCR_RespawnSystemComponent
 		if (dm == null) dm = DefendHelpers.Get();
 		if (dm != null)
 		{
-			hint = dm.hint;
+			if (hint == null) hint = dm.hint;
 			if (hint == null)
 			{
 				DefendHelpers.Log("ERROR", "Was unable to find hint helpers!");
@@ -49,22 +49,17 @@ modded class SCR_RespawnSystemComponent
 	
 	override bool PreparePlayerEntity_S(SCR_SpawnRequestComponent requestComponent, SCR_SpawnHandlerComponent handlerComponent, SCR_SpawnData data, IEntity entity)
 	{
-		DamageManagerComponent damageManager = DamageManagerComponent.Cast(entity.FindComponent(DamageManagerComponent));
-		if (damageManager != null)
-		{
-			DefendHelpers.Log("Spawn Protection", "Spawn protecting entity");
-			damageManager.EnableDamageHandling(false);
-			GetGame().GetCallqueue().CallLater(DisableSafeSpawn, 20000, false, damageManager);
-		}
+		DefendHelpers.Log("Spawn Protection", "Spawn protecting entity");
+		SetHelpers();
+		
+		if (dm.debugMode && !dm.allowPlayerDamage)
+			GetGame().GetCallqueue().Call(DefendHelpers.PreventCharacterDamage, entity, -1, 0);
+		else GetGame().GetCallqueue().Call(DefendHelpers.PreventCharacterDamage, entity, 20, 0);
 		
 		return super.PreparePlayerEntity_S(requestComponent, handlerComponent, data, entity);
 	}
 	
-	protected void DisableSafeSpawn(DamageManagerComponent damageManager)
-	{
-		DefendHelpers.Log("Done Spawn Protection", "Done spawn protecting entity");
-		damageManager.EnableDamageHandling(true);
-	}
+	
 	
 	override void OnPlayerRegistered_S(int playerId)
 	{

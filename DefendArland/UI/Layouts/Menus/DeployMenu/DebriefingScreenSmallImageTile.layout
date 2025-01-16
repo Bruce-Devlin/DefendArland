@@ -1,0 +1,24 @@
+VerticalLayoutWidgetClass {
+ Name "rootFrame"
+ Slot AlignableSlot "{5CE87A33470B7EBD}" {
+  HorizontalAlign 3
+  VerticalAlign 0
+ }
+ {
+  ScaleWidgetClass "{646134C6C1F30BF8}" {
+   Name "Scale0"
+   Slot LayoutSlot "{60DC8135E598E612}" {
+   }
+   {
+    ImageWidgetClass "{646134C6C1F30BF6}" {
+     Name "ImageWidget"
+     Slot AlignableSlot "{60DC8135E5EF572F}" {
+     }
+     Texture "{FA5953C4BF1BA215}Images/DefendImage1_Small.edds"
+     Size 480 393
+     Tiling None
+    }
+   }
+  }
+ }
+}

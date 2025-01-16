@@ -5,16 +5,18 @@ DefendManager {
   }
  }
  coords 1408.644 40.8 2355.679
- serverLoopIntervalSeconds 3
- aiLoopIntervalSeconds 20
+ serverLoopIntervalSeconds 1
+ aiLoopIntervalSeconds 5
  playerLoopIntervalSeconds 3
+ numberOfWaves 5
  balenceEnemies 1
+ enemiesLeftToFinishWave 4
  allowVehicles 1
  oddsOfVehicleSpawn 10
  numberOfEnemiesPerWave 2
  secondsBeforeStarting 10
  secondsBeforeFirstWaveToPrepare 160
- secondsBeforeReinforcements 160
+ secondsBeforeReinforcements 60
  secondsUntilExtractionLeaves 160
  spawnGroupsInf {
   "{0CCDB10F3701A4E3}Prefabs/Groups/OPFOR/Spetsnaz/DefendGroup_USSR_Spetsnaz_Squad.et" "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
@@ -22,5 +24,17 @@ DefendManager {
  spawnGroupsVeh {
   "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
  }
- patrolWaypointType "{06B1B14B6DE3C983}Prefabs/AI/Waypoints/AIWaypoint_Defend_ConflictBaseTeamPatrol.et"
+ patrolWaypointType "{3AB6B883AF54D965}Prefabs/AI/Waypoints/AIWaypoint_Defend_ConflictBaseTeamBackup.et"
+ extractionVehicleTypes {
+  "{8A5F4FBEB17B3070}Prefabs/Vehicles/Wheeled/M923A1/M923A1_defend_transport_covered_MERDC.et"
+ }
+ extractionMarkerPositions {
+  "us_extraction_1"
+ }
+ infantrySpawnPositions {
+  "ussr_spawn_1" "ussr_spawn_2" "ussr_spawn_3" "ussr_spawn_4" "ussr_spawn_5" "ussr_spawn_6" "ussr_spawn_7" "ussr_spawn_8" "ussr_spawn_9"
+ }
+ vehicleSpawnPositions {
+  "ussr_veh_spawn_1" "ussr_veh_spawn_2" "ussr_veh_spawn_3" "ussr_veh_spawn_4"
+ }
 }

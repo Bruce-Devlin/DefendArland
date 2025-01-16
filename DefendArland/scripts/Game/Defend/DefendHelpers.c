@@ -1,5 +1,31 @@
 class DefendHelpers
 {	
+	static void PreventCharacterDamage(IEntity entity, int seconds = -1, int initialSeconds = 0)
+	{
+		GetGame().GetCallqueue().Remove(PreventCharacterDamage);
+
+		if (initialSeconds == 0 && seconds != -1)
+		{
+			initialSeconds = seconds;
+			seconds = 0;
+		}
+				
+		DamageManagerComponent damageManager = DamageManagerComponent.Cast(entity.FindComponent(DamageManagerComponent));
+		if (damageManager != null)
+		{
+			damageManager.EnableDamageHandling(false);
+			
+			if (seconds == -1) GetGame().GetCallqueue().CallLater(PreventCharacterDamage, 1 * 1000, false, entity, seconds, initialSeconds);
+			else
+			{
+				if (seconds < initialSeconds)
+					GetGame().GetCallqueue().CallLater(PreventCharacterDamage, 1 * 1000, false, entity, seconds+1, initialSeconds);
+				else damageManager.EnableDamageHandling(true);
+			}
+		}
+		else Log("ERROR", "Couldn't find Damage Manager Component in entity: " + entity.GetName());
+	}
+	
 	static IEntity FindNearestEntity(array<IEntity> entities, vector point, out float distance)
 	{
 		IEntity closestObj = null;

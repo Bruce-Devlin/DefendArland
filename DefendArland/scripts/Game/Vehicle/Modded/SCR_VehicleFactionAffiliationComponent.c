@@ -1,6 +1,6 @@
 modded class SCR_VehicleFactionAffiliationComponent
 {
-	protected array<IEntity> m_aOccupants;
+	protected ref array<IEntity> m_aOccupants;
 
 	int CountTotalOccupants()
 	{
@@ -22,6 +22,9 @@ modded class SCR_VehicleFactionAffiliationComponent
 		SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(occupant);
 		if(!character)
 			return;
+		
+		if (m_aOccupants == null) 
+			m_aOccupants = {};
 		
 		if (!m_aOccupants.Contains(occupant)) m_aOccupants.Insert(occupant);
 		super.OnCompartmentEntered(vehicle, occupant, compartment, move);
