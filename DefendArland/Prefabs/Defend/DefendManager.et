@@ -15,7 +15,7 @@ DefendManager {
  oddsOfVehicleSpawn 10
  numberOfEnemiesPerWave 2
  secondsBeforeStarting 10
- secondsBeforeFirstWaveToPrepare 160
+ secondsBeforeFirstWaveToPrepare 200
  secondsBeforeReinforcements 60
  secondsUntilExtractionLeaves 160
  spawnGroupsInf {
