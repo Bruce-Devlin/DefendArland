@@ -1,6 +1,9 @@
 Vehicle : "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et" {
  ID "0000000000000001"
  components {
+  ForceEntityName "{6462C8343982E723}" {
+   entityName "Extraction"
+  }
   MeshObject "{51DAA09FEFBFC0E7}" {
    Materials {
     MaterialAssignClass "{645CB230D276173F}" {
@@ -27,32 +30,4 @@ Vehicle : "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_co
   }
  }
  Flags 1091
- {
-  $grp AttachToParent : "{1E2B46FE461763D9}Prefabs/MetalSheet/MetalSheet_1.et" {
-   {
-    ID "645F1562BC66AE4A"
-    coords 0.444 2.228 1.685
-    angleY -90
-    scale 0.482
-   }
-   {
-    ID "645F1562DB35CC65"
-    coords 0.942 2.227 1.181
-    angleY -0.363
-    scale 0.506
-   }
-   {
-    ID "645F1562E9255FA8"
-    coords -0.959 2.216 1.191
-    angleY -176.978
-    scale 0.506
-   }
-   {
-    ID "645F1562F045F6D1"
-    coords -0.437 2.198 1.664
-    angleY -90.363
-    scale 0.506
-   }
-  }
- }
 }

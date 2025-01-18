@@ -1,5 +1,36 @@
 class DefendHelpers
 {	
+	static string GenerateUID(string prefix)
+	{
+		string newUID = prefix + "_" + DefendHelpers.GenerateRandom(100000, 999999);
+		return newUID;
+	}
+	
+	static bool IsPlayerSaved(string playerUID)
+	{
+	
+	}
+	
+	static void SaveLocalPlayerUID(string playerUID)
+	{
+		
+	}
+	
+	static string LoadLocalPlayerUID()
+	{
+		
+	}
+	
+	static void SavePlayer(DefendPlayer player)
+	{
+	
+	}
+	
+	static DefendPlayer LoadPlayer(string playerUID)
+	{
+	
+	}
+	
 	static void PreventCharacterDamage(IEntity entity, int seconds = -1, int initialSeconds = 0)
 	{
 		GetGame().GetCallqueue().Remove(PreventCharacterDamage);

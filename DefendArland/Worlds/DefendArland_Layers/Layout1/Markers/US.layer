@@ -16,10 +16,10 @@ SCR_SpawnPoint SpawnPoint_US_1 : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoi
 }
 $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
  us_extraction_1 {
-  coords 1391.898 36.115 2373.27
-  angleX 1.255
-  angleY -37.453
-  angleZ 0.166
+  coords 1297.001 39.78 2329.031
+  angleX 0.595
+  angleY -37.513
+  angleZ 5.172
  }
  us_extraction_source {
   coords 1941.015 58.984 2306.7

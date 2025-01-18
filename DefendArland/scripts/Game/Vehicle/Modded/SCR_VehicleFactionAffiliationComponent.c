@@ -1,15 +1,17 @@
 modded class SCR_VehicleFactionAffiliationComponent
 {
-	protected ref array<IEntity> m_aOccupants;
+	protected ref array<IEntity> m_aOccupants = {};
 
 	int CountTotalOccupants()
 	{
-		return super.m_iOccupantCount;
+		if (!super.IsVehicleOccupied()) return 0;
+		else return m_iOccupantCount;
 	}
 	
 	int CountAliveOccupants()
 	{
-		return super.m_iAliveOccupantCount;
+		if (!m_iAliveOccupantCount) return 0;
+		else return m_iAliveOccupantCount;
 	}
 	
 	array<IEntity> GetAllOccupants()
@@ -39,7 +41,4 @@ modded class SCR_VehicleFactionAffiliationComponent
 		
 		super.OnCompartmentLeft(vehicle, occupant, compartment, move);
 	}
-	
-	
-
 }

@@ -5,10 +5,10 @@ $grp SCR_DestructibleEntity : "{43EB690D46E15669}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1393.972 -0.07 2350.188
-  angleX -3.315
-  angleY 90.57
-  angleZ -0.044
+  coords 1394.139 0.009 2350.13
+  angleX -0.905
+  angleY 90.607
+  angleZ 0.886
   Flags 525315
  }
  {
@@ -34,10 +34,8 @@ $grp SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1393.915 -0.056 2344.357
-  angleX -3.576
+  coords 1394.082 0.004 2344.297
   angleY 90.493
-  angleZ -0.031
   Flags 525315
  }
  {
@@ -183,15 +181,6 @@ $grp SCR_DestructibleEntity : "{B0B51F4725BDE9A2}Prefabs/Structures/Walls/Concre
     Enabled 0
    }
   }
-  coords 1399.957 0.008 2392.775
-  angleY 32.185
- }
- {
-  components {
-   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
-    Enabled 0
-   }
-  }
   coords 1390.819 -0.041 2397.229
   angleY 110.416
  }
@@ -205,15 +194,6 @@ $grp SCR_DestructibleEntity : "{B0B51F4725BDE9A2}Prefabs/Structures/Walls/Concre
   angleX 0.051
   angleY -93.276
   angleZ 0.894
- }
- {
-  components {
-   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
-    Enabled 0
-   }
-  }
-  coords 1412.948 0.001 2371.067
-  angleY -38.958
  }
  {
   components {

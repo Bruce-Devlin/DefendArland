@@ -8,5 +8,5 @@ AttachToParent {
  coords -0.959 2.216 1.191
  angleY -176.978
  scale 0.506
- m_sParentName "Extraction"
+ m_bMoveWithTarget 1
 }

@@ -17,7 +17,7 @@ class DefendManager: GenericEntity
 	        player.AddDeaths(1);
 	        livesLeft = (livesLeft - 1);
 	    
-	        DefendHelpers.Log("Player died", "Player " + player.name + " (" + player.id.ToString() + ") died (total deaths: " + player.deaths + ", lives remaining: " + livesLeft + ")");
+	        DefendHelpers.Log("Player died", "Player " + player.GetName() + " (" + player.GetID().ToString() + ") died (total deaths: " + player.GetDeaths() + ", lives remaining: " + livesLeft + ")");
 	    }
 	}
 	
@@ -33,7 +33,7 @@ class DefendManager: GenericEntity
 	        DefendPlayer player = GetPlayer(killerID);
 	        player.AddKills(kills);
 	    
-	        DefendHelpers.Log("Player got a kill", "Player " + player.name + " (" + player.id.ToString() + ") killed someone (total kills: " + player.kills + " )");
+	        DefendHelpers.Log("Player got a kill", "Player " + player.GetName() + " (" + player.GetID().ToString() + ") killed someone (total kills: " + player.GetKills() + " )");
 	    }
 	}
 	
@@ -57,9 +57,9 @@ class DefendManager: GenericEntity
 	    if (DefendHelpers.IsHost())
 	    {
 	        DefendPlayer player = GetPlayer(playerID);
-	        DefendHelpers.Log("Player State Change", "Player " + player.name + " is alive: " + alive + " (oldState: " + player.alive + ")");
+	        DefendHelpers.Log("Player State Change", "Player " + player.GetName() + " is alive: " + alive + " (oldState: " + player.IsAlive() + ")");
 	
-	        player.alive = alive;
+	        player.SetAlive(alive);
 	    }
 	}
 	
@@ -78,6 +78,12 @@ class DefendManager: GenericEntity
 	    }
 	}
 	
+	void AddPlayerXP(int playerId, int xpAmountToAdd)
+	{
+		DefendPlayer player = GetPlayer(playerId);
+		player.AddXP(xpAmountToAdd);
+	}
+	
 	//! Returns an array of all players that are currently alive.
 	//! -------------------------------------
 	//! Returns:
@@ -88,7 +94,7 @@ class DefendManager: GenericEntity
 	    for (int i; i < players.Count(); i++)
 	    {
 	        DefendPlayer _currPlayer = players[i];
-	        if (_currPlayer.alive) alivePlayers.Insert(players[i]);
+	        if (_currPlayer.IsAlive()) alivePlayers.Insert(players[i]);
 	    }
 	    return alivePlayers;
 	}
@@ -99,7 +105,7 @@ class DefendManager: GenericEntity
 	//! player - The DefendPlayer object representing the player to be added.
 	void AddPlayer(DefendPlayer player)
 	{
-	    DefendHelpers.Log("Player joined", "Player " + player.name + " joined (" + player.id + ")");
+	    DefendHelpers.Log("Player joined", "Player " + player.GetName() + " joined (" + player.GetID() + ")");
 	    players.Insert(player);
 	}
 	
@@ -112,12 +118,12 @@ class DefendManager: GenericEntity
 	    for (int i; i < players.Count(); i++)
 	    {
 	        DefendPlayer _currPlayer = players[i];
-	        if (_currPlayer.id == playerID) 
+	        if (_currPlayer.GetID() == playerID) 
 	        {
 	            players.Remove(i);
 	            activePlayerIds.Remove(i);
 	            
-	            DefendHelpers.Log("Player left", "Player " + _currPlayer.name + " left (" + _currPlayer.id + ")");
+	            DefendHelpers.Log("Player left", "Player " + _currPlayer.GetName() + " left (" + _currPlayer.GetID() + ")");
 	            DefendHelpers.Log("PlayerCount", "Players: " + players.Count() + " | Registered: " + activePlayerIds.Count());
 	        }
 	    }
@@ -135,7 +141,7 @@ class DefendManager: GenericEntity
 	    for (int i; i < players.Count(); i++)
 	    {
 	        DefendPlayer _currPlayer = players[i];
-	        if (_currPlayer.id == id) playerToReturn = players[i];
+	        if (_currPlayer.GetID() == id) playerToReturn = players[i];
 	    }
 	    return playerToReturn;
 	}
@@ -276,7 +282,7 @@ class DefendManager: GenericEntity
 	            // If the extraction point is within 20 meters, mark it as available
 	            else if (distance < 20)
 	            {
-	                SendHint("Extraction Available!", "The extraction truck just pulled up, get on it now!");
+	                SendHint("Extraction Available!", "The extraction truck just pulled up to the west of the airfield, get on it now or get left behind!");
 	                array<PlayerManager> currPlayers = {};
 	                foreach (DefendPlayer player : players)
 	                {
@@ -372,6 +378,8 @@ class DefendManager: GenericEntity
 	
 	    // Generate and validate the resource necessary for spawning the forced movement waypoint
 	    Resource resource = DefendHelpers.GenerateAndValidateResource(forcedMoveWaypointName);
+		
+		int playersExtracted = (extractionGroup.GetVehicle().GetFactionAffiliation().CountTotalOccupants() - 2);
 	    
 	    // Log an error if the resource couldn't be loaded
 	    if (resource == null)
@@ -392,9 +400,20 @@ class DefendManager: GenericEntity
 	    
 	    // Add the spawned waypoint to the AI group's waypoints (to direct them to the extraction point)
 	    extractionGroup.GetGroup().AddWaypoint(waypoint);
-	
-	    // After initiating the extraction, trigger the end game process with a victory condition
-	    GetGame().GetCallqueue().CallLater(EndGame, 5 * 1000, false, EGameOverTypes.VICTORY, 1);
+		
+		DefendHelpers.Log("Extracting", "Extracting with " + playersExtracted + " players onboard");
+		
+		if (playersExtracted > 0)
+		{
+			// After initiating the extraction, trigger the end game process with a victory condition
+	    	GetGame().GetCallqueue().CallLater(EndGame, 5 * 1000, false, EGameOverTypes.VICTORY, 1);
+		}
+		else
+		{
+			// After initiating the extraction, trigger the end game process with a victory condition
+	    	GetGame().GetCallqueue().CallLater(EndGame, 5 * 1000, false, EGameOverTypes.NEUTRAL, 1);
+		}
+	    
 	}
 
 	
@@ -418,7 +437,7 @@ class DefendManager: GenericEntity
 	    foreach (DefendPlayer player : GetAlivePlayers())
 	    {
 	        // Get the controlled entity of the player (i.e., the player character)
-	        IEntity playerEntity = GetGame().GetPlayerManager().GetPlayerControlledEntity(player.id);
+	        IEntity playerEntity = GetGame().GetPlayerManager().GetPlayerControlledEntity(player.GetID());
 	        
 	        // Continue if the player entity exists
 	        if (playerEntity != null)
@@ -437,7 +456,7 @@ class DefendManager: GenericEntity
 	            {
 	                // Set the player as a deserter
 	                player.SetDeserter(true);
-	                DefendHelpers.Log("Player Deserting", "Player " + player.name + " #" + player.id + " is deserting!");
+	                DefendHelpers.Log("Player Deserting", "Player " + player.GetName() + " #" + player.GetID() + " is deserting!");
 	                
 	                // Get the player character's object for further manipulation
 	                SCR_ChimeraCharacter scrChar = SCR_ChimeraCharacter.Cast(playerEntity);
@@ -452,7 +471,7 @@ class DefendManager: GenericEntity
 	                        // If the player has exceeded the warning threshold, execute the player for desertion
 	                        if (player.GetDeserterWarnings() > numberOfWarningsForDeserters)
 	                        {
-	                            SendHint("Deserter!", "You have left the area of operation, this will not be tolerated and you have been executed.", serverLoopIntervalSeconds, player.id);
+	                            SendHint("Deserter!", "You have left the area of operation, this will not be tolerated and you have been executed.", serverLoopIntervalSeconds, playerId:player.GetID());
 	                            charController.ForceDeath();
 	                        }
 	                        // Otherwise, warn the player and inflict health loss for desertion
@@ -460,7 +479,7 @@ class DefendManager: GenericEntity
 	                        {
 	                            SendHint("Deserting! (warning " + player.GetDeserterWarnings().ToString() + "/" + numberOfWarningsForDeserters.ToString() + ")", 
 	                                      "You have left the area of operation, this will not be tolerated and you're currently losing health!", 
-	                                      serverLoopIntervalSeconds, player.id);
+	                                      serverLoopIntervalSeconds, player.GetID());
 	                            player.AddDeserterWarning();
 	                        }
 	                    }
@@ -474,7 +493,7 @@ class DefendManager: GenericEntity
 	            // If the player is near the boundary but not fully outside, give them a warning
 	            else if (myDistanceToBase > (distanceToPunishDeserters - 10) && myDistanceToExtraction > (distanceToPunishDeserters - 10))
 	            {
-	                SendHint("Where are you going?", "You're leaving the area of operation turn back now or be labeled a deserter!", serverLoopIntervalSeconds, player.id);
+	                SendHint("Where are you going?", "You're leaving the area of operation turn back now or be labeled a deserter!", serverLoopIntervalSeconds, player.GetID());
 	                player.SetDeserter(false);  // Ensure the player is not marked as a deserter if they are close to the boundary
 	            }
 	            else
@@ -846,8 +865,9 @@ class DefendManager: GenericEntity
 	//! secondsToShow - The number of seconds to display the hint (optional, default 10).
 	//! showTimer - Whether to show a countdown timer (optional, default true).
 	//! playerId - The ID of the player to send the hint to (optional, default 0).
-	void SendHint(string header, string message, int secondsToShow = 10, bool showTimer = true, int playerId = 0)
+	void SendHint(string header, string message, int secondsToShow = 10, int playerId = 0)
 	{
+		bool showTimer = true;
 	    if (rpcLogging) DefendHelpers.Log("Sending Hint", "Sending hint to: " + playerId + " | " + header + " | " + message + " | " + secondsToShow + " secs");
 	    if (DefendHelpers.IsHost()) hint.ShowHint(header, message, secondsToShow, showTimer, isDebug:hintLogging);
 	    
@@ -954,7 +974,7 @@ class DefendManager: GenericEntity
 	    for (int enemy; enemy < maxEnemies; enemy++)
 	    {
 	        DefendHelpers.Log("Enemy " + (enemy+1) + "/" + maxEnemies, "Spawned enemy " + (enemy+1) + " of "  + maxEnemies + ".");
-	        bool isVeh = (DefendHelpers.GenerateRandom(1,oddsOfVehicleSpawn) == 1);
+	        bool isVeh = ((DefendHelpers.GenerateRandom(1,oddsOfVehicleSpawn)) == oddsOfVehicleSpawn);
 	        if (allowVehicles)
 	        {
 	            DefendHelpers.Log("Enemy Is Vehicle: ", isVeh.ToString());
@@ -1108,7 +1128,6 @@ class DefendManager: GenericEntity
 	    
 	    vehicle = Vehicle.Cast(GetGame().SpawnEntityPrefab(resource, null, DefendHelpers.GenerateSpawnParamaters(spawnAt.GetOrigin())));
 	    IEntity vehEntity = vehicle;
-		vehEntity.SetName("Extraction");
 	    vehEntity.SetYawPitchRoll(spawnAt.GetYawPitchRoll());
 		
 	    SCR_AIGroup group = SpawnExtractionInfantry("{958039B857396B7B}Prefabs/Groups/BLUFOR/Group_US_MachineGunTeam.et", spawnAt);
@@ -1226,7 +1245,7 @@ class DefendManager: GenericEntity
 		if ((aliveAI <= enemiesLeftToFinishWave) && (activeAIVehicles.Count() <= 0))
 		{
 			DefendHelpers.Log("Enough AI are dead", "Enough AI have been killed for them to retreat.");
-			SendHint("Enemy is retreating", "They seem to be retreating for now");
+			SendHint("Enemy is retreating", "They seem to be retreating for now, be careful as they're still dangerous!");
 			
 			GetGame().GetCallqueue().Call(RetreatWave);
 			GetGame().GetCallqueue().CallLater(MidWaveTimerTick, 10000);

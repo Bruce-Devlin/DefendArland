@@ -14,8 +14,7 @@ modded class SCR_BaseGameMode: SCR_EditorBaseEntity
 
 		DefendHelpers.Log("Player Connected!", "Player id: " + playerId + " connected.");
 		DefendPlayer newPlayer = new DefendPlayer();
-		newPlayer.name = GetGame().GetPlayerManager().GetPlayerName(playerId);
-		newPlayer.id = playerId;
+		newPlayer.Create(playerId);
 		dm.AddPlayer(newPlayer);
 	}
 
