@@ -1772,6 +1772,7 @@ SCR_BaseGameMode GameMode_Defend {
   SCR_EditorSettingsEntity {
    m_EditorManagerPrefab "{788933FFDC706A68}Prefabs/Editor/EditorManager.et"
    m_bOverrideBaseModes 1
+   m_BaseModes 76
    m_SkipStreamingRules {
     2
    }
@@ -1780,6 +1781,8 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
+ forcedLayoutName "Layout3"
+ debugStartingWave 5
  numberOfLives 2
  secondsBeforeFirstWaveToPrepare 10
 }

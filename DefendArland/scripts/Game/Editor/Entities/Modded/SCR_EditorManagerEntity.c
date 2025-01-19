@@ -3,15 +3,21 @@ modded class SCR_EditorManagerEntity
 	override void Open(bool showErrorNotification = true)
 	{
 		DefendManager dm = DefendHelpers.Get();
-		if (dm.CanBuild())
+		if (dm != null)
 		{
-			super.Open(showErrorNotification);
+			IEntity aliveEntity = IEntity.Cast(GetGame().GetPlayerController().GetControlledEntity());
+			if (dm.CanBuild() || !dm.localPlayerAlive)
+			{
+				super.Open(showErrorNotification);
+			}
+			else
+			{
+				if (showErrorNotification)
+					SCR_NotificationsComponent.SendToPlayer(GetPlayerID(), ENotification.EDITOR_CANNOT_OPEN);
+				return;
+			}
 		}
-		else
-		{
-			if (showErrorNotification)
-				SCR_NotificationsComponent.SendToPlayer(GetPlayerID(), ENotification.EDITOR_CANNOT_OPEN);
-			return;
-		}
+		else super.Open(showErrorNotification);
+		
 	}
 }

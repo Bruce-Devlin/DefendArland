@@ -106,6 +106,7 @@ modded class SCR_RespawnSystemComponent
 			
 			if (isMe)
 			{
+				dm.localPlayerAlive = true;
 				if (first)
 				{
 					GetGame().GetCallqueue().CallLater(ShowIntro1, 5000, false, 10);

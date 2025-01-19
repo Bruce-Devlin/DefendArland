@@ -827,12 +827,12 @@ class DefendManager: GenericEntity
 	//! -------------------------------------
 	//! Parameters:
 	//! allowed - A boolean indicating if building should be allowed (true) or disallowed (false).
-	void SendAllowBuilding(bool allowed)
+	void SendAllowBuilding(bool allowed, int playerId = 0)
 	{
 	    if (rpcLogging) DefendHelpers.Log("Sending Allow Building", "Sending Allow Building to: " + allowed);
 	    if (DefendHelpers.IsHost()) AllowBuilding(allowed);
 	
-	    Rpc(RpcDo_AllowBuilding, allowed);
+	    Rpc(RpcDo_AllowBuilding, allowed, playerId);
 	}
 	
 	//! RPC function that handles the reception of the "Allow Building" request
@@ -840,10 +840,10 @@ class DefendManager: GenericEntity
 	//! Parameters:
 	//! allowed - A boolean indicating if building should be allowed (true) or disallowed (false).
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]	
-	protected void RpcDo_AllowBuilding(bool allowed) 
+	protected void RpcDo_AllowBuilding(bool allowed, int playerId) 
 	{
 	    if (rpcLogging) DefendHelpers.Log("RpcDo: Allow Building", "Set allow building to " + allowed);
-	    AllowBuilding(allowed);
+	    if (playerId == 0 || playerId == localPlayerId) AllowBuilding(allowed);
 	}
 	
 	//! Allows or disallows building and handles related game UI updates
@@ -860,7 +860,7 @@ class DefendManager: GenericEntity
 	
 	        if (editor != null)
 	        {
-	            if (editor.IsOpened())
+	            if (editor.IsOpened() && !allowed)
 	            {
 	                if (!CanBuild()) 
 	                {
@@ -1153,7 +1153,7 @@ class DefendManager: GenericEntity
 		string forcedMoveWaypointName = "{06E1B6EBD480C6E0}Prefabs/AI/Waypoints/AIWaypoint_ForcedMove.et";
 		
 		string randomExtractionVeh = extractionVehicleTypes[DefendHelpers.GenerateRandom(0, extractionVehicleTypes.Count()-1)];		
-		string randomExtractionPos = extractionMarkerPositions[DefendHelpers.GenerateRandom(0, extractionVehicleTypes.Count()-1)];
+		string randomExtractionPos = extractionMarkerPositions[DefendHelpers.GenerateRandom(0, extractionMarkerPositions.Count()-1)];
 		
 		DefendHelpers.Log("Extraction Location Confirmed", "Will extract to: " + randomExtractionPos + " using " + randomExtractionVeh);
 		
@@ -1572,6 +1572,7 @@ class DefendManager: GenericEntity
 	bool lastLife = false;
 	protected bool waitingForPlayers = true; // Indicates whether the game is waiting for players to join.
 	int localPlayerId = 0; // The Player ID of the local player.
+	bool localPlayerAlive = false;
 	protected bool isHost = false; // Indicates whether the local player is the host of the game.
 	bool localPlayerInitComplete = false; // Flag indicating whether the local player has completed initialization.
 	bool serverPlayerInitComplete = false; // Flag indicating whether the server has completed initialization for the player.

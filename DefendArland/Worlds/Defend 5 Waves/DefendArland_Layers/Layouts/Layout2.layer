@@ -114,7 +114,7 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleY 62.645
   angleZ -0.795
  }
- Layout2_us_extraction {
+ Layout2_us_extraction_1 {
   coords 1296.51 38 2868.153
   angleY -107.188
  }
