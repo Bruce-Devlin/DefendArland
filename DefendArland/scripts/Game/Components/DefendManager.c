@@ -15,15 +15,10 @@ class DefendManager: GenericEntity
 	    {
 	        DefendPlayer player = GetPlayer(deadID);
 	        player.AddDeaths(1);
-			
-			if (livesLeft == 0)
-			{
-				EndGame(EGameOverTypes.LOOSE, 1);
-			}
-			else livesLeft = (livesLeft - 1);
-	    
+			SetPlayerState(player.GetID(), false);
+				    
 	        DefendHelpers.Log("Player died", "Player " + player.GetName() + " (" + player.GetID().ToString() + ") died (total deaths: " + player.GetDeaths() + ", lives remaining: " + livesLeft + ")");
-	    }
+		}
 	}
 	
 	//! Registers a player's kill, updates their kill count.
@@ -209,7 +204,7 @@ class DefendManager: GenericEntity
 			layoutToUse = forcedLayoutName;
 		else
 		{
-			int maxOptions = (layoutLayerNames.Count() - 1);
+			int maxOptions = layoutLayerNames.Count();
 			int chosen = DefendHelpers.GenerateRandom(0, maxOptions);
 			DefendHelpers.Log("Picking Layout", "Options: " + (maxOptions+1) + " | Picked: " + chosen);
 			layoutToUse = layoutLayerNames[chosen];
@@ -304,8 +299,16 @@ class DefendManager: GenericEntity
 	        // Check if player lives have been exhausted, trigger the game over condition if so
 	        if (livesLeft < 1)
 	        {
-				SendHint("No more respawns left", "We've ran out of team respawns, you will no longer be able to respawn and if all players die we will fail our mission.");
-				primaryLayoutSpawn.SetSpawnPointEnabled_S(false);
+				if (GetAlivePlayers().Count() < 1)
+				{
+					EndGame(EGameOverTypes.LOOSE, 1);
+				}
+				else if (!lastLife)
+				{
+					lastLife = true;
+					SendHint("No More respawns remaining", "We've ran out of team respawns, if all remaining players die we will fail the mission!");
+					primaryLayoutSpawn.SetSpawnPointEnabled_S(false);
+				}
 	        }
 	
 	        // If AI groups are active, check their status periodically
@@ -1030,7 +1033,7 @@ class DefendManager: GenericEntity
 	    for (int enemy; enemy < maxEnemies; enemy++)
 	    {
 	        DefendHelpers.Log("Enemy " + (enemy+1) + "/" + maxEnemies, "Spawned enemy " + (enemy+1) + " of "  + maxEnemies + ".");
-	        bool isVeh = ((DefendHelpers.GenerateRandom(1,oddsOfVehicleSpawn)) == oddsOfVehicleSpawn);
+	        bool isVeh = ((DefendHelpers.GenerateRandom(1,(oddsOfVehicleSpawn+1))) == oddsOfVehicleSpawn);
 	        if (allowVehicles)
 	        {
 	            DefendHelpers.Log("Enemy Is Vehicle: ", isVeh.ToString());
@@ -1566,6 +1569,7 @@ class DefendManager: GenericEntity
 	SCR_SpawnPoint primaryLayoutSpawn;
 	int currentWave = 0;  // The current wave of enemies or events.
 	int livesLeft = 0;  // Tracks how many player lives are remaining.
+	bool lastLife = false;
 	protected bool waitingForPlayers = true; // Indicates whether the game is waiting for players to join.
 	int localPlayerId = 0; // The Player ID of the local player.
 	protected bool isHost = false; // Indicates whether the local player is the host of the game.

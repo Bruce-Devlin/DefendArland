@@ -28,7 +28,6 @@ modded class SCR_RespawnSystemComponent
 		{
 			dm.SetPlayerState(id, true);
 		
-			int livesLeft = DefendHelpers.Get().livesLeft;
 			bool isFirstTime = !dm.activePlayerIds.Contains(id);
 			
 			if (isFirstTime)
@@ -42,7 +41,10 @@ modded class SCR_RespawnSystemComponent
 			else
 			{
 				DefendHelpers.Log("Respawned Player", "Player with the ID: " + id + " has been respawned");
+				dm.livesLeft = dm.livesLeft - 1;
+				
 				GetGame().GetCallqueue().Call(PlayerSpawned, requestComponent.GetPlayerId(), isFirstTime, dm.livesLeft);
+				
 			}			
 		}
 	}
