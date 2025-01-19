@@ -10,10 +10,14 @@ DefendManager {
  playerLoopIntervalSeconds 3
  numberOfWaves 5
  balenceEnemies 1
- enemiesLeftToFinishWave 4
+ enemiesLeftToFinishWave 3
+ layoutLayerNames {
+  "Layout1" "Layout2" "Layout3" "Layout4"
+ }
  allowVehicles 1
- oddsOfVehicleSpawn 10
+ oddsOfVehicleSpawn 15
  numberOfEnemiesPerWave 2
+ maxAIGroupsPerWave 30
  secondsBeforeStarting 10
  secondsBeforeFirstWaveToPrepare 200
  secondsBeforeReinforcements 60

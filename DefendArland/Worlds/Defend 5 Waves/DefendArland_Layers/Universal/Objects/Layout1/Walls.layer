@@ -1,0 +1,505 @@
+$grp SCR_DestructibleEntity : "{43EB690D46E15669}Prefabs/Structures/Walls/Concrete/ConcreteWall_01/ConcreteWall_01_6m_B.et" {
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.139 0.009 2350.13
+  angleX -0.905
+  angleY 90.607
+  angleZ 0.886
+  Flags 525315
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1381.45 -0.001 2360.668
+  angleY 4.176
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1382.754 -0.001 2341.892
+  angleX -0.892
+  angleY -175.342
+  angleZ -0.073
+  Flags 525315
+ }
+}
+GenericEntity : "{51BAE1FE9CAAA865}PrefabsEditable/Auto/Props/Military/CargoContainers/E_CargoContainer_01_10ft_US_supplies.et" {
+ coords 1386.258 36.152 2351.732
+ angleX 0.894
+ angleY -87.03
+ angleZ 0.046
+}
+$grp SCR_DestructibleEntity : "{60E5729BEA18F875}Prefabs/Structures/Walls/Concrete/ConcreteWall_01/ConcreteWall_01_3m.et" {
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.082 0.004 2344.297
+  angleY 90.493
+  Flags 525315
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.044 0 2333.683
+  angleY 90.491
+  Flags 525315
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.069 -0.039 2341.358
+  angleY 91.264
+ }
+}
+GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
+ components {
+  MeshObject "{5872F0EB7FA40561}" {
+   BoundingBox AABBBoundingVolume "{6446F84F524600DE}" {
+    Mins -1.026 -0.074 -0.575
+    Maxs 1 1.341 0.615
+   }
+  }
+  NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+   Enabled 1
+  }
+  SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+   EnableDamage 0
+  }
+ }
+ coords 1381.307 35.911 2346.157
+ angleY 91.168
+ Flags 66563
+}
+$grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_burlap.et" {
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.073 36.174 2347.016
+  angleX -4.483
+  angleY 91.071
+  angleZ 0.809
+  Flags 3
+ }
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    ClutterOccluder 0
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.114 36.021 2344.49
+  angleY 91.134
+  Flags 3
+ }
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.173 36.123 2341.892
+  angleX -3.576
+  angleY 91.138
+  angleZ -0.071
+  Flags 66563
+ }
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.432 36.094 2331.952
+  angleX 0.018
+  angleY 91.134
+  angleZ -0.895
+  Flags 66563
+ }
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.032 36.108 2339.306
+  angleX -0.895
+  angleY 91.134
+  angleZ -0.018
+  Flags 66563
+ }
+}
+$grp SCR_DestructibleEntity : "{B0B51F4725BDE9A2}Prefabs/Structures/Walls/Concrete/ConcreteWall_01/ConcreteWall_01_Pole.et" {
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1390.819 -0.041 2397.229
+  angleY 110.416
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.731 0 2330.512
+  angleX 0.051
+  angleY -93.276
+  angleZ 0.894
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1387.522 0.05 2360.266
+  angleX -0.884
+  angleY -179.64
+  angleZ -1.795
+ }
+ {
+  components {
+   NavmeshCustomLinkComponent "{5088C72B466E73FA}" {
+    Enabled 0
+   }
+  }
+  coords 1394.022 -0.067 2338.191
+  angleX -0.884
+  angleY -92.476
+  angleZ -1.795
+ }
+}
+$grp GenericEntity : "{BE16EE8FAA315FE2}Prefabs/Props/Military/Sandbags/Sandbag_01_long_high_burlap.et" {
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.466 36.093 2332.245
+  angleY 88.821
+  Flags 66563
+ }
+ {
+  components {
+   MeshObject "{5872F0EB7FA40561}" {
+    BoundingBox AABBBoundingVolume "{6446F84F56FA6CE0}" {
+     Mins -1.692 -0.11 -0.598
+     Maxs 1.737 1.353 0.615
+    }
+   }
+   NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+    Enabled 1
+   }
+   SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+    EnableDamage 0
+   }
+  }
+  coords 1393.091 36.181 2342.095
+  angleX -3.576
+  angleY 88.816
+  angleZ 0.074
+  Flags 66563
+ }
+}
+GenericEntity : "{BFF74A287E8300FB}Prefabs/Structures/Signs/Military/Sign_CommandPost_US_01.et" {
+ coords 1377.447 35.933 2357.066
+ angleY 91.462
+}
+GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_single_burlap.et" {
+ components {
+  NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+   Enabled 1
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   ResponseIndex "TinyDestructible"
+  }
+  SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+   EnableDamage 0
+  }
+ }
+ coords 1384.006 35.819 2343.782
+ angleY -91.114
+ Flags 66563
+ {
+  GenericEntity : "{21D83950DF36F250}Prefabs/Props/Military/Sandbags/Sandbag_01_long_burlap.et" {
+   components {
+    MeshObject "{5872F0EB7FA40561}" {
+     BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+      Mins -1.692 -0.11 -0.598
+      Maxs 1.737 1.353 0.615
+     }
+    }
+    NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+     Enabled 1
+    }
+    SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+     EnableDamage 0
+    }
+   }
+   coords 3.015 0.316 2.088
+   angleY -175.504
+   Flags 66563
+  }
+  GenericEntity : "{2C166D8DBBA47738}Prefabs/Structures/Military/Flags/FlagPole_02/FlagPole_02_base.et" {
+   coords 4.81 0.652 -9.186
+   angleY 46.593
+   Flags 66563
+  }
+  $grp GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 5.621 0.293 1.775
+    angleY 4.225
+    Flags 66563
+   }
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 16.21 0.421 2.914
+    angleY -84.901
+    Flags 66563
+   }
+  }
+  $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_burlap.et" {
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 16.071 0.234 0.673
+    angleY -85.092
+    Flags 66563
+   }
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 15.839 0.234 -1.848
+    angleY 95.893
+    Flags 66563
+   }
+  }
+  $grp GenericEntity : "{B31A14BC1A0E7776}Prefabs/Props/Military/Sandbags/Sandbag_01_round_burlap.et" {
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 0.045 0.35 2.879
+    angleY -152.504
+    Flags 66563
+   }
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords -0.454 0.137 -8.991
+    angleY -144.736
+    Flags 66563
+   }
+   {
+    components {
+     MeshObject "{5872F0EB7FA40561}" {
+      BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+       Mins -1.692 -0.11 -0.598
+       Maxs 1.737 1.353 0.615
+      }
+     }
+     NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+      Enabled 1
+     }
+     SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+      EnableDamage 0
+     }
+    }
+    coords 15.123 0.353 -4.695
+    angleX -0.856
+    angleY 119.681
+    angleZ 1.572
+    Flags 66563
+   }
+  }
+  GenericEntity : "{B547CF929FCC6BB7}Prefabs/Props/Military/Sandbags/Sandbag_01_end_high_burlap.et" {
+   components {
+    MeshObject "{5872F0EB7FA40561}" {
+     BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+      Mins -1.692 -0.11 -0.598
+      Maxs 1.737 1.353 0.615
+     }
+    }
+    NavmeshCustomLinkComponent "{598EA1E3CAB97DB9}" {
+     Enabled 1
+    }
+    SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+     EnableDamage 0
+    }
+   }
+   coords 5.175 0.152 -9.217
+   angleY 6.432
+   Flags 66563
+  }
+  GenericEntity : "{BE7B5BAFE1A16A50}Prefabs/Props/Military/Fortification/BarbedTape_Coil.et" {
+   components {
+    MeshObject "{5872F0EB7FA40561}" {
+     BoundingBox AABBBoundingVolume "{6446F84F59151B57}" {
+      Mins -1.692 -0.11 -0.598
+      Maxs 1.737 1.353 0.615
+     }
+    }
+    SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+     EnableDamage 0
+    }
+   }
+   coords 7.19 0.155 1.869
+   angleY -24.901
+   Flags 66563
+  }
+ }
+}

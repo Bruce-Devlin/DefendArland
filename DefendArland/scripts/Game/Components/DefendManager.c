@@ -15,7 +15,12 @@ class DefendManager: GenericEntity
 	    {
 	        DefendPlayer player = GetPlayer(deadID);
 	        player.AddDeaths(1);
-	        livesLeft = (livesLeft - 1);
+			
+			if (livesLeft == 0)
+			{
+				EndGame(EGameOverTypes.LOOSE, 1);
+			}
+			else livesLeft = (livesLeft - 1);
 	    
 	        DefendHelpers.Log("Player died", "Player " + player.GetName() + " (" + player.GetID().ToString() + ") died (total deaths: " + player.GetDeaths() + ", lives remaining: " + livesLeft + ")");
 	    }
@@ -80,8 +85,10 @@ class DefendManager: GenericEntity
 	
 	void AddPlayerXP(int playerId, int xpAmountToAdd)
 	{
+		/*
 		DefendPlayer player = GetPlayer(playerId);
 		player.AddXP(xpAmountToAdd);
+		*/
 	}
 	
 	//! Returns an array of all players that are currently alive.
@@ -194,6 +201,51 @@ class DefendManager: GenericEntity
 	    DefendHelpers.Log("Stopping Mission", "Mission has been destroyed.");
 	}
 	
+	void PickLayout()
+	{
+		string layoutToUse;
+
+		if (forcedLayoutName != "" && debugMode)
+			layoutToUse = forcedLayoutName;
+		else
+		{
+			int maxOptions = (layoutLayerNames.Count() - 1);
+			int chosen = DefendHelpers.GenerateRandom(0, maxOptions);
+			DefendHelpers.Log("Picking Layout", "Options: " + (maxOptions+1) + " | Picked: " + chosen);
+			layoutToUse = layoutLayerNames[chosen];
+		}
+			
+		currentLayout = layoutToUse;
+
+
+		foreach (string layoutName : layoutLayerNames)
+		{
+			if (layoutName != layoutToUse)
+			{
+				IEntity spawnEntity = GetGame().GetWorld().FindEntityByName(layoutName + "_us_spawnpoint");
+				SCR_SpawnPoint spawnpoint = SCR_SpawnPoint.Cast(spawnEntity);
+				spawnpoint.SetFactionKey("USSR");
+			}
+			else
+			{
+				IEntity spawnEntity = GetGame().GetWorld().FindEntityByName(layoutName + "_us_spawnpoint");
+				SCR_SpawnPoint spawnpoint = SCR_SpawnPoint.Cast(spawnEntity);
+				primaryLayoutSpawn = spawnpoint;
+			}
+		}
+	}
+	
+	IEntity FindLayoutEntity(string name)
+	{
+		IEntity entity = GetGame().GetWorld().FindEntityByName(currentLayout + "_" + name);
+		if (entity != null) return entity;
+		else
+		{
+			DefendHelpers.Log("ERROR FINDING ITEM", "Couldn't find layout entity!");
+			return null;
+		}
+	}
+	
 	//! Initializes the mission when the gamemode starts.
 	//! -------------------------------------
 	void InitMission()
@@ -205,6 +257,9 @@ class DefendManager: GenericEntity
 	        DefendHelpers.Log("Is Host", "Is currently the game host.");
 	        isHost = true;
 	        localPlayerId = -1;
+			
+			PickLayout();
+			DefendHelpers.Log("Picked Layout", "Will use: " + currentLayout);
 	        
 	        hud.Init(uiHUDLayout, timerLoopLogging);
 	        
@@ -249,7 +304,8 @@ class DefendManager: GenericEntity
 	        // Check if player lives have been exhausted, trigger the game over condition if so
 	        if (livesLeft < 1)
 	        {
-	            EndGame(EGameOverTypes.LOOSE, 1);
+				SendHint("No more respawns left", "We've ran out of team respawns, you will no longer be able to respawn and if all players die we will fail our mission.");
+				primaryLayoutSpawn.SetSpawnPointEnabled_S(false);
 	        }
 	
 	        // If AI groups are active, check their status periodically
@@ -374,7 +430,7 @@ class DefendManager: GenericEntity
 	    string forcedMoveWaypointName = "{06E1B6EBD480C6E0}Prefabs/AI/Waypoints/AIWaypoint_ForcedMove.et";
 	    
 	    // Get the entity (e.g., a position or destination) that the extraction vehicle will move to
-	    IEntity extractTo = GetGame().GetWorld().FindEntityByName("us_extractTo");
+	    IEntity extractTo = FindLayoutEntity("us_extractTo");
 	
 	    // Generate and validate the resource necessary for spawning the forced movement waypoint
 	    Resource resource = DefendHelpers.GenerateAndValidateResource(forcedMoveWaypointName);
@@ -430,7 +486,7 @@ class DefendManager: GenericEntity
 	protected void CheckForDeserters()
 	{
 	    // Find the entity representing the designated operation area (waypoint) in the game world
-	    IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+	    IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	    vector waypointPos = waypointPosition.GetOrigin();
 	    
 	    // Iterate through all alive players to check their positions
@@ -602,7 +658,7 @@ class DefendManager: GenericEntity
 				
 	        array<AIWaypoint> waypoints = {};
 	        spawnedGroup.GetGroup().GetWaypoints(waypoints);
-	        IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+	        IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	        bool inVeh = false;
 	        
 	        array<AIAgent> groupAgents = {};
@@ -692,7 +748,7 @@ class DefendManager: GenericEntity
 	            if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
 	            {
 	                if (serverLoopDebugLogging) DefendHelpers.Log("AI is within their waypoint", "AI is within their waypoint radius.");
-	                IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+	                IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	                SetWaypoint(spawnedGroup, patrolWaypointType, waypointPosition.GetOrigin());
 	            }
 	        }
@@ -1007,16 +1063,16 @@ class DefendManager: GenericEntity
 	    {
 	        DefendHelpers.Log("Sending wave...", "Sending the wave to the waypoint.");
 	    
-	        IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+	        IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	        
 	        if (vehicle) 
 	        {
-	            IEntity spawnPosition = GetGame().GetWorld().FindEntityByName(vehicleSpawnPositions[spawnInd]);
+	            IEntity spawnPosition = FindLayoutEntity(vehicleSpawnPositions[spawnInd]);
 	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 	        }	
 	        else
 	        {
-	            IEntity spawnPosition = GetGame().GetWorld().FindEntityByName(infantrySpawnPositions[spawnInd]);
+	            IEntity spawnPosition = FindLayoutEntity(infantrySpawnPositions[spawnInd]);
 	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 	        }
 	    }
@@ -1098,8 +1154,8 @@ class DefendManager: GenericEntity
 		
 		DefendHelpers.Log("Extraction Location Confirmed", "Will extract to: " + randomExtractionPos + " using " + randomExtractionVeh);
 		
-		IEntity sourcePos = GetGame().GetWorld().FindEntityByName("us_extraction_source");
-		IEntity extractionPoint = GetGame().GetWorld().FindEntityByName(randomExtractionPos);
+		IEntity sourcePos = FindLayoutEntity("us_extraction_source");
+		IEntity extractionPoint = FindLayoutEntity(randomExtractionPos);
 
 		Vehicle vehicle = null;
 		SCR_AIGroup group = SpawnExtraction(randomExtractionVeh, sourcePos, vehicle);
@@ -1241,6 +1297,13 @@ class DefendManager: GenericEntity
 	protected void WaitUntilAllAIAreDead()
 	{
 		DefendHelpers.Log("Waiting", "Waiting for AI to die...");
+		
+		if (activePlayerIds.Count() < 1) 
+		{
+			GetGame().GetCallqueue().Call(WaitForPlayers);
+			return;
+		}
+		
 		int aliveAI = CountAliveAI();
 		if ((aliveAI <= enemiesLeftToFinishWave) && (activeAIVehicles.Count() <= 0))
 		{
@@ -1255,6 +1318,8 @@ class DefendManager: GenericEntity
 			DefendHelpers.Log("Waiting for AI to die", "Waiting until there are less than or equal to " + enemiesLeftToFinishWave + " enemies remaining (currently " + aliveAI + " AI alive)");
 			GetGame().GetCallqueue().CallLater(WaitUntilAllAIAreDead, aiLoopIntervalSeconds * 1000);
 		} 
+		
+		
 	}
 	
 	//! Handles the retreat of the current enemy wave once certain conditions are met.
@@ -1267,7 +1332,7 @@ class DefendManager: GenericEntity
 	{
 		array<SpawnedEnemyGroup> retreatedGroups = {};
 		DefendHelpers.Log("Retreating Wave", "Retreating this wave...");
-		IEntity waypointPosition = GetGame().GetWorld().FindEntityByName(waypointPositionName);
+		IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 		foreach(ref SpawnedEnemyGroup spawnedGroup : activeAIGroups)
 		{	
 			if (!spawnedGroup.HasGroup())
@@ -1302,7 +1367,7 @@ class DefendManager: GenericEntity
 					array<IEntity> retreatPositions = {};
 					foreach (string waypointName : infantrySpawnPositions)
 					{
-						IEntity posEntity = GetGame().GetWorld().FindEntityByName(waypointName);
+						IEntity posEntity = FindLayoutEntity(waypointName);
 						retreatPositions.Insert(posEntity);
 					}
 					float distance = 0;
@@ -1497,6 +1562,8 @@ class DefendManager: GenericEntity
 	
 	// Game mechanics-related variables
 	protected bool _canBuild = true; // Indicates whether building (or construction) is allowed in the game.
+	string currentLayout = "";
+	SCR_SpawnPoint primaryLayoutSpawn;
 	int currentWave = 0;  // The current wave of enemies or events.
 	int livesLeft = 0;  // Tracks how many player lives are remaining.
 	protected bool waitingForPlayers = true; // Indicates whether the game is waiting for players to join.
@@ -1558,6 +1625,8 @@ class DefendManager: GenericEntity
 	bool debugMode;
 	[Attribute(defvalue: "1", category: WB_DEFEND_DEBUG, desc: "This will prevent the local player from taking any damage. (requires debugMode = true)")]
 	bool allowPlayerDamage;
+	[Attribute(defvalue: "", UIWidgets.EditBox, category: WB_DEFEND_DEBUG, desc: "Force a layout to use.")]
+	string forcedLayoutName;
 	[Attribute(defvalue: "0", UIWidgets.Slider, category: WB_DEFEND_DEBUG, "0 999 1", desc: "This is will start the wave to start in. (requires debugMode = true | default = 0)")]
 	int debugStartingWave;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "Should log the server loop?")]
@@ -1597,6 +1666,8 @@ class DefendManager: GenericEntity
 	int enemiesLeftToFinishWave;
 	[Attribute(defvalue: "100", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "10 200 1", desc: "How many meters do the enemies need to be before being cleaned up.")]
 	int metersUntilForceAIDeathWhenRetreating;
+	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_GAMEPLAY, desc: "Names of the folders of each layout.")]
+	ref array<ref string> layoutLayerNames;
 	
 	const static string WB_DEFEND_BUILDING = "Defend | Building";
 	[Attribute(defvalue: "1", category: WB_DEFEND_BUILDING, desc: "Allow player building")]
