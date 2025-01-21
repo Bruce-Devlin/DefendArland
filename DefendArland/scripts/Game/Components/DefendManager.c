@@ -259,6 +259,19 @@ class DefendManager: GenericEntity
 			if (flags >= 55) numberOfWaves = 10;
 			else if (flags >= 50) numberOfWaves = 5;
 		}
+		
+		if (debugMode && debugVehicleFeatureTest)
+		{
+			oddsOfVehicleSpawn = 1;
+			secondsBeforeFirstWaveToPrepare = 5;
+			allowPlayerDamage = false;
+		}
+		else if (debugMode && debugExtractionFeatureTest)
+		{
+			if (!endlessMode) debugStartingWave = numberOfWaves;
+			secondsBeforeFirstWaveToPrepare = 5;
+			allowPlayerDamage = false;
+		}
 	}
 	
 	//! Initializes the mission when the gamemode starts.
@@ -1090,11 +1103,13 @@ class DefendManager: GenericEntity
 	        DefendHelpers.Log("Sending wave...", "Sending the wave to the waypoint.");
 	    
 	        IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
+			IEntity vehWaypointPosition = FindLayoutEntity(vehWaypointPositionName);
 	        
 	        if (vehicle) 
 	        {
+
 	            IEntity spawnPosition = FindLayoutEntity(vehicleSpawnPositions[spawnInd]);
-	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition, vehWaypointPosition.GetOrigin(), vehicle);
 	        }	
 	        else
 	        {
@@ -1651,6 +1666,10 @@ class DefendManager: GenericEntity
 	const static string WB_DEFEND_DEBUG = "Defend | Debug";
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug mode toggle, this is used to prevent game master removal. It is also required for used debug starting wave.")]
 	bool debugMode;
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug feature test toggle, use this to increase time before starting and set max wave.")]
+	bool debugExtractionFeatureTest;
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug feature test toggle, use this to increase time before starting and force a vehicle to spawn.")]
+	bool debugVehicleFeatureTest;
 	[Attribute(defvalue: "1", category: WB_DEFEND_DEBUG, desc: "This will prevent the local player from taking any damage. (requires debugMode = true)")]
 	bool allowPlayerDamage;
 	[Attribute(defvalue: "", UIWidgets.EditBox, category: WB_DEFEND_DEBUG, desc: "Force a layout to use.")]
@@ -1773,4 +1792,6 @@ class DefendManager: GenericEntity
 	ref array<ref string> vehicleSpawnPositions;
 	[Attribute(defvalue: "ussr_waypoint", UIWidgets.EditBox, category: WB_DEFEND_MARKERNAMES, desc: "The name of the AI waypoint marker")]
 	string waypointPositionName;
+	[Attribute(defvalue: "ussr_veh_waypoint", UIWidgets.EditBox, category: WB_DEFEND_MARKERNAMES, desc: "The name of the AI vehicle waypoint marker")]
+	string vehWaypointPositionName;
 }

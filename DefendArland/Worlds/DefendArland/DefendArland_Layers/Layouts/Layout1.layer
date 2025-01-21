@@ -131,7 +131,11 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -2.821
  }
  Layout1_ussr_waypoint {
-  coords 1397.091 35.935 2378.969
+  coords 1391.926 36.096 2355.264
+  angleZ 1.79
+ }
+ Layout1_ussr_waypoint2 {
+  coords 1393.45 36.08 2376.154
   angleZ 1.79
  }
 }

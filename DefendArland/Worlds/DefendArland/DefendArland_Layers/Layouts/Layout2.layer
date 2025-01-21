@@ -61,10 +61,10 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleY 32.886
  }
  Layout2_ussr_spawn_7 {
-  coords 1164.617 15.253 2933.69
-  angleX 5.65
-  angleY 120.039
-  angleZ -0.855
+  coords 1171.868 36.749 2946.17
+  angleX -0.324
+  angleY 120.167
+  angleZ -1.224
  }
  Layout2_ussr_spawn_6 {
   coords 1477.795 36.665 3035.666
@@ -103,10 +103,8 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -0.78
  }
  Layout2_ussr_waypoint {
-  coords 1278.407 37.81 2928.042
-  angleX -3.454
+  coords 1273.814 38 2916.47
   angleY -15.056
-  angleZ 0.928
  }
  Layout2_ussr_veh_spawn_1 {
   coords 1153.157 37.972 2919.771
@@ -115,20 +113,26 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -0.795
  }
  Layout2_us_extraction_1 {
-  coords 1296.51 38 2868.153
+  coords 1276.601 38 2963.39
   angleY -107.188
  }
  Layout2_us_extraction_source {
-  coords 1695.942 46.023 3153.385
-  angleX -2.339
-  angleY -102.43
-  angleZ 5.99
+  coords 1616.744 43.401 3091.809
+  angleX -3.749
+  angleY -126.262
+  angleZ -0.576
  }
  Layout2_us_extractTo {
-  coords 613.756 46.286 2656.891
-  angleX 1.077
-  angleY -13.3
-  angleZ 0.665
+  coords 1606.176 42.756 3083.948
+  angleX 1.124
+  angleY -13.302
+  angleZ -3.022
+ }
+ Layout2_ussr_veh_waypoint {
+  coords 1278.167 37.149 2956.876
+  angleX -2.824
+  angleY -15.053
+  angleZ -0.167
  }
 }
 GenericEntity Area3 : "{C72F956E4AC6A6E7}Prefabs/ScenarioFramework/Components/Area.et" {

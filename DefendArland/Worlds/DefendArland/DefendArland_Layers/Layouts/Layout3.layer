@@ -33,10 +33,10 @@ GenericEntity Layer4 : "{5F9FFF4BF027B3A3}Prefabs/ScenarioFramework/Components/L
 }
 $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
  Layout3_ussr_waypoint {
-  coords 2220.968 50.056 2910.546
-  angleX -1.786
-  angleY -60.076
-  angleZ 3.099
+  coords 2220.044 53.968 2913.96
+  angleX 0.115
+  angleY -60.139
+  angleZ -1.998
  }
  Layout3_us_extraction_1 {
   coords 2170.446 53.25 2852.05
@@ -49,8 +49,10 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -0.48
  }
  Layout3_us_extractTo {
-  coords 1635.587 50.406 3111.589
-  angleY -73.3
+  coords 1707.087 48.099 3141.696
+  angleX -6.629
+  angleY -73.772
+  angleZ 3.627
  }
  Layout3_ussr_spawn_1 {
   coords 1980.702 45.435 2858.74
@@ -133,6 +135,10 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleX 6.285
   angleY -102.687
   angleZ -0.5
+ }
+ Layout3_ussr_veh_waypoint {
+  coords 2218.493 53.219 2876.047
+  angleY -60.146
  }
 }
 GenericEntity Area4 : "{C72F956E4AC6A6E7}Prefabs/ScenarioFramework/Components/Area.et" {

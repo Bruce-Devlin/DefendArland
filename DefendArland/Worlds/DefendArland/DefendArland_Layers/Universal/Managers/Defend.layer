@@ -1781,4 +1781,5 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
+ oddsOfVehicleSpawn 1
 }
