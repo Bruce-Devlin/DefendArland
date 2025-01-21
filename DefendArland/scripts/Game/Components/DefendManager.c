@@ -241,6 +241,26 @@ class DefendManager: GenericEntity
 		}
 	}
 	
+	void CheckMissionFlags()
+	{
+		EGameFlags flags = GetGame().GetGameFlags();
+		if (flags >= 99)
+		{
+			debugMode = true;
+		}
+		
+		if (flags >= 60)
+		{
+			endlessMode = true;
+			numberOfLives = 10;
+		}
+		else
+		{
+			if (flags >= 55) numberOfWaves = 10;
+			else if (flags >= 50) numberOfWaves = 5;
+		}
+	}
+	
 	//! Initializes the mission when the gamemode starts.
 	//! -------------------------------------
 	void InitMission()
@@ -249,9 +269,12 @@ class DefendManager: GenericEntity
 	            
 	    if (DefendHelpers.IsHost())
 	    {
+
 	        DefendHelpers.Log("Is Host", "Is currently the game host.");
 	        isHost = true;
 	        localPlayerId = -1;
+			CheckMissionFlags();
+
 			
 			PickLayout();
 			DefendHelpers.Log("Picked Layout", "Will use: " + currentLayout);
@@ -363,8 +386,8 @@ class DefendManager: GenericEntity
 	            else
 	            {
 	                // Check if all players have boarded the extraction vehicle
-	                int playersExtracted = (extractionGroup.GetVehicle().CountOccupants() - 2);
-	                if (playersExtracted == activePlayerIds.Count())
+	                int playersExtracted = extractionGroup.GetVehicle().CountPlayerOccupants();
+	                if (playersExtracted == GetAlivePlayers().Count())
 	                {
 	                    DefendHelpers.Log("All In", "Everyone is in the extraction vehicle, time to go!");
 	                    hint.ShowHint("All In!", "Everyone is in the Extraction Truck, it's now leaving!");
@@ -438,7 +461,7 @@ class DefendManager: GenericEntity
 	    // Generate and validate the resource necessary for spawning the forced movement waypoint
 	    Resource resource = DefendHelpers.GenerateAndValidateResource(forcedMoveWaypointName);
 		
-		int playersExtracted = (extractionGroup.GetVehicle().GetFactionAffiliation().CountTotalOccupants() - 2);
+		int playersExtracted = extractionGroup.GetVehicle().CountPlayerOccupants();
 	    
 	    // Log an error if the resource couldn't be loaded
 	    if (resource == null)

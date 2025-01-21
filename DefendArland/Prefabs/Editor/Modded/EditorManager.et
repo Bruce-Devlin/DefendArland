@@ -50,6 +50,7 @@ SCR_EditorManagerEntity {
   SCR_MusicEditorComponent "{644E9701343B768D}" {
   }
   SCR_PauseGameTimeEditorComponent "{644E9701343B768C}" {
+   m_bPauseOnOpen 0
   }
   SCR_PingEditorComponent "{644E9701343B768B}" {
    m_EffectsSendPingFromPlayer {

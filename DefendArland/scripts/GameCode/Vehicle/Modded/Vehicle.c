@@ -9,6 +9,15 @@ modded class Vehicle
 		else return 0;
 	}
 	
+	int CountPlayerOccupants()
+	{
+		if (IsOccupied())
+		{
+			return m_pFactionComponent.CountPlayerOccupants();
+		}
+		else return 0;
+	}
+	
 	int CountAliveOccupants()
 	{
 		if (IsOccupied())

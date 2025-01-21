@@ -1,0 +1,136 @@
+SCR_SpawnPoint Layout2_us_spawnpoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
+ components {
+  SCR_MapDescriptorComponent "{54C659A97C47BDE2}" {
+   UnitType Infantry
+  }
+ }
+ coords 1256.3 38.751 2911.87
+ angleX -0.168
+ angleY 79.16
+ angleZ -0.879
+ m_bTimedSpawnPoint 1
+ m_Info SCR_UIInfo "{56B4CC4ECACA2C37}" {
+  Name "DEFEND"
+ }
+ m_fRespawnTime 20
+}
+GenericEntity Layer3 : "{5F9FFF4BF027B3A3}Prefabs/ScenarioFramework/Components/Layer.et" {
+ coords 1366.223 38 2946.262
+ {
+  GenericEntity SlotMarker3 : "{E537867C6E760514}Prefabs/ScenarioFramework/Components/SlotMarker.et" {
+   components {
+    SCR_ScenarioFrameworkSlotMarker "{5EA2BD9901E5E82E}" {
+     m_MapMarkerType SCR_ScenarioFrameworkMarkerCustom "{6446C16B28146146}" {
+      m_sMapMarkerText "DEFEND"
+      m_eMapMarkerIcon FORTIFICATION
+      m_eMapMarkerColor RED
+     }
+    }
+   }
+   coords 0 0 0
+  }
+ }
+}
+$grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
+ Layout2_ussr_veh_spawn_4 {
+  coords 1615.748 43.349 3091.027
+  angleX -2.948
+  angleY -122.383
+  angleZ -1.307
+ }
+ Layout2_ussr_veh_spawn_3 {
+  coords 1615.748 43.349 3091.027
+  angleX -3.128
+  angleY -132.302
+  angleZ -0.78
+ }
+ Layout2_ussr_veh_spawn_2 {
+  coords 1615.748 43.349 3091.027
+  angleX -3.789
+  angleY -132.3
+  angleZ -0.179
+ }
+ Layout2_ussr_spawn_9 {
+  coords 1200.24 38.313 3009.074
+  angleX -0.691
+  angleY 124.523
+  angleZ -3.729
+ }
+ Layout2_ussr_spawn_8 {
+  coords 1179.447 36.375 2936.899
+  angleY 32.886
+ }
+ Layout2_ussr_spawn_7 {
+  coords 1164.617 15.253 2933.69
+  angleX 5.65
+  angleY 120.039
+  angleZ -0.855
+ }
+ Layout2_ussr_spawn_6 {
+  coords 1477.795 36.665 3035.666
+  angleX 1.199
+  angleY -116.217
+  angleZ 0.408
+ }
+ Layout2_ussr_spawn_5 {
+  coords 1441.576 37.969 2967.392
+  angleY -84.813
+ }
+ Layout2_ussr_spawn_4 {
+  coords 1410.945 37.534 3005.137
+  angleX -2.496
+  angleY -144.473
+  angleZ 0.416
+ }
+ Layout2_ussr_spawn_3 {
+  coords 1475.227 36.704 3032.257
+  angleX 2.43
+  angleY -151.232
+  angleZ -0.707
+ }
+ Layout2_ussr_spawn_2 {
+  coords 1362.434 34.625 3028.031
+  angleY 166.134
+ }
+ Layout2_ussr_spawn_1 {
+  coords 1075.201 38 2929.813
+  angleY 111.725
+ }
+ Layout2_ussr_veh_spawn_5 {
+  coords 1615.748 43.349 3091.027
+  angleX -3.129
+  angleY -132.302
+  angleZ -0.78
+ }
+ Layout2_ussr_waypoint {
+  coords 1278.407 37.81 2928.042
+  angleX -3.454
+  angleY -15.056
+  angleZ 0.928
+ }
+ Layout2_ussr_veh_spawn_1 {
+  coords 1153.157 37.972 2919.771
+  angleX -0.411
+  angleY 62.645
+  angleZ -0.795
+ }
+ Layout2_us_extraction_1 {
+  coords 1296.51 38 2868.153
+  angleY -107.188
+ }
+ Layout2_us_extraction_source {
+  coords 1695.942 46.023 3153.385
+  angleX -2.339
+  angleY -102.43
+  angleZ 5.99
+ }
+ Layout2_us_extractTo {
+  coords 613.756 46.286 2656.891
+  angleX 1.077
+  angleY -13.3
+  angleZ 0.665
+ }
+}
+GenericEntity Area3 : "{C72F956E4AC6A6E7}Prefabs/ScenarioFramework/Components/Area.et" {
+ coords 1366.223 38 2946.262
+}
