@@ -147,6 +147,7 @@ class DefendHelpers
     static int GenerateRandom(int min, int max)
     {
         int value = Math.RandomInt(min, max);
+		Log("Rolling dice", "Rolling dice starting at " + min.ToString() + " to " + max.ToString() + " | Rolled: " + value.ToString());
         return value;
     }
     

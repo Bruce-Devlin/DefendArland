@@ -1,6 +1,16 @@
 SCR_AIGroup : "{8DE0C0830FE0C33D}Prefabs/Groups/OPFOR/Group_USSR_Base.et" {
  ID "0000000000000001"
  components {
+  AIFormationComponent "{507E9DC12F541FE6}" {
+   Enabled 0
+  }
+  SCR_AIConfigComponent "{512CC1759AE69D6D}" {
+   m_EnableTakeCover 0
+   m_EnableLooking 0
+   m_EnableCommunication 0
+   m_DefaultWeaponTypeHandlingConfig SCR_AIWeaponTypeHandlingConfig "{646D04CBB5D29088}" {
+   }
+  }
   SCR_EditableGroupComponent "{50D291F6C83FA532}" {
    m_UIInfo SCR_EditableGroupUIInfo "{5298E609432D192D}" {
     Name "#AR-Group_Spetsnaz_Squad"
@@ -112,7 +122,7 @@ SCR_AIGroup : "{8DE0C0830FE0C33D}Prefabs/Groups/OPFOR/Group_USSR_Base.et" {
   }
  }
  m_aUnitPrefabSlots {
-  "{5811F02495F6810E}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_SL.et" "{0B8AC0C3C447F90E}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_LMG.et" "{ADB43E67E3766CE7}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_Sharpshooter.et" "{730CDEC4168637B6}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_Sapper.et" "{8CA70597606992EC}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_Medic.et" "{B6A2736A7201DD23}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_RTO.et"
+  "{194B9DF76445C4F7}Prefabs/Characters/Factions/OPFOR/Zombies/Character_USSR_Zombie_1.et" "{194B9DF76445C4F7}Prefabs/Characters/Factions/OPFOR/Zombies/Character_USSR_Zombie_1.et" "{194B9DF76445C4F7}Prefabs/Characters/Factions/OPFOR/Zombies/Character_USSR_Zombie_1.et"
  }
- m_iMaxMembers 6
+ m_iMaxMembers 3
 }

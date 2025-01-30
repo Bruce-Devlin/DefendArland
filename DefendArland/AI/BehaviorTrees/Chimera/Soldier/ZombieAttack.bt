@@ -1,0 +1,240 @@
+BehaviorTree "{0D3FF2F631B54294}AI/BehaviorTrees/Chimera/Soldier/ZombieAttack.bt" {
+ Name "AI/BehaviorTrees/Chimera/Soldier/ZombieAttack.bt"
+ Nodes {
+  RootNode Root {
+   Name "Root"
+   EditorPos -121.5 -599.25
+   Nodes {
+    Parallel Parallel {
+     Name "Parallel"
+     EditorPos -123 -481
+     Nodes {
+      Sequence Sequence {
+       Name "Sequence"
+       EditorPos -131.611 -219.306
+       Nodes {
+        Sequence Sequence {
+         Name "Sequence"
+         EditorPos -677.444 259.444
+         Nodes {
+          AITaskGetControlledEntity "Get Controlled Entity" {
+           Name "Get Controlled Entity"
+           EditorPos -1175.685 628.363
+           OutControlledEntity 2
+          }
+          SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
+           Name "SCR_AI Get Entity Position"
+           EditorPos -650.096 677.771
+           InPorts {
+            SingleInputPortContainer SingleInputPortContainer {
+             Port 2
+             PortName "Entity"
+            }
+           }
+           OutPorts {
+            SingleOutputPortContainer SingleOutputPortContainer {
+             Port 4
+             PortName "Position"
+            }
+           }
+          }
+          SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
+           Name "SCR_AI Get Entity Position"
+           EditorPos -529.58 443.117
+           InPorts {
+            SingleInputPortContainer SingleInputPortContainer {
+             Port 0
+             PortName "Entity"
+            }
+           }
+           OutPorts {
+            SingleOutputPortContainer SingleOutputPortContainer {
+             Port 3
+             PortName "Position"
+            }
+           }
+          }
+         }
+        }
+        SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
+         Name "SCR_AI Get Entity Position"
+         EditorPos -405.778 92.667
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 0
+           PortName "Entity"
+          }
+         }
+         OutPorts {
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 1
+           PortName "Position"
+          }
+         }
+        }
+        SCR_AILookAtPosition "SCR_AI Look At Position" {
+         Name "SCR_AI Look At Position"
+         EditorPos 23.222 32.222
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 1
+           PortName "PositionIn"
+          }
+          SingleInputPortContainer SingleInputPortContainer {
+           Port -1
+           PortName "PriorityIn"
+          }
+         }
+         OutPorts {
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port -1
+           PortName "PositionOut"
+          }
+         }
+        }
+        AITaskSetVariable "Set Variable" {
+         Name "Set Variable"
+         EditorPos 263.055 -36.77
+         SetValue "1"
+         OutVariable 5
+        }
+        SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
+         Name "SCR_AI Deco Vector Distance"
+         EditorPos 1136.405 -74.175
+         Nodes {
+          Parallel Parallel {
+           Name "Parallel"
+           EditorPos 1196.032 200.238
+           Nodes {
+            SCR_AICompleteAction "SCR_AI Complete Action" {
+             Name "SCR_AI Complete Action"
+             EditorPos 1093.16 350.883
+            }
+            AITaskReturnState "Return State" {
+             Name "Return State"
+             EditorPos 1300.919 352.037
+             Result SUCCESS
+            }
+           }
+          }
+         }
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 3
+           PortName "Vector0"
+          }
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 4
+           PortName "Vector1"
+          }
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 5
+           PortName "Threshold"
+          }
+         }
+         NegativeCondition 1
+         m_fDistanceThreshold 1
+        }
+        SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
+         Name "SCR_AI Deco Vector Distance"
+         EditorPos 1509.168 -74.952
+         Nodes {
+          RunBT RunBT {
+           Name "RunBT"
+           EditorPos 1478.906 168.79
+           InPorts {
+            SingleInputPortContainer SingleInputPortContainer {
+             Port 0
+             PortName "targetEntity"
+            }
+           }
+           BehaviorTree "{54BF4756359E3556}AI/BehaviorTrees/Chimera/Soldier/Fire_Melee.bt"
+          }
+         }
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 3
+           PortName "Vector0"
+          }
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 4
+           PortName "Vector1"
+          }
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 5
+           PortName "Threshold"
+          }
+         }
+         m_fDistanceThreshold 1
+        }
+       }
+      }
+      AITaskReturnState "Return State" {
+       Name "Return State"
+       EditorPos 33.5 -311
+       Result RUNNING
+      }
+     }
+    }
+   }
+  }
+ }
+ Variables {
+  Variable targetToAttack {
+   VariableName "targetToAttack"
+   VariableTypeName "IEntity"
+   VariableExposedInput 1
+   VariableExposedOutput 0
+  }
+  Variable targetPosition {
+   VariableName "targetPosition"
+   VariableTypeName "vector"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+  Variable currentPosition {
+   VariableName "currentPosition"
+   VariableTypeName "vector"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+  Variable currentEntity {
+   VariableName "currentEntity"
+   VariableTypeName "IEntity"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+  Variable distanceToAttack {
+   VariableName "distanceToAttack"
+   VariableTypeName "float"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+ }
+ VariablesRefs {
+  VariableReference targetToAttack {
+   VariableType 0
+   EditorPos -1051.028 195.694
+  }
+  VariableReference targetPosition {
+   VariableType 1
+   EditorPos -185.222 68.889
+  }
+  VariableReference currentEntity {
+   VariableType 3
+   EditorPos -907.98 668.997
+  }
+  VariableReference targetPosition {
+   VariableType 1
+   EditorPos -278.256 439.017
+  }
+  VariableReference currentPosition {
+   VariableType 2
+   EditorPos -429.636 659.51
+  }
+  VariableReference distanceToAttack {
+   VariableType 4
+   EditorPos 438.802 20.413
+  }
+ }
+}

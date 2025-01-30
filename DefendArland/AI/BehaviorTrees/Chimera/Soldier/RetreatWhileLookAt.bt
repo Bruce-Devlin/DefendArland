@@ -1,0 +1,136 @@
+BehaviorTree "{9673533977BD9950}AI/BehaviorTrees/Chimera/Soldier/RetreatWhileLookAt.bt" {
+ Name "AI/BehaviorTrees/Chimera/Soldier/RetreatWhileLookAt.bt"
+ Nodes {
+  RootNode Root {
+   Name "Root"
+   EditorPos -2395.143 -581.536
+   Nodes {
+    Sequence Sequence {
+     Name "Sequence"
+     EditorPos -2398.286 -416
+     Nodes {
+      RunOnce "Run Once" {
+       Name "Run Once"
+       EditorPos -3609.143 -232.286
+       Nodes {
+        SCR_AIGetRetreatWhileLookAtBehaviorParameters "SCR_AI Get Retreat While Look At Behavior Parameters" {
+         Name "SCR_AI Get Retreat While Look At Behavior Parameters"
+         EditorPos -3782.262 -82.524
+         OutPorts {
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 2
+           PortName "RetreatToPoint"
+          }
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 1
+           PortName "LookAt"
+          }
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 0
+           PortName "IsZombie"
+          }
+         }
+        }
+       }
+      }
+      DecoTestVariable "Test Variable" {
+       Name "Test Variable"
+       EditorPos -2425.455 -291.948
+       Nodes {
+        Sequence Sequence {
+         Name "Sequence"
+         EditorPos -2399.669 -108.069
+         Nodes {
+          AITaskCharacterSetMovementSpeed "Character Set Movement Speed" {
+           Name "Character Set Movement Speed"
+           EditorPos -2932.462 212.546
+           "Movement speed" RUN
+          }
+          SCR_AISetStance "SCR_AI Set Stance" {
+           Name "SCR_AI Set Stance"
+           EditorPos -2542.121 246.955
+           InPorts {
+            SingleInputPortContainer SingleInputPortContainer {
+             Port -1
+             PortName "Stance"
+            }
+           }
+          }
+          AITaskMove Move {
+           Name "Move"
+           EditorPos -2261.39 264.348
+           InTargetLocation 4
+           InTargetOrientation 3
+           InPrecisionXZ -1
+           AutoOrientation 0
+          }
+          AITaskReturnState "Return State" {
+           Name "Return State"
+           EditorPos -1657.942 218.241
+           Result SUCCESS
+          }
+         }
+        }
+       }
+       AbortType AbortChildrenBranch
+       InVariable 5
+       TestType EqualsValue
+       TestValue "false"
+      }
+      AITaskReturnState "Return  State" {
+       Name "Return  State"
+       EditorPos -1852.5 -316.75
+       Result SUCCESS
+      }
+     }
+    }
+   }
+  }
+ }
+ Variables {
+  Variable LookAtTarget {
+   VariableName "LookAtTarget"
+   VariableTypeName "vector"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+  Variable TargetPos {
+   VariableName "TargetPos"
+   VariableTypeName "vector"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+  Variable IsZombie {
+   VariableName "IsZombie"
+   VariableTypeName "bool"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
+ }
+ VariablesRefs {
+  VariableReference IsZombie {
+   VariableType 2
+   EditorPos -3238.222 57.778
+  }
+  VariableReference LookAtTarget {
+   VariableType 0
+   EditorPos -3238.693 -22.821
+  }
+  VariableReference TargetPos {
+   VariableType 1
+   EditorPos -3234.719 -106.923
+  }
+  VariableReference LookAtTarget {
+   VariableType 0
+   EditorPos -2552.26 456.788
+  }
+  VariableReference TargetPos {
+   VariableType 1
+   EditorPos -2536.704 381.233
+  }
+  VariableReference IsZombie {
+   VariableType 2
+   EditorPos -2623.507 -211.428
+  }
+ }
+}

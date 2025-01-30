@@ -8,7 +8,7 @@ modded class SCR_ChatComponent
 			DefendHelpers.Log("New Message", "Msg: " + msg + " | senderId: " + senderId.ToString());
 			if (DefendHelpers.IsHost())
 			{
-				if (msg.StartsWith("/"))
+				if (msg.StartsWith("@"))
 				{
 					array<string> commandParts = {};
 					msg.Split(" ", commandParts, true);

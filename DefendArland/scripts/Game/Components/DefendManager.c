@@ -249,7 +249,14 @@ class DefendManager: GenericEntity
 			debugMode = true;
 		}
 		
-		if (flags >= 60)
+		if (flags >= 70)
+		{
+			zombiesMode = true;
+			numberOfEnemiesPerWave = 8;
+			allowBuildingTimeBetweenWaves = false;
+			numberOfWaves = 5;
+		}
+		else if (flags >= 60)
 		{
 			endlessMode = true;
 			numberOfLives = 10;
@@ -260,7 +267,12 @@ class DefendManager: GenericEntity
 			else if (flags >= 50) numberOfWaves = 5;
 		}
 		
-		if (debugMode && debugVehicleFeatureTest)
+		if (debugMode && debugQuickWaveTest)
+		{
+			secondsBeforeFirstWaveToPrepare = 5;
+			allowPlayerDamage = false;
+		}
+		else if (debugMode && debugVehicleFeatureTest)
 		{
 			oddsOfVehicleSpawn = 1;
 			secondsBeforeFirstWaveToPrepare = 5;
@@ -1076,7 +1088,7 @@ class DefendManager: GenericEntity
 	            DefendHelpers.Log("Vehicle Count: ", vehicleCount.ToString() + "/" + maxVehicles.ToString());
 	        }
 	        
-	        if ((allowVehicles && isVeh && (currentWave != GetNumberOfWaves())) && (vehicleCount < maxVehicles))
+	        if ((allowVehicles && isVeh && (currentWave != GetNumberOfWaves())) && (vehicleCount < maxVehicles) && !zombiesMode)
 	        {
 	            vehicleCount = vehicleCount + 1;
 	            int randomSpawn = DefendHelpers.GenerateRandom(0, (vehicleSpawnPositions.Count()-1));
@@ -1113,8 +1125,15 @@ class DefendManager: GenericEntity
 	        }	
 	        else
 	        {
-	            IEntity spawnPosition = FindLayoutEntity(infantrySpawnPositions[spawnInd]);
-	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+				IEntity spawnPosition = FindLayoutEntity(infantrySpawnPositions[spawnInd]);
+				if (zombiesMode)
+				{
+					GetGame().GetCallqueue().Call(AISpawner, spawnGroupsZom[DefendHelpers.GenerateRandom(0, spawnGroupsZom.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+				}
+				else
+				{
+	            	GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+				}
 	        }
 	    }
 	}
@@ -1397,6 +1416,7 @@ class DefendManager: GenericEntity
 					IEntity entity = agent.GetControlledEntity();
 					CharacterControllerComponent char = CharacterControllerComponent.Cast(entity.FindComponent(CharacterControllerComponent));
 					float aiDistance = vector.Distance(entity.GetOrigin(), waypointPosition.GetOrigin());
+					
 					if ((aiDistance > metersUntilForceAIDeathWhenRetreating) || (retreatEnemyTimer >= secondsUntilForceAIDeathWhenRetreating))
 					{
 						char.ForceDeath();
@@ -1666,6 +1686,8 @@ class DefendManager: GenericEntity
 	const static string WB_DEFEND_DEBUG = "Defend | Debug";
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug mode toggle, this is used to prevent game master removal. It is also required for used debug starting wave.")]
 	bool debugMode;
+	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug feature test toggle, use this to increase time before starting the first wave.")]
+	bool debugQuickWaveTest;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug feature test toggle, use this to increase time before starting and set max wave.")]
 	bool debugExtractionFeatureTest;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "This is the debug feature test toggle, use this to increase time before starting and force a vehicle to spawn.")]
@@ -1715,6 +1737,8 @@ class DefendManager: GenericEntity
 	int metersUntilForceAIDeathWhenRetreating;
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_GAMEPLAY, desc: "Names of the folders of each layout.")]
 	ref array<ref string> layoutLayerNames;
+	[Attribute(defvalue: "0", category: WB_DEFEND_GAMEPLAY, desc: "Zombies?")]
+	bool zombiesMode;
 	
 	const static string WB_DEFEND_BUILDING = "Defend | Building";
 	[Attribute(defvalue: "1", category: WB_DEFEND_BUILDING, desc: "Allow player building")]
@@ -1769,6 +1793,9 @@ class DefendManager: GenericEntity
 	const static string WB_DEFEND_SPAWNGROUPS = "Defend | Spawn Groups";
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_SPAWNGROUPS, desc: "Infantry resource names for the OPFOR infantry to randomly spawn for each wave.")]
 	ref array<ref string> spawnGroupsInf;
+
+	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_SPAWNGROUPS, desc: "Infantry resource names for the OPFOR infantry to randomly spawn for each wave.")]
+	ref array<ref string> spawnGroupsZom;
 	
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_SPAWNGROUPS, desc: "Vehicle resource names for the OPFOR vehicles to randomly spawn for each wave.")]
 	ref array<ref string> spawnGroupsVeh;
@@ -1778,6 +1805,8 @@ class DefendManager: GenericEntity
 	string uiHUDLayout;
 	[Attribute(defvalue: "{750A8D1695BD6998}Prefabs/AI/Waypoints/AIWaypoint_Move.et", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES, desc: "The move waypoint for AI.")]
 	string moveWaypointType;
+	[Attribute(defvalue: "{06E1B6EBD480C6E0}Prefabs/AI/Waypoints/AIWaypoint_ForcedMove.et", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES, desc: "The move waypoint for AI.")]
+	string forceMoveWaypointType;
 	[Attribute(defvalue: "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et", UIWidgets.EditBox, category: WB_DEFEND_RESOURCES, desc: "The defend/patrol waypoint for AI.")]
 	string patrolWaypointType;
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_RESOURCES, desc: "Vehicle resources names to use when picking the extraction vehicle.")]

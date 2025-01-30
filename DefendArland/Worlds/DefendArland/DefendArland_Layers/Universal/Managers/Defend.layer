@@ -4,7 +4,6 @@ SCR_BaseGameMode GameMode_Defend {
   }
   SCR_ArsenalManagerComponent "{644ED76F4E89AECF}" {
    m_fLoadoutSpawnSupplyCostMultiplier 1
-   m_eArsenalGameModeType CAMPAIGN
   }
   SCR_CallsignManagerComponent "{644ED76F4E89AECB}" {
   }
@@ -759,6 +758,8 @@ SCR_BaseGameMode GameMode_Defend {
   SCR_NightModeGameModeComponent "{644ED76F4E8E740F}" {
   }
   SCR_NotificationSenderComponent "{644ED76F4E8E0174}" {
+   m_iKillFeedType FULL
+   m_iReceiveKillFeedType ALL
    m_aKillfeedTypeNames {
     SCR_NotificationKillfeedTypeName "{644ED76F4E8E743D}" {
      m_iKillfeedType DISABLED
@@ -1630,7 +1631,9 @@ SCR_BaseGameMode GameMode_Defend {
   SCR_SaveLoadComponent "{644ED76F4EB71749}" {
   }
   SCR_SpawnProtectionComponent "{644ED76F4EB71753}" {
+   Enabled 0
    m_fProtectionTime 5
+   m_bDisableOnAttack 0
   }
   SCR_SpawnerAIGroupManagerComponent "{644ED76F4EB7175E}" {
   }
@@ -1781,5 +1784,12 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
- oddsOfVehicleSpawn 1
+ debugMode 1
+ debugQuickWaveTest 1
+ zombiesMode 1
+ numberOfEnemiesPerWave 8
+ maxAIGroupsPerWave 50
+ spawnGroupsZom {
+  "{CFFFE44802B446F8}Prefabs/Groups/OPFOR/Zombies/Group_USSR_Zombies.et"
+ }
 }

@@ -1,0 +1,109 @@
+SCR_ChimeraCharacter : "{B6F05D4557B61C4E}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_BaseLoadout.et" {
+ ID "520EC961A090B1EE"
+ components {
+  CharacterSoundComponent "{520EA1D2F659CF84}" {
+   Mute 1
+  }
+  SCR_CommunicationSoundComponent "{54FD05D0C92D071F}" {
+   Mute 1
+  }
+  ChimeraAIControlComponent "{520EA1D2DB109F34}" {
+   components {
+    AIPathfindingComponent "{56349A6F9C02E7A1}" {
+     IgnoreFlags 72
+    }
+    SCR_AICombatComponent "{55A2C9BE343B2EA1}" {
+     m_eAISkillDefault NONE
+    }
+   }
+   EnableAI 1
+  }
+  SCR_CharacterDamageManagerComponent "{55872AD7B4E959F2}" {
+   "Additional hit zones" {
+    SCR_CharacterHeadHitZone Head {
+     MaxHealth 10
+    }
+    SCR_CharacterHitZone Chest {
+     MaxHealth 200
+    }
+    SCR_CharacterHitZone Abdomen {
+     MaxHealth 200
+    }
+    SCR_CharacterHitZone Hips {
+     MaxHealth 200
+    }
+   }
+   m_fBleedingParticleRateScale 1.971
+  }
+  SCR_CharacterRankComponent "{528E6D4286AA2D8F}" {
+   m_iRank GENERAL
+  }
+  SCR_CharacterStaminaComponent "{520EA1D2F659C824}" {
+   StaminaDrainRun 0
+   StaminaDrainSprint 0
+  }
+  SCR_EditableCharacterComponent "{520EA1D2F659C85C}" {
+   m_UIInfo SCR_EditableEntityUIInfo "{5298E609432D192D}" {
+    Name "#AR-Role_Spetsnaz"
+    m_Image "{07AFA73ABD09518D}UI/Textures/EditorPreviews/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF.edds"
+    m_aAuthoredLabels +{
+    }
+    m_aAutoLabels {
+     122 46
+    }
+   }
+  }
+  CharacterGrenadeSlotComponent "{520EA1D2F659CE6E}" {
+   WeaponTemplate ""
+   WeaponSlotType "throwable"
+   WeaponSlotIndex 4
+  }
+  CharacterHandWeaponSlotComponent "{5C9CA35B6F6B604C}" {
+   WeaponType Handgun
+   HolsteredIndex 1
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFAB}" {
+   WeaponType Rifle
+   AllowedRaise "Only lowered"
+   shouldHandleObstruction 0
+   canGoToFullObstruction 0
+   WeaponTemplate ""
+   HolsteredIndex 0
+   SmoothingSpeed 8
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFDC}" {
+   WeaponTemplate "{CC1C1362F6320FB4}Prefabs/Weapons/Zombie/Zombie_Weapon.et"
+  }
+  BaseLoadoutManagerComponent "{520EA1D2DB11821E}" {
+   Slots {
+    LoadoutSlotInfo HandWear {
+    }
+   }
+  }
+  ZombieController "{646D04C8D2FA2935}" {
+  }
+  SCR_InventoryStorageManagerComponent "{520EA1D2DB118DE5}" {
+   InitialInventoryItems {
+    ItemsInitConfigurationItem "{5D7CC173E6675BF7}" {
+     PrefabsToSpawn {
+     }
+    }
+    ItemsInitConfigurationItem "{5D7CC173E6675BF5}" {
+     PrefabsToSpawn {
+     }
+    }
+    ItemsInitConfigurationItem "{60E6A9E7DD418527}" {
+     PrefabsToSpawn {
+     }
+    }
+    ItemsInitConfigurationItem "{60E6A9E7DEF195CA}" {
+     PrefabsToSpawn {
+     }
+    }
+    ItemsInitConfigurationItem "{646D025EC30DA20F}" {
+     TargetStorage "Prefabs/Characters/Uniforms/Jacket_KZS/Jacket_KZS.et"
+    }
+   }
+  }
+ }
+}
