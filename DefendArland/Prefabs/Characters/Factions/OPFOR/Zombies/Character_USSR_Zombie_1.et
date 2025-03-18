@@ -27,13 +27,70 @@ SCR_ChimeraCharacter : "{B6F05D4557B61C4E}Prefabs/Characters/Factions/OPFOR/USSR
      MaxHealth 200
     }
     SCR_CharacterHitZone Abdomen {
-     MaxHealth 200
+     MaxHealth 65535
+     DamageReduction 9999
     }
     SCR_CharacterHitZone Hips {
-     MaxHealth 200
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RArm {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LArm {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RForearm {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LForearm {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RHand {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LHand {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RThigh {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LThigh {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RCalf {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LCalf {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone RFoot {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone LFoot {
+     MaxHealth 65535
+     DamageReduction 9999
+    }
+    SCR_CharacterHitZone Neck {
+     MaxHealth 65535
+     DamageReduction 9999
     }
    }
    m_fBleedingParticleRateScale 1.971
+   m_fDOTScale 5
+   m_fRegenScale 2.5
+   m_bPermitUnconsciousness 0
   }
   SCR_CharacterRankComponent "{528E6D4286AA2D8F}" {
    m_iRank GENERAL

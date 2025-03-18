@@ -9,95 +9,105 @@ BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt" {
      Name "Sequence"
      EditorPos -829 -255
      Nodes {
-      RunOnce "Run Once" {
-       Name "Run Once"
-       EditorPos -1583.889 -7.917
+      Sequence Sequence {
+       Name "Sequence"
+       EditorPos -1584 115.75
        Nodes {
-        Sequence Sequence {
-         Name "Sequence"
-         EditorPos -1584 115.75
-         Nodes {
-          AITaskCharacterSetMovementSpeed "Character Set Movement Speed" {
-           Name "Character Set Movement Speed"
-           EditorPos -2128.902 283.847
-           "Movement speed" SPRINT
-          }
-          SCR_AISetStance "SCR_AI Set Stance" {
-           Name "SCR_AI Set Stance"
-           EditorPos -1802.097 277.042
-           InPorts {
-            SingleInputPortContainer SingleInputPortContainer {
-             Port -1
-             PortName "Stance"
-            }
-           }
-          }
-          AITaskGetControlledEntity "Get Controlled Entity" {
-           Name "Get Controlled Entity"
-           EditorPos -1605.738 283.022
-           OutControlledEntity 4
-          }
-          SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
-           Name "SCR_AI Get Entity Position"
-           EditorPos -1140.873 221.241
-           InPorts {
-            SingleInputPortContainer SingleInputPortContainer {
-             Port 4
-             PortName "Entity"
-            }
-           }
-           OutPorts {
-            SingleOutputPortContainer SingleOutputPortContainer {
-             Port 5
-             PortName "Position"
-            }
-           }
+        AITaskCharacterSetMovementSpeed "Character Set Movement Speed" {
+         Name "Character Set Movement Speed"
+         EditorPos -2578.902 249.847
+         "Movement speed" SPRINT
+        }
+        SCR_AISetStance "SCR_AI Set Stance" {
+         Name "SCR_AI Set Stance"
+         EditorPos -2252.097 243.042
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port -1
+           PortName "Stance"
           }
          }
         }
-       }
-      }
-      Sequence Sequence {
-       Name "Sequence"
-       EditorPos -121.334 287.5
-       Nodes {
-        AITaskReturnState "Return State" {
-         Name "Return State"
-         EditorPos -1118.357 556.857
-         Result RUNNING
+        AITaskGetControlledEntity "Get Controlled Entity" {
+         Name "Get Controlled Entity"
+         EditorPos -2055.738 249.022
+         OutControlledEntity 3
         }
         SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
          Name "SCR_AI Get Entity Position"
-         EditorPos -890.35 660.968
+         EditorPos -1632.54 252.241
          InPorts {
           SingleInputPortContainer SingleInputPortContainer {
-           Port 10
+           Port 3
            PortName "Entity"
           }
          }
          OutPorts {
           SingleOutputPortContainer SingleOutputPortContainer {
-           Port 8
+           Port 4
            PortName "Position"
           }
          }
         }
+        SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
+         Name "SCR_AI Get Entity Position"
+         EditorPos -1035.167 251
+         InPorts {
+          SingleInputPortContainer SingleInputPortContainer {
+           Port 8
+           PortName "Entity"
+          }
+         }
+         OutPorts {
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 9
+           PortName "Position"
+          }
+         }
+        }
+       }
+      }
+      Selector Selector {
+       Name "Selector"
+       EditorPos 20 285.666
+       Nodes {
         SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
          Name "SCR_AI Deco Vector Distance"
-         EditorPos -284.304 615.617
+         EditorPos -286.804 615.617
          Nodes {
-          Parallel Parallel {
-           Name "Parallel"
-           EditorPos -228.889 888.888
+          Sequence Sequence {
+           Name "Sequence"
+           EditorPos -247.25 877
            Nodes {
+            SCR_AILookAtPosition "SCR_AI Look At Position" {
+             Name "SCR_AI Look At Position"
+             EditorPos -712.087 1076.619
+             InPorts {
+              SingleInputPortContainer SingleInputPortContainer {
+               Port 6
+               PortName "PositionIn"
+              }
+              SingleInputPortContainer SingleInputPortContainer {
+               Port -1
+               PortName "PriorityIn"
+              }
+             }
+             OutPorts {
+              SingleOutputPortContainer SingleOutputPortContainer {
+               Port -1
+               PortName "PositionOut"
+              }
+             }
+             m_fPriority 1
+            }
             AITaskMoveToEntity "Move To Entity" {
              Name "Move To Entity"
-             EditorPos -324.948 1025.607
-             InEntity 3
+             EditorPos -319.234 1075.607
+             InEntity 10
             }
             SCR_AIPrintDebug "SCR_AI Print Debug" {
              Name "SCR_AI Print Debug"
-             EditorPos -31.445 1023.11
+             EditorPos -25.731 1073.11
              InPorts {
               SingleInputPortContainer SingleInputPortContainer {
                Port -1
@@ -112,11 +122,11 @@ BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt" {
          }
          InPorts {
           SingleInputPortContainer SingleInputPortContainer {
-           Port 9
+           Port 7
            PortName "Vector0"
           }
           SingleInputPortContainer SingleInputPortContainer {
-           Port 8
+           Port 6
            PortName "Vector1"
           }
           SingleInputPortContainer SingleInputPortContainer {
@@ -125,173 +135,197 @@ BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt" {
           }
          }
          NegativeCondition 1
-         AbortType AbortChildrenBranch
-         m_fDistanceThreshold 2
+         AbortType AbortChildrenBranchAndParentFurtherChildren
+         m_fDistanceThreshold 1.5
         }
         SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
          Name "SCR_AI Deco Vector Distance"
-         EditorPos 8.5 609
+         EditorPos 147.389 631.222
          Nodes {
-          Sequence Sequence {
-           Name "Sequence - Attack Target"
-           EditorPos 459.497 1055.194
+          Selector Selector {
+           Name "Selector"
+           EditorPos 813 1278.667
            Nodes {
-            Sequence Sequence {
-             Name "Sequence"
-             EditorPos 520.557 1311.479
+            SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
+             Name "SCR_AI Deco Vector Distance"
+             EditorPos 437.666 1503.166
              Nodes {
-              SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
-               Name "SCR_AI Deco Vector Distance"
-               EditorPos 201.833 1517.333
+              Parallel Parallel {
+               Name "Parallel"
+               EditorPos 472.063 1723.809
                Nodes {
-                Parallel Parallel {
-                 Name "Parallel"
-                 EditorPos 236.23 1737.976
-                 Nodes {
-                  RunBT RunBT {
-                   Name "RunBT"
-                   EditorPos 79.223 1922.929
-                   InPorts {
-                    SingleInputPortContainer SingleInputPortContainer {
-                     Port 1
-                     PortName "targetEntity"
-                    }
-                   }
-                   BehaviorTree "{54BF4756359E3556}AI/BehaviorTrees/Chimera/Soldier/Fire_Melee.bt"
+                SCR_AIGetEntityPosition "SCR_AI Get Entity Position" {
+                 Name "SCR_AI Get Entity Position"
+                 EditorPos -218.944 1949.542
+                 InPorts {
+                  SingleInputPortContainer SingleInputPortContainer {
+                   Port 12
+                   PortName "Entity"
                   }
-                  SCR_AIPrintDebug "SCR_AI Print Debug" {
-                   Name "SCR_AI Print Debug"
-                   EditorPos 420.516 1915.833
-                   InPorts {
-                    SingleInputPortContainer SingleInputPortContainer {
-                     Port -1
-                     PortName "DebugMessage"
-                    }
-                   }
-                   m_bIncludeMe 1
-                   m_sDebugMessage "ZOMBIE IS ATTACKING"
+                 }
+                 OutPorts {
+                  SingleOutputPortContainer SingleOutputPortContainer {
+                   Port 13
+                   PortName "Position"
                   }
                  }
                 }
-               }
-               InPorts {
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port 7
-                 PortName "Vector0"
-                }
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port 6
-                 PortName "Vector1"
-                }
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port -1
-                 PortName "Threshold"
-                }
-               }
-               AbortType AbortChildrenBranch
-               m_fDistanceThreshold 1
-              }
-              SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
-               Name "SCR_AI Deco Vector Distance"
-               EditorPos 819.549 1519.101
-               Nodes {
-                Parallel Parallel {
-                 Name "Parallel"
-                 EditorPos 876.611 1741.833
-                 Nodes {
-                  Sequence Sequence {
-                   Name "Sequence"
-                   EditorPos 875.547 1963.18
-                   Nodes {
-                    SCR_AIGetRandomPoint "SCR_AI Get Random Point" {
-                     Name "SCR_AI Get Random Point"
-                     EditorPos 599.187 2150.393
-                     InPorts {
-                      SingleInputPortContainer SingleInputPortContainer {
-                       Port -1
-                       PortName "Waypoint"
-                      }
-                      SingleInputPortContainer SingleInputPortContainer {
-                       Port 2
-                       PortName "Origin"
-                      }
-                      SingleInputPortContainer SingleInputPortContainer {
-                       Port -1
-                       PortName "Radius"
-                      }
-                     }
-                     OutPorts {
-                      SingleOutputPortContainer SingleOutputPortContainer {
-                       Port 0
-                       PortName "ResultVector"
-                      }
-                     }
-                     m_Radius 5
-                    }
-                    AITaskMove Move {
-                     Name "Move"
-                     EditorPos 800.891 2229.54
-                     InTargetLocation 0
-                     InPrecisionXZ -1
-                     PrecisionXZ 6
-                     AutoOrientation 0
-                    }
-                    SCR_AICompleteAction "SCR_AI Complete Action" {
-                     Name "SCR_AI Complete Action"
-                     EditorPos 1083.722 2232.927
-                    }
-                    AITaskReturnState "Return State" {
-                     Name "Return State"
-                     EditorPos 1283.426 2225.887
-                     Result SUCCESS
-                    }
-                   }
+                SCR_AILookAtPosition "SCR_AI Look At Position" {
+                 Name "SCR_AI Look At Position"
+                 EditorPos 215.5 1891
+                 InPorts {
+                  SingleInputPortContainer SingleInputPortContainer {
+                   Port 13
+                   PortName "PositionIn"
                   }
-                  SCR_AIPrintDebug "SCR_AI Print Debug" {
-                   Name "SCR_AI Print Debug"
-                   EditorPos 1028.277 1957.833
-                   InPorts {
-                    SingleInputPortContainer SingleInputPortContainer {
-                     Port -1
-                     PortName "DebugMessage"
-                    }
-                   }
-                   m_bIncludeMe 1
-                   m_sDebugMessage "ZOMBIE HAS LOST ATTENTION"
+                  SingleInputPortContainer SingleInputPortContainer {
+                   Port -1
+                   PortName "PriorityIn"
                   }
                  }
+                 OutPorts {
+                  SingleOutputPortContainer SingleOutputPortContainer {
+                   Port -1
+                   PortName "PositionOut"
+                  }
+                 }
+                 m_fPriority 1
+                }
+                RunBT RunBT {
+                 Name "RunBT"
+                 EditorPos 441.723 1925.429
+                 InPorts {
+                  SingleInputPortContainer SingleInputPortContainer {
+                   Port 1
+                   PortName "targetEntity"
+                  }
+                 }
+                 BehaviorTree "{54BF4756359E3556}AI/BehaviorTrees/Chimera/Soldier/Fire_Melee.bt"
+                }
+                AITaskReturnState "Return State" {
+                 Name "Return State"
+                 EditorPos 782 1926.5
+                 Result SUCCESS
                 }
                }
-               InPorts {
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port 7
-                 PortName "Vector0"
-                }
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port 6
-                 PortName "Vector1"
-                }
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port -1
-                 PortName "Threshold"
-                }
-               }
-               NegativeCondition 1
-               AbortType AbortChildrenBranch
-               m_fDistanceThreshold 10
               }
              }
+             InPorts {
+              SingleInputPortContainer SingleInputPortContainer {
+               Port 5
+               PortName "Vector0"
+              }
+              SingleInputPortContainer SingleInputPortContainer {
+               Port 11
+               PortName "Vector1"
+              }
+              SingleInputPortContainer SingleInputPortContainer {
+               Port -1
+               PortName "Threshold"
+              }
+             }
+             AbortType AbortChildrenBranchAndParentFurtherChildren
+             m_fDistanceThreshold 1.5
+            }
+            SCR_AIDecoVectorDistance "SCR_AI Deco Vector Distance" {
+             Name "SCR_AI Deco Vector Distance"
+             EditorPos 1055.382 1504.934
+             Nodes {
+              Parallel Parallel {
+               Name "Parallel"
+               EditorPos 1112.444 1727.666
+               Nodes {
+                Sequence Sequence {
+                 Name "Sequence"
+                 EditorPos 1111.38 1949.013
+                 Nodes {
+                  SCR_AIGetRandomPoint "SCR_AI Get Random Point" {
+                   Name "SCR_AI Get Random Point"
+                   EditorPos 835.02 2136.226
+                   InPorts {
+                    SingleInputPortContainer SingleInputPortContainer {
+                     Port -1
+                     PortName "Waypoint"
+                    }
+                    SingleInputPortContainer SingleInputPortContainer {
+                     Port 2
+                     PortName "Origin"
+                    }
+                    SingleInputPortContainer SingleInputPortContainer {
+                     Port -1
+                     PortName "Radius"
+                    }
+                   }
+                   OutPorts {
+                    SingleOutputPortContainer SingleOutputPortContainer {
+                     Port 0
+                     PortName "ResultVector"
+                    }
+                   }
+                   m_Radius 5
+                  }
+                  AITaskMove Move {
+                   Name "Move"
+                   EditorPos 1036.724 2215.373
+                   InTargetLocation 0
+                   InPrecisionXZ -1
+                   PrecisionXZ 6
+                   AutoOrientation 0
+                  }
+                  SCR_AICompleteAction "SCR_AI Complete Action" {
+                   Name "SCR_AI Complete Action"
+                   EditorPos 1319.555 2218.76
+                  }
+                  AITaskReturnState "Return State" {
+                   Name "Return State"
+                   EditorPos 1521.259 2211.72
+                   Result SUCCESS
+                  }
+                 }
+                }
+                SCR_AIPrintDebug "SCR_AI Print Debug" {
+                 Name "SCR_AI Print Debug"
+                 EditorPos 1264.11 1943.666
+                 InPorts {
+                  SingleInputPortContainer SingleInputPortContainer {
+                   Port -1
+                   PortName "DebugMessage"
+                  }
+                 }
+                 m_bIncludeMe 1
+                 m_sDebugMessage "ZOMBIE HAS LOST ATTENTION"
+                }
+               }
+              }
+             }
+             InPorts {
+              SingleInputPortContainer SingleInputPortContainer {
+               Port 5
+               PortName "Vector0"
+              }
+              SingleInputPortContainer SingleInputPortContainer {
+               Port -1
+               PortName "Vector1"
+              }
+              SingleInputPortContainer SingleInputPortContainer {
+               Port -1
+               PortName "Threshold"
+              }
+             }
+             NegativeCondition 1
+             AbortType AbortChildrenBranchAndParentFurtherChildren
+             m_fDistanceThreshold 1.5
             }
            }
           }
          }
          InPorts {
           SingleInputPortContainer SingleInputPortContainer {
-           Port 9
+           Port 7
            PortName "Vector0"
           }
           SingleInputPortContainer SingleInputPortContainer {
-           Port 8
+           Port 6
            PortName "Vector1"
           }
           SingleInputPortContainer SingleInputPortContainer {
@@ -299,8 +333,8 @@ BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt" {
            PortName "Threshold"
           }
          }
-         AbortType AbortChildrenBranch
-         m_fDistanceThreshold 2
+         AbortType AbortChildrenBranchAndParentFurtherChildren
+         m_fDistanceThreshold 1.5
         }
        }
       }
@@ -344,47 +378,59 @@ BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt" {
  VariablesRefs {
   VariableReference safePos {
    VariableType 1
-   EditorPos 617.863 2282.83
+   EditorPos 853.696 2268.663
   }
   VariableReference targetEntity {
    VariableType 0
-   EditorPos -143.435 1998.096
+   EditorPos 219.065 2000.596
   }
   VariableReference currentPosition {
    VariableType 3
-   EditorPos 344.283 2204.735
-  }
-  VariableReference targetEntity {
-   VariableType 0
-   EditorPos -563.917 1062.416
+   EditorPos 580.116 2190.568
   }
   VariableReference currentEntity {
    VariableType 4
-   EditorPos -1324.068 351.728
+   EditorPos -1825.735 282.728
   }
   VariableReference currentPosition {
    VariableType 3
-   EditorPos -1051.262 336.007
+   EditorPos -1419.595 288.674
+  }
+  VariableReference currentPosition {
+   VariableType 3
+   EditorPos 59.851 1511.406
   }
   VariableReference targetPosition {
    VariableType 2
-   EditorPos -167.782 1611.643
+   EditorPos -829.926 730.215
   }
   VariableReference currentPosition {
    VariableType 3
-   EditorPos -177.982 1515.573
-  }
-  VariableReference targetPosition {
-   VariableType 2
-   EditorPos -564.688 703.786
-  }
-  VariableReference currentPosition {
-   VariableType 3
-   EditorPos -574.888 607.716
+   EditorPos -830.126 655.573
   }
   VariableReference targetEntity {
    VariableType 0
-   EditorPos -1105.362 695.333
+   EditorPos -1214 288
+  }
+  VariableReference targetPosition {
+   VariableType 2
+   EditorPos -833.333 286.333
+  }
+  VariableReference targetEntity {
+   VariableType 0
+   EditorPos -508.889 1111.111
+  }
+  VariableReference targetPosition {
+   VariableType 2
+   EditorPos 62 1592.417
+  }
+  VariableReference targetEntity {
+   VariableType 0
+   EditorPos -403.445 1984.875
+  }
+  VariableReference targetPosition {
+   VariableType 2
+   EditorPos 6.445 1924.292
   }
  }
 }

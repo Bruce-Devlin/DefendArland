@@ -34,7 +34,46 @@ class DefendManager: GenericEntity
 	        player.AddKills(kills);
 	    
 	        DefendHelpers.Log("Player got a kill", "Player " + player.GetName() + " (" + player.GetID().ToString() + ") killed someone (total kills: " + player.GetKills() + " )");
-	    }
+	    	CheckForRewards();
+		}
+	}
+	
+	void CheckForRewards()
+	{
+		if (!rewardingPlayers)
+		{
+			DefendHelpers.Log("Checking for Rewards", "Checking if players can be rewarded...");
+
+			rewardingPlayers = true;
+			
+			int targetForReward = 0;
+			if (awardedLives == 0) targetForReward = killsUntilReward;
+			else if (awardedLives == 1) targetForReward = ((killsUntilReward*2)+2);
+			else targetForReward = Math.ClampInt(killsUntilReward * ((awardedLives*2)+6), killsUntilReward, maximumKillsForReward);
+			
+			foreach (DefendPlayer player : players)
+			{
+				int killCount = player.GetKills();
+				
+				DefendHelpers.Log("Player " + player.GetName(), "Kills: " + killCount.ToString() + " Target: " + targetForReward.ToString());
+				if (killCount >= targetForReward)
+				{
+					AwardPlayers(awardedLivesPerReward, player.GetID());
+				}
+			}
+			rewardingPlayers = false;
+		}
+		
+	}
+	
+	int CountTotalKills()
+	{
+		int count = 0;
+		foreach (DefendPlayer player : players)
+		{
+			count = count + player.GetKills();
+		}
+		return count;
 	}
 	
 	//! Registers an AI's death, but currently does not perform any actions for AI death in this method.
@@ -137,6 +176,19 @@ class DefendManager: GenericEntity
 	//! id - The ID of the player to retrieve.
 	//! Returns:
 	//! The DefendPlayer object corresponding to the given ID, or null if no such player exists.
+	ref DefendPlayer GetHighestPlayerKills(out int kills)
+	{
+		ref DefendPlayer player;
+	    DefendPlayer playerToReturn = null;
+	    for (int i; i < players.Count(); i++)
+	    {
+	        DefendPlayer _currPlayer = players[i];
+			int currKills = _currPlayer.GetKills();
+	        if (currKills > kills) kills = currKills;
+	    }
+	    return player;
+	}
+	
 	ref DefendPlayer GetPlayer(int id)
 	{
 	    DefendPlayer playerToReturn = null;
@@ -200,14 +252,16 @@ class DefendManager: GenericEntity
 	{
 		string layoutToUse;
 
-		if (forcedLayoutName != "" && debugMode)
+		if ((forcedLayoutName != "") && debugMode) 
+		{
 			layoutToUse = forcedLayoutName;
+		}
 		else
 		{
 			int maxOptions = layoutLayerNames.Count();
-			int chosen = DefendHelpers.GenerateRandom(0, maxOptions);
-			DefendHelpers.Log("Picking Layout", "Options: " + (maxOptions+1) + " | Picked: " + chosen);
-			layoutToUse = layoutLayerNames[chosen];
+			int chosen = DefendHelpers.GenerateRandom(1, maxOptions);
+			DefendHelpers.Log("Picking Layout", "Options: " + (maxOptions) + " | Picked: " + chosen);
+			layoutToUse = layoutLayerNames[chosen-1];
 		}
 			
 		currentLayout = layoutToUse;
@@ -232,11 +286,12 @@ class DefendManager: GenericEntity
 	
 	IEntity FindLayoutEntity(string name)
 	{
-		IEntity entity = GetGame().GetWorld().FindEntityByName(currentLayout + "_" + name);
+		string combinedName = currentLayout + "_" + name;
+		IEntity entity = GetGame().GetWorld().FindEntityByName(combinedName);
 		if (entity != null) return entity;
 		else
 		{
-			DefendHelpers.Log("ERROR FINDING ITEM", "Couldn't find layout entity!");
+			DefendHelpers.Log("ERROR FINDING ITEM", "Couldn't find layout entity! (" + combinedName + ")");
 			return null;
 		}
 	}
@@ -270,19 +325,16 @@ class DefendManager: GenericEntity
 		if (debugMode && debugQuickWaveTest)
 		{
 			secondsBeforeFirstWaveToPrepare = 5;
-			allowPlayerDamage = false;
 		}
 		else if (debugMode && debugVehicleFeatureTest)
 		{
 			oddsOfVehicleSpawn = 1;
 			secondsBeforeFirstWaveToPrepare = 5;
-			allowPlayerDamage = false;
 		}
 		else if (debugMode && debugExtractionFeatureTest)
 		{
 			if (!endlessMode) debugStartingWave = numberOfWaves;
 			secondsBeforeFirstWaveToPrepare = 5;
-			allowPlayerDamage = false;
 		}
 	}
 	
@@ -291,6 +343,9 @@ class DefendManager: GenericEntity
 	void InitMission()
 	{
 	    DefendHelpers.Log("Init Mission", "Init called for mission");
+		
+		DefendHelpers.Log("Starting CheatDefender", "Beginning Init for CheatDefender...");
+		cheatDefender.Init(this);
 	            
 	    if (DefendHelpers.IsHost())
 	    {
@@ -379,6 +434,20 @@ class DefendManager: GenericEntity
 	            ChimeraAIGroup group = extractionGroup.GetGroup();
 	            float distance = vector.Distance(group.GetOrigin(), extractionGroup.targetExtractionPoint);
 	            DefendHelpers.Log("Extraction Inbound", "Extraction is " + distance.ToString() + " meters away.");
+				
+				if (distance == lastExtractionDistance) extractionStuckCount++;
+				else
+				{
+					extractionStuckCount = 0;
+					lastExtractionDistance = distance;
+				}
+				
+				if (extractionStuckCount >= countUntilExtractionStuck)
+				{
+					DefendHelpers.Log("Extraction is stuck!", "The extraction vehicle is stuck :/ (thanks Bohemia) - Teleporting it to the extraction point.");
+					extractionGroup.GetVehicle().SetOrigin(extractionGroup.targetExtractionPoint);
+				}
+
 	            
 	            // If the extraction is within 150 meters and not yet nearby, notify players
 	            if (distance < 150 && !extractionNearby)
@@ -620,6 +689,8 @@ class DefendManager: GenericEntity
 	protected bool checkingAI = false;
 	protected void CheckAI()
 	{
+		if (spawningAI) return;
+		
 	    checkingAI = true;
 	    checkAIQueued = false;
 	    if (serverLoopDebugLogging) DefendHelpers.Log("Running Server AI Loop", "Server AI loop running to check AI.");
@@ -877,7 +948,7 @@ class DefendManager: GenericEntity
 	//! allowed - A boolean indicating if building should be allowed (true) or disallowed (false).
 	void SendAllowBuilding(bool allowed, int playerId = 0)
 	{
-	    if (rpcLogging) DefendHelpers.Log("Sending Allow Building", "Sending Allow Building to: " + allowed);
+	    DefendHelpers.Log("Sending Allow Building", "Sending Allow Building to: " + allowed);
 	    if (DefendHelpers.IsHost()) AllowBuilding(allowed);
 	
 	    Rpc(RpcDo_AllowBuilding, allowed, playerId);
@@ -937,7 +1008,7 @@ class DefendManager: GenericEntity
 	//! playerId - The ID of the player to update (optional, default 0).
 	void SendHUDUpdate(int wave, int maxWave, int secondsUntilNext = 0, string customText = "", int playerId = 0)
 	{
-	    if (rpcLogging) DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
+	    DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
 	    if (DefendHelpers.IsHost()) hud.ShowHUD(wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText);
 	    
 	    Rpc(RpcDo_ShowHUDUpdate, wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText, playerId);
@@ -975,7 +1046,7 @@ class DefendManager: GenericEntity
 	void SendHint(string header, string message, int secondsToShow = 10, int playerId = 0)
 	{
 		bool showTimer = true;
-	    if (rpcLogging) DefendHelpers.Log("Sending Hint", "Sending hint to: " + playerId + " | " + header + " | " + message + " | " + secondsToShow + " secs");
+	    DefendHelpers.Log("Sending Hint", "Sending hint to: " + playerId + " | " + header + " | " + message + " | " + secondsToShow + " secs");
 	    if (DefendHelpers.IsHost()) hint.ShowHint(header, message, secondsToShow, showTimer, isDebug:hintLogging);
 	    
 	    Rpc(RpcDo_ShowHint, header, message, secondsToShow, showTimer, playerId);
@@ -997,6 +1068,31 @@ class DefendManager: GenericEntity
 	    {
 	        hint.ShowHint(header, message, secondsToShow, showTimer, isDebug:hintLogging);
 	    }
+	}
+	
+	void AwardPlayers(int lives, int playerId)
+	{
+	    DefendHelpers.Log("Awarding Players", "Sending Awarded lives (" + lives.ToString() + ") to Players thanks to " + playerId.ToString());
+	    if (DefendHelpers.IsHost())
+		{
+			hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + GetPlayer(playerId).GetName() + ", we've been awarded an extra " + lives + " lives");
+
+			livesLeft = livesLeft + lives;
+			awardedLives = awardedLives + lives;
+		}
+		 	    
+	    Rpc(RpcDo_AwardPlayers, lives, playerId);
+	}
+
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]	
+	protected void RpcDo_AwardPlayers(int lives, int playerId) 
+	{
+	    if (rpcLogging) DefendHelpers.Log("RpcDo: Award Players", "lives awarded: " + lives.ToString());
+	    
+		hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + GetPlayer(playerId).GetName() + ", we've been awarded an extra " + lives.ToString() + " lives");
+		
+		livesLeft = livesLeft + lives;
+		awardedLives = awardedLives + lives;
 	}
 	
 	//! Waits for players to join before starting the game
@@ -1061,6 +1157,10 @@ class DefendManager: GenericEntity
 	    }
 	    else
 	    {
+			if (lastLife)
+			{
+				primaryLayoutSpawn.SetSpawnPointEnabled_S(true);
+			}
 	        GetGame().GetCallqueue().CallLater(EnemyTimerTick, secondsBeforeSpawnEnemy * 1000);
 	    }		
 	}
@@ -1069,6 +1169,11 @@ class DefendManager: GenericEntity
 	protected void EnemyTimerTick()
 	{
 		DefendHelpers.Log("Spawning Wave " + currentWave, "Currently spawning the enemy for wave " + currentWave);
+		
+		if (lastLife) 
+			primaryLayoutSpawn.SetSpawnPointEnabled_S(false);
+		
+		spawningAI = true;
 
 	    int maxEnemies = numberOfEnemiesPerWave;
 	    if (balenceEnemies && GetAlivePlayers().Count() > 1)
@@ -1077,11 +1182,13 @@ class DefendManager: GenericEntity
 	    }
 		maxEnemies = maxEnemies * currentWave;
 		if (maxEnemies > maxAIGroupsPerWave) maxEnemies = maxAIGroupsPerWave;
+		
+		if (zombiesMode) maxEnemies = maxEnemies * 2;
 	    
 	    for (int enemy; enemy < maxEnemies; enemy++)
 	    {
 	        DefendHelpers.Log("Enemy " + (enemy+1) + "/" + maxEnemies, "Spawned enemy " + (enemy+1) + " of "  + maxEnemies + ".");
-	        bool isVeh = ((DefendHelpers.GenerateRandom(1,(oddsOfVehicleSpawn+1))) == oddsOfVehicleSpawn);
+	        bool isVeh = ((DefendHelpers.GenerateRandom(1, oddsOfVehicleSpawn)) == 1);
 	        if (allowVehicles)
 	        {
 	            DefendHelpers.Log("Enemy Is Vehicle: ", isVeh.ToString());
@@ -1091,13 +1198,13 @@ class DefendManager: GenericEntity
 	        if ((allowVehicles && isVeh && (currentWave != GetNumberOfWaves())) && (vehicleCount < maxVehicles) && !zombiesMode)
 	        {
 	            vehicleCount = vehicleCount + 1;
-	            int randomSpawn = DefendHelpers.GenerateRandom(0, (vehicleSpawnPositions.Count()-1));
-	            GetGame().GetCallqueue().CallLater(SendWave, ((enemy+1) * 1000), false, randomSpawn, true);
+	            int randomSpawn = DefendHelpers.GenerateRandom(1, (vehicleSpawnPositions.Count()));
+	            GetGame().GetCallqueue().CallLater(SendWave, ((enemy+1) * 1000), false, randomSpawn-1, true);
 	        }
 	        else
 	        {
-	            int randomSpawn = DefendHelpers.GenerateRandom(0, (infantrySpawnPositions.Count()-1));
-	            GetGame().GetCallqueue().CallLater(SendWave, ((enemy+1) * 1000), false, randomSpawn, false);
+	            int randomSpawn = DefendHelpers.GenerateRandom(1, (infantrySpawnPositions.Count()));
+	            GetGame().GetCallqueue().CallLater(SendWave, ((enemy+1) * 1000), false, randomSpawn-1, false);
 	        }
 	    }
 		GetGame().GetCallqueue().CallLater(PostSpawn, 10000, false);
@@ -1121,18 +1228,18 @@ class DefendManager: GenericEntity
 	        {
 
 	            IEntity spawnPosition = FindLayoutEntity(vehicleSpawnPositions[spawnInd]);
-	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(0, spawnGroupsVeh.Count())], spawnPosition, vehWaypointPosition.GetOrigin(), vehicle);
+	            GetGame().GetCallqueue().Call(AISpawner, spawnGroupsVeh[DefendHelpers.GenerateRandom(1, spawnGroupsVeh.Count())-1], spawnPosition, vehWaypointPosition.GetOrigin(), vehicle);
 	        }	
 	        else
 	        {
 				IEntity spawnPosition = FindLayoutEntity(infantrySpawnPositions[spawnInd]);
 				if (zombiesMode)
 				{
-					GetGame().GetCallqueue().Call(AISpawner, spawnGroupsZom[DefendHelpers.GenerateRandom(0, spawnGroupsZom.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+					GetGame().GetCallqueue().Call(AISpawner, spawnGroupsZom[DefendHelpers.GenerateRandom(1, spawnGroupsZom.Count())-1], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 				}
 				else
 				{
-	            	GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(0, spawnGroupsInf.Count())], spawnPosition, waypointPosition.GetOrigin(), vehicle);
+	            	GetGame().GetCallqueue().Call(AISpawner, spawnGroupsInf[DefendHelpers.GenerateRandom(1, spawnGroupsInf.Count())-1], spawnPosition, waypointPosition.GetOrigin(), vehicle);
 				}
 	        }
 	    }
@@ -1169,6 +1276,7 @@ class DefendManager: GenericEntity
 	protected void PostSpawn()
 	{
 		DefendHelpers.Log("Post Spawn", "AI Units should have spawned by now.");
+		spawningAI = false;
 		
 		string waveTitle = "Wave " + currentWave.ToString() + "/" + GetNumberOfWaves();
 	    if (endlessMode) waveTitle = "Wave " + currentWave.ToString();
@@ -1209,8 +1317,8 @@ class DefendManager: GenericEntity
 		SendHint("Extraction Nearly Available", "We've called for your extraction, we just need to survive a little while longer...");
 		string forcedMoveWaypointName = "{06E1B6EBD480C6E0}Prefabs/AI/Waypoints/AIWaypoint_ForcedMove.et";
 		
-		string randomExtractionVeh = extractionVehicleTypes[DefendHelpers.GenerateRandom(0, extractionVehicleTypes.Count()-1)];		
-		string randomExtractionPos = extractionMarkerPositions[DefendHelpers.GenerateRandom(0, extractionMarkerPositions.Count()-1)];
+		string randomExtractionVeh = extractionVehicleTypes[DefendHelpers.GenerateRandom(1, extractionVehicleTypes.Count())-1];		
+		string randomExtractionPos = extractionMarkerPositions[DefendHelpers.GenerateRandom(1, extractionMarkerPositions.Count())-1];
 		
 		DefendHelpers.Log("Extraction Location Confirmed", "Will extract to: " + randomExtractionPos + " using " + randomExtractionVeh);
 		
@@ -1356,7 +1464,9 @@ class DefendManager: GenericEntity
 	//! is met, after which it triggers the retreat or next wave actions.
 	protected void WaitUntilAllAIAreDead()
 	{
+		if (spawningAI) return;
 		DefendHelpers.Log("Waiting", "Waiting for AI to die...");
+		bool keepWaiting = true;
 		
 		if (activePlayerIds.Count() < 1) 
 		{
@@ -1367,19 +1477,31 @@ class DefendManager: GenericEntity
 		int aliveAI = CountAliveAI();
 		if ((aliveAI <= enemiesLeftToFinishWave) && (activeAIVehicles.Count() <= 0))
 		{
-			DefendHelpers.Log("Enough AI are dead", "Enough AI have been killed for them to retreat.");
-			SendHint("Enemy is retreating", "They seem to be retreating for now, be careful as they're still dangerous!");
-			
-			GetGame().GetCallqueue().Call(RetreatWave);
-			GetGame().GetCallqueue().CallLater(MidWaveTimerTick, 10000);
+			if (aliveAI <= 0)
+			{
+				DefendHelpers.Log("All AI are dead", "All AI have been killed.");
+				SendHint("Enemy is dead", "They seem to all be dead for now, it won't be long until there is more though...");
+				
+				
+				GetGame().GetCallqueue().CallLater(MidWaveTimerTick, 10000);
+				keepWaiting = false;
+			}
+			else if (!zombiesMode)
+			{
+				DefendHelpers.Log("Enough AI are dead", "Enough AI have been killed for them to retreat.");
+				SendHint("Enemy is retreating", "They seem to be retreating for now, be careful as they're still dangerous!");
+				
+				GetGame().GetCallqueue().Call(RetreatWave);
+				GetGame().GetCallqueue().CallLater(MidWaveTimerTick, 10000);
+				keepWaiting = false;
+			}
 		}
-		else
+
+		if (keepWaiting)
 		{
-			DefendHelpers.Log("Waiting for AI to die", "Waiting until there are less than or equal to " + enemiesLeftToFinishWave + " enemies remaining (currently " + aliveAI + " AI alive)");
+			DefendHelpers.Log("Waiting for AI to die", "Waiting until there are less than or equal to " + enemiesLeftToFinishWave + " enemies remaining (currently " + aliveAI + " AI alive and " + activeAIVehicles.Count() +" alive vehicles)");
 			GetGame().GetCallqueue().CallLater(WaitUntilAllAIAreDead, aiLoopIntervalSeconds * 1000);
 		} 
-		
-		
 	}
 	
 	//! Handles the retreat of the current enemy wave once certain conditions are met.
@@ -1600,6 +1722,8 @@ class DefendManager: GenericEntity
 	// HintHelpers instance, used to handle hint-related functionality in the game.
 	ref HintHelpers hint = new HintHelpers(); 
 	
+	protected ref CheatDefender cheatDefender = new CheatDefender();
+	
 	// HUDHelpers instance, used for managing and displaying HUD elements in the game.
 	ref HUDHelpers hud = new HUDHelpers(); 
 	
@@ -1617,6 +1741,9 @@ class DefendManager: GenericEntity
 	bool HasExtractionStarted() return extractionStarted; // Returns true if extraction has started.
 	bool IsExtractionAvailable() return extractionAvailable; // Returns true if extraction is available.
 	
+	int extractionStuckCount = 0;
+	float lastExtractionDistance = 0;
+	
 	
 	// Reference to the extraction group, responsible for managing the extraction-related logic.
 	protected ref ExtractionGroup extractionGroup = null;
@@ -1626,8 +1753,11 @@ class DefendManager: GenericEntity
 	string currentLayout = "";
 	SCR_SpawnPoint primaryLayoutSpawn;
 	int currentWave = 0;  // The current wave of enemies or events.
+	bool spawningAI = false;
 	int livesLeft = 0;  // Tracks how many player lives are remaining.
 	bool lastLife = false;
+	int awardedLives = 0;
+	bool rewardingPlayers = false;
 	protected bool waitingForPlayers = true; // Indicates whether the game is waiting for players to join.
 	int localPlayerId = 0; // The Player ID of the local player.
 	bool localPlayerAlive = false;
@@ -1708,6 +1838,8 @@ class DefendManager: GenericEntity
 	bool hintLogging;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "Should log RPC?")]
 	bool rpcLogging;
+	[Attribute(defvalue: "10", category: WB_DEFEND_DEBUG, "10 999 1", desc: "How many ticks until we consider the extraction vehicles stuck?")]
+	int countUntilExtractionStuck;
 
 	const static string WB_DEFEND_LOOPS = "Defend | Loops";
 	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_LOOPS, "1 100 1", desc: "Interval in seconds when the server loop will run.")]
@@ -1735,6 +1867,12 @@ class DefendManager: GenericEntity
 	int enemiesLeftToFinishWave;
 	[Attribute(defvalue: "100", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "10 200 1", desc: "How many meters do the enemies need to be before being cleaned up.")]
 	int metersUntilForceAIDeathWhenRetreating;
+	[Attribute(defvalue: "5", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "2 50 1", desc: "How many kills does a player need to get for the team to be rewarded.")]
+	int killsUntilReward;
+	[Attribute(defvalue: "1", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "1 10 1", desc: "How many lives are the players rewarded.")]
+	int awardedLivesPerReward;
+	[Attribute(defvalue: "30", UIWidgets.Slider, category: WB_DEFEND_GAMEPLAY, "2 50 1", desc: "Maximum number of kills required for an reward.")]
+	int maximumKillsForReward;	
 	[Attribute(uiwidget: UIWidgets.Auto, category: WB_DEFEND_GAMEPLAY, desc: "Names of the folders of each layout.")]
 	ref array<ref string> layoutLayerNames;
 	[Attribute(defvalue: "0", category: WB_DEFEND_GAMEPLAY, desc: "Zombies?")]

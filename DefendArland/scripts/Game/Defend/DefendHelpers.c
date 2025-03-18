@@ -31,6 +31,18 @@ class DefendHelpers
 	
 	}
 	
+	static void AllowCharacterDamage(IEntity entity)
+	{
+		DamageManagerComponent damageManager = DamageManagerComponent.Cast(entity.FindComponent(DamageManagerComponent));
+		if (damageManager != null)
+		{
+			GetGame().GetCallqueue().Remove(PreventCharacterDamage);
+			if (!damageManager.IsDamageHandlingEnabled())
+				damageManager.EnableDamageHandling(true);		
+		}
+		else Log("ERROR", "Couldn't find Damage Manager Component in entity: " + entity.GetName());
+	}
+	
 	static void PreventCharacterDamage(IEntity entity, int seconds = -1, int initialSeconds = 0)
 	{
 		GetGame().GetCallqueue().Remove(PreventCharacterDamage);
@@ -146,7 +158,7 @@ class DefendHelpers
     //! A random integer between min and max.
     static int GenerateRandom(int min, int max)
     {
-        int value = Math.RandomInt(min, max);
+        int value = Math.RandomInt(min, (max+1));
 		Log("Rolling dice", "Rolling dice starting at " + min.ToString() + " to " + max.ToString() + " | Rolled: " + value.ToString());
         return value;
     }
