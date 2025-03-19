@@ -6,7 +6,7 @@ modded class SCR_EditorManagerEntity
 		if (dm != null)
 		{
 			IEntity aliveEntity = IEntity.Cast(GetGame().GetPlayerController().GetControlledEntity());
-			if (dm.CanBuild() || !dm.localPlayerAlive)
+			if (dm.CanBuild())
 			{
 				super.Open(showErrorNotification);
 			}

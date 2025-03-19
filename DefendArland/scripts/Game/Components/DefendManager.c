@@ -981,10 +981,7 @@ class DefendManager: GenericEntity
 	        {
 	            if (editor.IsOpened() && !allowed)
 	            {
-	                if (!CanBuild()) 
-	                {
-	                    editor.Close();
-	                }
+	                editor.Close();
 	            }
 	        }
 	        
