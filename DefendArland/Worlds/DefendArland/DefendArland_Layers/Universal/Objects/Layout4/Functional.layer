@@ -18,7 +18,7 @@ GenericEntity : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/Inte
    m_iBaseSupplyCostOnUse 1
   }
  }
- coords 2748.185 78.05 1654.312
+ coords 2749.06 78.062 1657.56
  angleY 110.005
 }
 Vehicle Tutorial_MobileHQ4 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_MobileHQ.et" {
@@ -68,13 +68,11 @@ GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/Inte
    }
   }
  }
- coords 2749.326 78.029 1657.197
- angleX -0.862
+ coords 2748.306 78.187 1654.219
  angleY 105.598
- angleZ -0.241
 }
 GenericEntity : "{466A6AA84E5F900F}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/WeaponRackCabinetArsenal_US_Basic.et" {
- coords 2746.837 77.438 1653.065
+ coords 2746.837 77.393 1653.065
  angleY 135.722
 }
 GenericEntity BuildingTable4 : "{59FF31302266059A}PrefabsEditable/Auto/Props/Military/Compositions/US/E_BuildingService_US.et" {
@@ -133,7 +131,7 @@ GenericEntity BuildingTable4 : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mil
    }
   }
  }
- coords 2746.677 77.438 1650.045
+ coords 2746.677 77.42 1650.045
  angleY 44.355
 }
 GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Props/Military/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {

@@ -103,10 +103,10 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -6.996
  }
  Layout3_ussr_spawn_9 {
-  coords 2126.387 53.775 2940.968
-  angleX -0.738
-  angleY 124.523
-  angleZ -0.507
+  coords 2101.869 51.538 3034.982
+  angleX 5.256
+  angleY 123.17
+  angleZ -20.186
  }
  Layout3_ussr_veh_spawn_2 {
   coords 2386.307 63.621 2772.119
@@ -142,5 +142,5 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
  }
 }
 GenericEntity Area4 : "{C72F956E4AC6A6E7}Prefabs/ScenarioFramework/Components/Area.et" {
- coords 2292.37 53.409 2878.156
+ coords 2211.02 53.409 2891.75
 }

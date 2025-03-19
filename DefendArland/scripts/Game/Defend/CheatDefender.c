@@ -9,7 +9,7 @@ class CheatDefender
 		DefendHelpers.Log("Starting CheatDefender", "CheatDefending is currently starting...");
 		
 		debugMode = dm.debugMode;
-		GetGame().GetCallqueue().CallLater(CheatDefenderLoop, 10000, true);
+		GetGame().GetCallqueue().CallLater(CheatDefenderLoop, 30000, true);
 		DefendHelpers.Log("CheatDefender Started!", "Tasks are scheduled.");
 	}
 	

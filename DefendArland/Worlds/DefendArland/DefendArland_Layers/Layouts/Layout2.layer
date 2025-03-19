@@ -89,7 +89,7 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ -0.707
  }
  Layout2_ussr_spawn_2 {
-  coords 1362.434 34.625 3028.031
+  coords 1402.17 34.625 3037.84
   angleY 166.134
  }
  Layout2_ussr_spawn_1 {

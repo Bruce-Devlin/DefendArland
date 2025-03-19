@@ -5,7 +5,7 @@ $grp GenericEntity {
     Object "{AA29F9AE1677854E}Assets/Props/Military/AmmoBox/ArsenalBox_01/ArsenalBox_01_US_equip.xob"
    }
   }
-  coords 1380.987 36.103 2344.515
+  coords 1381.036 36.205 2347.73
   angleY 89.258
   angleZ -2.059
  }
@@ -15,7 +15,7 @@ $grp GenericEntity {
     Object "{A54671D8C8F9B8D9}Assets/Props/Military/AmmoBox/ArsenalBox_01/ArsenalBox_01_US_weapons_ammo.xob"
    }
   }
-  coords 1381.114 36.145 2347.626
+  coords 1381.086 36.153 2344.515
   angleY 89.258
   angleZ -2.059
  }

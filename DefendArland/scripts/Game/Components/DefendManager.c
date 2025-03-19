@@ -1008,7 +1008,7 @@ class DefendManager: GenericEntity
 	//! playerId - The ID of the player to update (optional, default 0).
 	void SendHUDUpdate(int wave, int maxWave, int secondsUntilNext = 0, string customText = "", int playerId = 0)
 	{
-	    DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
+	    if (rpcLogging) DefendHelpers.Log("Sending HUD Update", "Sending HUD Update to: " + playerId + ", custom text: " + customText + " | wave: " + wave + " | " + secondsUntilNext + " secs");
 	    if (DefendHelpers.IsHost()) hud.ShowHUD(wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText);
 	    
 	    Rpc(RpcDo_ShowHUDUpdate, wave, maxWave, livesLeft, secondsUntilNext, CountAliveAI(), customText, playerId);
@@ -1072,24 +1072,25 @@ class DefendManager: GenericEntity
 	
 	void AwardPlayers(int lives, int playerId)
 	{
+		string playerName = GetPlayer(playerId).GetName();
 	    DefendHelpers.Log("Awarding Players", "Sending Awarded lives (" + lives.ToString() + ") to Players thanks to " + playerId.ToString());
 	    if (DefendHelpers.IsHost())
 		{
-			hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + GetPlayer(playerId).GetName() + ", we've been awarded an extra " + lives + " lives");
+			hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + playerName + ", we've been awarded an extra " + lives + " lives");
 
 			livesLeft = livesLeft + lives;
 			awardedLives = awardedLives + lives;
 		}
 		 	    
-	    Rpc(RpcDo_AwardPlayers, lives, playerId);
+	    Rpc(RpcDo_AwardPlayers, lives, playerName);
 	}
 
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]	
-	protected void RpcDo_AwardPlayers(int lives, int playerId) 
+	protected void RpcDo_AwardPlayers(int lives, string playerName) 
 	{
 	    if (rpcLogging) DefendHelpers.Log("RpcDo: Award Players", "lives awarded: " + lives.ToString());
 	    
-		hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + GetPlayer(playerId).GetName() + ", we've been awarded an extra " + lives.ToString() + " lives");
+		hint.ShowHint(lives.ToString() + " Lives Awarded.", "Thanks to " + playerName + ", we've been awarded an extra " + lives.ToString() + " lives");
 		
 		livesLeft = livesLeft + lives;
 		awardedLives = awardedLives + lives;

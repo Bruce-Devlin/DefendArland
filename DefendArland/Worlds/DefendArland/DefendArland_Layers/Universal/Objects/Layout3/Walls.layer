@@ -5,10 +5,10 @@ $grp GenericEntity {
     Object "{AA29F9AE1677854E}Assets/Props/Military/AmmoBox/ArsenalBox_01/ArsenalBox_01_US_equip.xob"
    }
   }
-  coords 2227.374 54.042 2911.812
-  angleX -0.375
-  angleY -73.438
-  angleZ -0.518
+  coords 2227.698 54.045 2911.687
+  angleX -0.299
+  angleY -75.651
+  angleZ -0.511
  }
  {
   components {
@@ -16,10 +16,10 @@ $grp GenericEntity {
     Object "{A54671D8C8F9B8D9}Assets/Props/Military/AmmoBox/ArsenalBox_01/ArsenalBox_01_US_weapons_ammo.xob"
    }
   }
-  coords 2226.326 54.012 2908.88
-  angleX -0.375
-  angleY -73.438
-  angleZ -0.518
+  coords 2226.763 54.015 2908.716
+  angleX -0.299
+  angleY -75.651
+  angleZ -0.511
  }
 }
 GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
@@ -37,10 +37,10 @@ GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_sh
    EnableDamage 0
   }
  }
- coords 2227.079 53.688 2910.266
- angleX -0.357
- angleY -71.528
- angleZ -0.53
+ coords 2227.462 53.69 2910.13
+ angleX -0.281
+ angleY -73.741
+ angleZ -0.521
  Flags 66563
 }
 GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_single_burlap.et" {

@@ -18,7 +18,7 @@ GenericEntity : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/Inte
    m_iBaseSupplyCostOnUse 1
   }
  }
- coords 1381.102 36.91 2347.709
+ coords 1381.074 36.918 2344.599
  angleY -85.068
  angleZ 5.383
 }
@@ -67,7 +67,7 @@ GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/Inte
    }
   }
  }
- coords 1380.975 36.869 2344.622
+ coords 1381.024 36.971 2347.838
  angleX 0.28
  angleY -89.131
  angleZ 2.363
