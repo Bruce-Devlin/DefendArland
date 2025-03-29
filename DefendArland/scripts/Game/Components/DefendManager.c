@@ -325,7 +325,6 @@ class DefendManager: GenericEntity
 		{
 			zombiesMode = true;
 			numberOfEnemiesPerWave = 8;
-			allowBuildingTimeBetweenWaves = false;
 			numberOfWaves = 5;
 		}
 		else if (flags >= 60)
@@ -845,7 +844,25 @@ class DefendManager: GenericEntity
 	            else 
 	            {
 	                AIWaypoint currWaypoint = waypoints[0];
-	                if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()) && !zombiesMode)
+					if (zombiesMode)
+					{
+						if (serverLoopDebugLogging) DefendHelpers.Log("Zombie is heading to target", "Sending a zombie to a target...");
+
+						IEntity entity = spawnedGroup.GetGroup().GetLeaderEntity();
+					
+						float perceptionFactor;
+						SCR_AICombatComponent combatComp = SCR_AICombatComponent.Cast(entity.FindComponent(SCR_AICombatComponent));
+						PerceptionComponent perseptionComp = PerceptionComponent.Cast(entity.FindComponent(PerceptionComponent));
+							
+						perceptionFactor *= 1.0;
+						perceptionFactor *= 1.1;
+							
+						perseptionComp.SetPerceptionFactor(perceptionFactor);
+						
+						DefendPlayer closestPlayer = FindClosestPlayer(spawnedGroup.GetGroup().GetOrigin());
+		                SetWaypoint(spawnedGroup, moveWaypointType, closestPlayer.GetEntity().GetOrigin());
+					}
+	                else if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
 	                {
 	                    if (serverLoopDebugLogging) DefendHelpers.Log("AI is within their waypoint", "AI #" + (i+1).ToString() + " is busy but within their waypoint location");
 	                
@@ -885,24 +902,7 @@ class DefendManager: GenericEntity
 	                spawnedGroup.GetGroup().RemoveWaypoint(waypointToDelete);
 	            }
 	            
-				if (zombiesMode)
-				{
-					IEntity entity = spawnedGroup.GetGroup().GetLeaderEntity();
-					
-					float perceptionFactor;
-					SCR_AICombatComponent combatComp = SCR_AICombatComponent.Cast(entity.FindComponent(SCR_AICombatComponent));
-					PerceptionComponent perseptionComp = PerceptionComponent.Cast(entity.FindComponent(PerceptionComponent));
-						
-					perceptionFactor *= 1.0;
-					perceptionFactor *= 1.1;
-						
-					perseptionComp.SetPerceptionFactor(perceptionFactor);
-					
-					IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
-					DefendPlayer closestPlayer = FindClosestPlayer(spawnedGroup.GetGroup().GetOrigin());
-	                SetWaypoint(spawnedGroup, moveWaypointType, closestPlayer.GetEntity().GetOrigin());
-				}
-	            else if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
+				if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
 	            {
 	                IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	                SetWaypoint(spawnedGroup, patrolWaypointType, waypointPosition.GetOrigin());
