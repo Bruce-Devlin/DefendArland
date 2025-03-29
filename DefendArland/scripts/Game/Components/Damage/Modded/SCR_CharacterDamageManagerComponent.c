@@ -13,9 +13,13 @@ modded class SCR_CharacterDamageManagerComponent
 				GetAllHitZones(hitZones);
 				foreach (HitZone hitZone: hitZones)
 				{
+					
 					SCR_CharacterHitZone characterHitZone = SCR_CharacterHitZone.Cast(hitZone);
-					DefendHelpers.Log("Making zombie clothes dirty", "Make a zombies clothes dirty.");
-					AddBloodToClothes(characterHitZone, 100);
+					if (characterHitZone != null)
+					{
+						DefendHelpers.Log("Making zombie clothes dirty", "Make a zombies clothes dirty.");
+						AddBloodToClothes(characterHitZone, 100);
+					}
 				}
 			}
 		}

@@ -47,11 +47,11 @@ Vehicle Tutorial_MobileHQ4 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
    m_bIsLocked 1
   }
  }
+ Flags 1027
  coords 2756.189 77.422 1644.418
  angleX 2.741
  angleY -37.795
  angleZ 3.529
- Flags 1027
 }
 GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
  components {

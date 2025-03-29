@@ -296,6 +296,23 @@ class DefendManager: GenericEntity
 		}
 	}
 	
+	DefendPlayer FindClosestPlayer(vector toPosition)
+	{
+		DefendPlayer closestPlayer = null;
+		float closestDistance = 9999; 
+		foreach (DefendPlayer player : players)
+		{
+			vector playerPos = player.GetEntity().GetOrigin();
+			float newDistance = vector.Distance(playerPos, toPosition);
+			if (newDistance < closestDistance)
+			{
+				closestDistance = newDistance;
+				closestPlayer = player;
+			}
+		}
+		return closestPlayer;
+	}
+	
 	void CheckMissionFlags()
 	{
 		EGameFlags flags = GetGame().GetGameFlags();
@@ -689,10 +706,11 @@ class DefendManager: GenericEntity
 	protected bool checkingAI = false;
 	protected void CheckAI()
 	{
+		checkAIQueued = false;
 		if (spawningAI) return;
 		
 	    checkingAI = true;
-	    checkAIQueued = false;
+		
 	    if (serverLoopDebugLogging) DefendHelpers.Log("Running Server AI Loop", "Server AI loop running to check AI.");
 	    
 	    CheckAIAlive();
@@ -827,7 +845,7 @@ class DefendManager: GenericEntity
 	            else 
 	            {
 	                AIWaypoint currWaypoint = waypoints[0];
-	                if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
+	                if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()) && !zombiesMode)
 	                {
 	                    if (serverLoopDebugLogging) DefendHelpers.Log("AI is within their waypoint", "AI #" + (i+1).ToString() + " is busy but within their waypoint location");
 	                
@@ -836,7 +854,7 @@ class DefendManager: GenericEntity
 	                else
 	                {
 	                    if (serverLoopDebugLogging) DefendHelpers.Log("AI is busy", "AI #" + (i+1).ToString() + " is busy going to a waypoint");
-	                    GetGame().GetCallqueue().CallLater(CheckRemindAI, 20000, false, spawnedGroup, currWaypoint);
+	                    GetGame().GetCallqueue().CallLater(CheckRemindAI, 10000, false, spawnedGroup, currWaypoint);
 	                }
 	            }
 	        }
@@ -867,9 +885,25 @@ class DefendManager: GenericEntity
 	                spawnedGroup.GetGroup().RemoveWaypoint(waypointToDelete);
 	            }
 	            
-	            if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
+				if (zombiesMode)
+				{
+					IEntity entity = spawnedGroup.GetGroup().GetLeaderEntity();
+					
+					float perceptionFactor;
+					SCR_AICombatComponent combatComp = SCR_AICombatComponent.Cast(entity.FindComponent(SCR_AICombatComponent));
+					PerceptionComponent perseptionComp = PerceptionComponent.Cast(entity.FindComponent(PerceptionComponent));
+						
+					perceptionFactor *= 1.0;
+					perceptionFactor *= 1.1;
+						
+					perseptionComp.SetPerceptionFactor(perceptionFactor);
+					
+					IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
+					DefendPlayer closestPlayer = FindClosestPlayer(spawnedGroup.GetGroup().GetOrigin());
+	                SetWaypoint(spawnedGroup, moveWaypointType, closestPlayer.GetEntity().GetOrigin());
+				}
+	            else if (currWaypoint.IsWithinCompletionRadius(spawnedGroup.GetGroup()))
 	            {
-	                if (serverLoopDebugLogging) DefendHelpers.Log("AI is within their waypoint", "AI is within their waypoint radius.");
 	                IEntity waypointPosition = FindLayoutEntity(waypointPositionName);
 	                SetWaypoint(spawnedGroup, patrolWaypointType, waypointPosition.GetOrigin());
 	            }
@@ -972,27 +1006,30 @@ class DefendManager: GenericEntity
 	protected void AllowBuilding(bool allowed)
 	{
 	    IEntity gm = GetGame().GetWorld().FindEntityByName("GameMode_Defend");
-	    SetCanBuild(allowed);
-	    if (gm != null)
-	    {
-	        SCR_EditorManagerEntity editor = SCR_EditorManagerEntity.GetInstance();
-	
-	        if (editor != null)
-	        {
-	            if (editor.IsOpened() && !allowed)
-	            {
-	                editor.Close();
-	            }
-	        }
-	        
-	        if (allowed)
-	            hint.ShowHint("Building Allowed", "You can now use the table at the Command Post to build defenses.", isDebug:hintLogging);
-	        else
-	            hint.ShowHint("Building Restricted", "You can no longer use the table at the Command Post to build defenses.", isDebug:hintLogging);
-	        
-	        DefendHelpers.Log("Allow player building", "Building allowed: " + CanBuild());
-	    }
-	    else DefendHelpers.Log("Not Defend Gamemode?", "Couldn't find GameModeDefend entity!");
+		if (CanBuild() != allowed)
+		{
+			SetCanBuild(allowed);
+		    if (gm != null)
+		    {
+		        SCR_EditorManagerEntity editor = SCR_EditorManagerEntity.GetInstance();
+		
+		        if (editor != null)
+		        {
+		            if (editor.IsOpened() && !allowed)
+		            {
+		                editor.Close();
+		            }
+		        }
+		        
+		        if (allowed)
+		            hint.ShowHint("Building Allowed", "You can now use the table at the Command Post to build defenses.", isDebug:hintLogging);
+		        else
+		            hint.ShowHint("Building Restricted", "You can no longer use the table at the Command Post to build defenses.", isDebug:hintLogging);
+		        
+		        DefendHelpers.Log("Allow player building", "Building allowed: " + CanBuild());
+		    }
+		    else DefendHelpers.Log("Not Defend Gamemode?", "Couldn't find GameModeDefend entity!");
+		}
 	}
 	
 	//! Sends a HUD update with wave information and additional details
@@ -1414,7 +1451,7 @@ class DefendManager: GenericEntity
 	protected void SendExtraction(SCR_AIGroup group, Vehicle vehicle, string type, vector target)
 	{	
 		DefendHelpers.Log("Sending Extraction", "Began sending extraction...");
-		SendHint("Extraction Inbound", "The extraction truch has just left, it will be with you shortly...");
+		SendHint("Extraction Inbound", "The extraction truck has just left, it will be with you shortly...");
 
 	    Resource resource = DefendHelpers.GenerateAndValidateResource(type);
 	    
@@ -1736,8 +1773,14 @@ class DefendManager: GenericEntity
 	
 	
 	// Methods to get the state of extraction
-	bool HasExtractionStarted() return extractionStarted; // Returns true if extraction has started.
-	bool IsExtractionAvailable() return extractionAvailable; // Returns true if extraction is available.
+	bool HasExtractionStarted() 
+	{
+		return extractionStarted; // Returns true if extraction has started.
+	}
+	bool IsExtractionAvailable()
+	{
+		return extractionAvailable; // Returns true if extraction is available.
+	}
 	
 	int extractionStuckCount = 0;
 	float lastExtractionDistance = 0;

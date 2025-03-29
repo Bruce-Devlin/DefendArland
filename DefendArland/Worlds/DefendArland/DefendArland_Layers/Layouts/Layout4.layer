@@ -14,10 +14,10 @@ SCR_SpawnPoint Layout4_us_spawnpoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/Sp
  }
  m_fRespawnTime 20
 }
-GenericEntity Layer5 : "{5F9FFF4BF027B3A3}Prefabs/ScenarioFramework/Components/Layer.et" {
+GenericEntity Layer5 : "{5F9FFF4BF027B3A3}Prefabs/Systems/ScenarioFramework/Components/Layer.et" {
  coords 2836.415 80.359 1622.625
  {
-  GenericEntity SlotMarker5 : "{E537867C6E760514}Prefabs/ScenarioFramework/Components/SlotMarker.et" {
+  GenericEntity SlotMarker5 : "{E537867C6E760514}Prefabs/Systems/ScenarioFramework/Components/SlotMarker.et" {
    components {
     SCR_ScenarioFrameworkSlotMarker "{5EA2BD9901E5E82E}" {
      m_MapMarkerType SCR_ScenarioFrameworkMarkerCustom "{6446C16B28146146}" {
@@ -147,6 +147,6 @@ $grp GenericEntity : "{934A3C3A870634DC}PrefabsEditable/System/E_Comment.et" {
   angleZ 1.002
  }
 }
-GenericEntity Area5 : "{C72F956E4AC6A6E7}Prefabs/ScenarioFramework/Components/Area.et" {
+GenericEntity Area5 : "{C72F956E4AC6A6E7}Prefabs/Systems/ScenarioFramework/Components/Area.et" {
  coords 2836.415 80.359 1622.625
 }

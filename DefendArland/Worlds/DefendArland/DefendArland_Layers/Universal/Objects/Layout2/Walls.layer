@@ -33,9 +33,9 @@ GenericEntity : "{21D83950DF36F250}Prefabs/Props/Military/Sandbags/Sandbag_01_lo
    EnableDamage 0
   }
  }
+ Flags 66563
  coords 1258.076 37.773 2908.891
  angleY 170.864
- Flags 66563
 }
 GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
  components {
@@ -52,9 +52,9 @@ GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_sh
    EnableDamage 0
   }
  }
+ Flags 66563
  coords 1252.1 37.659 2912.228
  angleY 78.47
- Flags 66563
 }
 GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_single_burlap.et" {
  components {
@@ -68,11 +68,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
    EnableDamage 0
   }
  }
+ Flags 66563
  coords 1267 37.56 2913.044
  angleX -0.211
  angleY 167.101
  angleZ 0.255
- Flags 66563
  {
   GenericEntity : "{21D83950DF36F250}Prefabs/Props/Military/Sandbags/Sandbag_01_long_burlap.et" {
    components {
@@ -89,14 +89,14 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 3.015 0.316 2.088
    angleY -175.504
-   Flags 66563
   }
   GenericEntity : "{2C166D8DBBA47738}Prefabs/Structures/Military/Flags/FlagPole_02/FlagPole_02_base.et" {
+   Flags 66563
    coords 4.81 0.652 -9.186
    angleY 46.593
-   Flags 66563
   }
   $grp GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
    {
@@ -114,9 +114,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 5.621 0.293 1.775
     angleY 4.225
-    Flags 66563
    }
    {
     components {
@@ -133,9 +133,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 16.21 0.421 2.914
     angleY -84.901
-    Flags 66563
    }
   }
   $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_burlap.et" {
@@ -154,9 +154,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 16.071 0.234 0.673
     angleY -85.092
-    Flags 66563
    }
    {
     components {
@@ -173,9 +173,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 15.839 0.234 -1.848
     angleY 95.893
-    Flags 66563
    }
   }
   $grp GenericEntity : "{B31A14BC1A0E7776}Prefabs/Props/Military/Sandbags/Sandbag_01_round_burlap.et" {
@@ -194,9 +194,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 0.045 0.35 2.879
     angleY -152.504
-    Flags 66563
    }
    {
     components {
@@ -213,9 +213,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords -0.454 0.137 -8.991
     angleY -144.736
-    Flags 66563
    }
    {
     components {
@@ -232,11 +232,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 15.123 0.353 -4.695
     angleX -0.856
     angleY 119.681
     angleZ 1.572
-    Flags 66563
    }
   }
   GenericEntity : "{B547CF929FCC6BB7}Prefabs/Props/Military/Sandbags/Sandbag_01_end_high_burlap.et" {
@@ -254,9 +254,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 5.175 0.152 -9.217
    angleY 6.432
-   Flags 66563
   }
   GenericEntity : "{BE7B5BAFE1A16A50}Prefabs/Props/Military/Fortification/BarbedTape_Coil.et" {
    components {
@@ -270,9 +270,9 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 7.19 0.155 1.869
    angleY -24.901
-   Flags 66563
   }
  }
 }

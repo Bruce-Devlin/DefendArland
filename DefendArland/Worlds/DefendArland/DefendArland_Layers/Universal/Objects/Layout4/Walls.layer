@@ -35,11 +35,11 @@ GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_sh
    EnableDamage 0
   }
  }
+ Flags 66563
  coords 2748.603 77.072 1655.931
  angleX 1.397
  angleY -75.571
  angleZ 0.944
- Flags 66563
 }
 GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_single_burlap.et" {
  components {
@@ -53,11 +53,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
    EnableDamage 0
   }
  }
+ Flags 66563
  coords 2749.543 77.41 1658.699
  angleX 0.39
  angleY -37.786
  angleZ 1.963
- Flags 66563
  {
   GenericEntity : "{21D83950DF36F250}Prefabs/Props/Military/Sandbags/Sandbag_01_long_burlap.et" {
    components {
@@ -74,18 +74,18 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 3.026 -0.014 2.086
    angleX -2.475
    angleY -175.482
    angleZ -0.513
-   Flags 66563
   }
   GenericEntity : "{2C166D8DBBA47738}Prefabs/Structures/Military/Flags/FlagPole_02/FlagPole_02_base.et" {
+   Flags 66563
    coords 2.919 -0.119 -10.525
    angleX 2.275
    angleY 31.429
    angleZ -3.853
-   Flags 66563
   }
   GenericEntity : "{937999008F178E82}Prefabs/Props/Military/Sandbags/Sandbag_01_short_high_burlap.et" {
    components {
@@ -102,11 +102,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 5.629 0.056 1.773
    angleX 2.729
    angleY 4.036
    angleZ -3.969
-   Flags 66563
   }
   $grp GenericEntity : "{B31A14BC1A0E7776}Prefabs/Props/Military/Sandbags/Sandbag_01_round_burlap.et" {
    {
@@ -124,11 +124,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 0.055 0.068 2.877
     angleX -0.56
     angleY -152.523
     angleZ 1.921
-    Flags 66563
    }
    {
     components {
@@ -145,11 +145,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 4.896 0.058 -12.222
     angleX 0.973
     angleY -144.706
     angleZ 1.748
-    Flags 66563
    }
    {
     components {
@@ -166,11 +166,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
       EnableDamage 0
      }
     }
+    Flags 66563
     coords 15.121 0.427 -4.695
     angleX -7.058
     angleY 120.351
     angleZ -6.18
-    Flags 66563
    }
   }
   GenericEntity : "{B547CF929FCC6BB7}Prefabs/Props/Military/Sandbags/Sandbag_01_end_high_burlap.et" {
@@ -188,11 +188,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 3.262 -0.092 -10.462
    angleX -0.738
    angleY -8.556
    angleZ -4.413
-   Flags 66563
   }
   GenericEntity : "{BE7B5BAFE1A16A50}Prefabs/Props/Military/Fortification/BarbedTape_Coil.et" {
    components {
@@ -206,11 +206,11 @@ GenericEntity : "{C7A49C5B54C86903}Prefabs/Props/Military/Sandbags/Sandbag_01_si
      EnableDamage 0
     }
    }
+   Flags 66563
    coords 7.19 0.158 1.869
    angleX -1.942
    angleY -24.764
    angleZ -4.031
-   Flags 66563
   }
  }
 }

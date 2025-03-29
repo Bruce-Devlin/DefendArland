@@ -1,7 +1,10 @@
 class ExtractionGroup
 {
 	protected ChimeraAIGroup _group = null;
-	bool HasGroup() return (_group != null);
+	bool HasGroup()
+	{
+		return (_group != null);
+	}
 	void SetGroup(ChimeraAIGroup newGroup)
 	{
 		this._group = newGroup;
@@ -18,7 +21,10 @@ class ExtractionGroup
 	}
 	
 	protected Vehicle _vehicle = null;
-	bool HasVehicle() return (_vehicle != null);
+	bool HasVehicle()
+	{
+		return (_vehicle != null);
+	}
 	void SetVehicle(Vehicle newVehicle)
 	{
 		this._vehicle = newVehicle;

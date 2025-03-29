@@ -49,15 +49,16 @@ Vehicle Tutorial_MobileHQ2 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
    m_bIsLocked 1
   }
  }
+ Flags 1027
  coords 1260.912 38 2904.69
  angleY -112.24
- Flags 1027
 }
 GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
  components {
   SCR_ArsenalComponent "{589F01C9C8D4A475}" {
    m_eSupplyCostType RESPAWN_COST
    m_eSupportedArsenalItemTypes 588928
+   m_eArsenalSaveType FRIENDLY_AND_FACTION_ITEMS_ONLY
   }
   SCR_ResourceComponent "{5E5ABDF371AE8B21}" {
    m_aContainers {
@@ -135,7 +136,7 @@ GenericEntity BuildingTable2 : "{59FF31302266059A}PrefabsEditable/Auto/Props/Mil
    }
   }
  }
- coords 1258.718 38.065 2916.396
+ coords 1258.718 37.979 2916.396
  angleX -0.199
  angleY 164.618
  angleZ 0.263

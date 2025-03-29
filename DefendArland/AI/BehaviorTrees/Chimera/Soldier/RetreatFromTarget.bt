@@ -35,6 +35,10 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
            Port 11
            PortName "IsZombie"
           }
+          SingleOutputPortContainer SingleOutputPortContainer {
+           Port 15
+           PortName "TargetAlive"
+          }
          }
         }
        }
@@ -50,15 +54,15 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
         }
         DecoTestVariable "Test Variable" {
          Name "Test Variable"
-         EditorPos -2231.5 -254.583
+         EditorPos -2225.417 -251.541
          Nodes {
           Sequence Sequence {
            Name "Sequence"
-           EditorPos -2209.667 -92.778
+           EditorPos -2207.918 185.314
            Nodes {
             SCR_AIGetBaseTargetProperties "SCR_AI Get Base Target Properties" {
              Name "SCR_AI Get Base Target Properties"
-             EditorPos -2762.603 112.373
+             EditorPos -2760.854 390.465
              InPorts {
               SingleInputPortContainer SingleInputPortContainer {
                Port 13
@@ -86,11 +90,15 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
             }
             RunBT RunBT {
              Name "RunBT"
-             EditorPos -2172.936 91.94
+             EditorPos -2135.96 382.36
              InPorts {
               SingleInputPortContainer SingleInputPortContainer {
                Port 12
                PortName "targetEntity"
+              }
+              SingleInputPortContainer SingleInputPortContainerClass {
+               Port 15
+               PortName "targetAlive"
               }
              }
              BehaviorTree "{D5D0174611405743}AI/BehaviorTrees/Zombies/ZombieBaseLogic.bt"
@@ -218,17 +226,6 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
                }
                m_messageType REPORT_NEGATIVE
                m_bTransmitIfPassenger 0
-              }
-              SCR_AISetCombatType "SCR_AI Set Combat Type" {
-               Name "SCR_AI Set Combat Type"
-               EditorPos -1007.631 875.858
-               InPorts {
-                SingleInputPortContainer SingleInputPortContainer {
-                 Port -1
-                 PortName "ActionIn"
-                }
-               }
-               m_eCombatType RETREAT
               }
               AITaskCharacterSetMovementSpeed "Character Set Movement Speed" {
                Name "Character Set Movement Speed"
@@ -491,6 +488,12 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
    VariableExposedInput 0
    VariableExposedOutput 0
   }
+  Variable targetAlive {
+   VariableName "targetAlive"
+   VariableTypeName "bool"
+   VariableExposedInput 0
+   VariableExposedOutput 0
+  }
  }
  VariablesRefs {
   VariableReference safePos {
@@ -539,19 +542,23 @@ BehaviorTree "{91B8D5FDB60C1C80}AI/BehaviorTrees/Chimera/Soldier/RetreatFromTarg
   }
   VariableReference IsZombie {
    VariableType 6
-   EditorPos -3017.528 -349.028
+   EditorPos -2965.778 -383.528
   }
   VariableReference targetEntity {
    VariableType 7
-   EditorPos -2404.305 162.937
+   EditorPos -2402.556 441.029
   }
   VariableReference baseTarget {
    VariableType 3
-   EditorPos -3020.972 145.278
+   EditorPos -3019.223 423.37
   }
   VariableReference baseTarget {
    VariableType 3
-   EditorPos -3021.25 -428.75
+   EditorPos -2969.5 -463.25
+  }
+  VariableReference targetAlive {
+   VariableType 8
+   EditorPos -2971.6 -299
   }
  }
 }

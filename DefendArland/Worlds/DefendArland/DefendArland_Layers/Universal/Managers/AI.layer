@@ -21,5 +21,4 @@ SCR_AIWorld AIManager : "{01DC74137CFDDB6A}Prefabs/AI/SCR_AIWorld_Arland.et" {
 }
 PerceptionManager PerceptionManager : "{028DAEAD63E056BE}Prefabs/World/Game/PerceptionManager.et" {
  coords 1891.659 12.065 1827.161
- LineOfSightLayer 10781151
 }

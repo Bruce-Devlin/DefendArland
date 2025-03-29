@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Compositions_FreeRoamBuilding.conf"
+ Name "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Compositions_DefendBuilding.conf"
  Configurations {
   CONFResourceClass PC {
   }

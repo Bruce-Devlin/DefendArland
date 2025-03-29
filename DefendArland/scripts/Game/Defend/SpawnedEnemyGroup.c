@@ -1,7 +1,10 @@
 class SpawnedEnemyGroup
 {
 	protected ChimeraAIGroup _group = null;
-	bool HasGroup() return (_group != null);
+	bool HasGroup()
+	{
+		return (_group != null);
+	}
 	void SetGroup(ChimeraAIGroup newGroup)
 	{
 		this._group = newGroup;

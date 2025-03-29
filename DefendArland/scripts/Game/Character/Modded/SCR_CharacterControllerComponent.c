@@ -24,4 +24,17 @@ modded class SCR_CharacterControllerComponent
 			ForceDeath();
 		}
 	}
+	
+	override bool CanJumpClimb()
+	{
+		DefendManager dm = DefendHelpers.Get();	
+		if (dm.zombiesMode)
+		{
+			return false;
+		}
+		else
+		{
+			return super.CanJumpClimb();
+		}
+	}
 }

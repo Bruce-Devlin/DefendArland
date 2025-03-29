@@ -39,7 +39,7 @@ $grp SCR_DoorOpenerEntity {
   m_fJamDoorOpen 1
  }
 }
-SCR_BaseTaskManager TaskManager : "{1AC69CD7907FB4F8}Prefabs/ScenarioFramework/Tasks/TaskManager.et" {
+SCR_BaseTaskManager TaskManager : "{1AC69CD7907FB4F8}Prefabs/Systems/ScenarioFramework/Tasks/TaskManager.et" {
  coords 1891.659 11.576 1823.161
  {
   CommentEntity {

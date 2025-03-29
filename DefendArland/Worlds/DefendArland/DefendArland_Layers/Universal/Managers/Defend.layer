@@ -32,16 +32,6 @@ SCR_BaseGameMode GameMode_Defend {
     m_sSlotRoadMediumLayout "{3A5E87ADA26C6940}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_SlotRoadMedium.et"
     m_sSlotRoadLargeLayout "{D06D9D47008E794F}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_SlotRoadLarge.et"
     m_aCompositionLayouts {
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AF05}" {
-      m_sEditableEntity "{18BEFC9A7FA72CD8}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_BarbedTapeKnifeRest_S_US_01.et"
-      m_sCompositionLayout "{9721D32C8E5CDE9C}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_BarbedTapeKnifeRest.et"
-      m_iBuildingValue 20
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AF1E}" {
-      m_sEditableEntity "{54523DB76981D7E0}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_CzechHedgehog_S_01_painted.et"
-      m_sCompositionLayout "{8E0A17590AA58A72}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_CzechHedgehog.et"
-      m_iBuildingValue 20
-     }
      SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AF19}" {
       m_sEditableEntity "{F3208517509E0B9B}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_Dragonsteeth_S_US_01.et"
       m_sCompositionLayout "{8E0A17590AA58A72}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_CzechHedgehog.et"
@@ -135,11 +125,6 @@ SCR_BaseGameMode GameMode_Defend {
       m_sEditableEntity "{7C7C67CD404E794D}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_CamoNetLarge_M_US_01.et"
       m_sCompositionLayout "{DC1B385EDB26DB5E}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_CamoNet_Large_USSR.et"
      }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AF66}" {
-      m_sEditableEntity "{AB1E83746BDF76D1}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_BarbedTapeTriple_S_USSR_01.et"
-      m_sCompositionLayout "{9721D32C8E5CDE9C}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_BarbedTapeKnifeRest.et"
-      m_iBuildingValue 20
-     }
      SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AF61}" {
       m_sEditableEntity "{AEC16F21B733AD5E}PrefabsEditable/Auto/Compositions/Misc/FreeRoamBuilding/E_FloodlightGenerator_S_US_01.et"
       m_sCompositionLayout "{C96F58B66745C08B}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FloodLight.et"
@@ -230,30 +215,6 @@ SCR_BaseGameMode GameMode_Defend {
       m_sEditableEntity "{4885DEA01D687DB3}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_Bunker_S_USSR_01.et"
       m_sCompositionLayout "{02291E93335E0856}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_Bunker_USSR_01.et"
      }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFC0}" {
-      m_sEditableEntity "{CDE540ACD9415078}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_AmmoStorage_S_FIA_01.et"
-      m_sCompositionLayout "{8E350990D5F5ABB5}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_AmmoStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFDD}" {
-      m_sEditableEntity "{1BED8F81D2FA2137}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_AmmoStorage_S_US_01.et"
-      m_sCompositionLayout "{8E350990D5F5ABB5}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_AmmoStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFDA}" {
-      m_sEditableEntity "{CD9004C6229D900B}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_AmmoStorage_S_USSR_01.et"
-      m_sCompositionLayout "{8E350990D5F5ABB5}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_AmmoStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFD6}" {
-      m_sEditableEntity "{543C31BC05F032B6}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_VehicleMaintenance_S_US_01.et"
-      m_sCompositionLayout "{B2EAAF9C153CAFDE}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_VehicleMaintenance_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFD3}" {
-      m_sEditableEntity "{DA380948C0CE5990}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_VehicleMaintenance_S_USSR_01.et"
-      m_sCompositionLayout "{B2EAAF9C153CAFDE}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_VehicleMaintenance_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFD0}" {
-      m_sEditableEntity "{DA1AF79DD1C79E83}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_VehicleMaintenance_S_FIA_01.et"
-      m_sCompositionLayout "{B2EAAF9C153CAFDE}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_VehicleMaintenance_S_01.et"
-     }
      SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFEA}" {
       m_sEditableEntity "{DB7F01C68EACBEC0}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_LivingArea_S_US_01.et"
       m_sCompositionLayout "{0828F87137D2F0C0}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_LivingArea_S_01.et"
@@ -262,47 +223,9 @@ SCR_BaseGameMode GameMode_Defend {
       m_sEditableEntity "{BE3988DF6E3CD0B2}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_LivingArea_S_USSR_01.et"
       m_sCompositionLayout "{0828F87137D2F0C0}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_LivingArea_S_01.et"
      }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFE3}" {
-      m_sEditableEntity "{B6CF358D07FFC99F}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_FuelStorage_S_FIA_01.et"
-      m_sCompositionLayout "{AA991650F6F3ADFD}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FuelStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFFF}" {
-      m_sEditableEntity "{6D2A35DA74224780}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_FuelStorage_S_US_01.et"
-      m_sCompositionLayout "{AA991650F6F3ADFD}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FuelStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFFC}" {
-      m_sEditableEntity "{C2D040BB21F15A20}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatSmall/E_FuelStorage_S_USSR_01.et"
-      m_sCompositionLayout "{AA991650F6F3ADFD}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FuelStorage_S_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFF9}" {
-      m_sEditableEntity "{41A21CF37593EC91}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatMedium/E_VehicleMaintenance_M_USSR_01.et"
-      m_sCompositionLayout "{F28A8D6AC99AD4E8}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_VehicleMaintenance_M_01.et"
-      m_iBuildingValue 100
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFF5}" {
-      m_sEditableEntity "{C0B1ABD67607623A}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatMedium/E_VehicleMaintenance_M_US_01.et"
-      m_sCompositionLayout "{F28A8D6AC99AD4E8}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_VehicleMaintenance_M_01.et"
-      m_iBuildingValue 100
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AFF2}" {
-      m_sEditableEntity "{D0281DAF0B131742}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatMedium/E_FieldHospital_M_US_01.et"
-      m_sCompositionLayout "{B3EB9207435EEE1A}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FieldHospital_M_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AC0E}" {
-      m_sEditableEntity "{505F78512FE8B698}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatMedium/E_FieldHospital_M_USSR_01.et"
-      m_sCompositionLayout "{B3EB9207435EEE1A}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_FieldHospital_M_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AC0B}" {
-      m_sEditableEntity "{74B740B56C82C0CF}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatLarge/E_LivingArea_L_US_01.et"
-      m_sCompositionLayout "{6F40C26A3C08E3C0}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_LivingArea_L_US_01.et"
-     }
-     SCR_CampaignBuildingCompositionOutline "{644ED76F4E89AC08}" {
-      m_sEditableEntity "{85E7D977EFAC11CB}PrefabsEditable/Auto/Compositions/Slotted/SlotFlatLarge/E_LivingArea_L_USSR_01.et"
-      m_sCompositionLayout "{2862411B0FB84CF7}Prefabs/Compositions/Misc/FreeRoamBuilding/Layouts/FRB_LivingArea_L_USSR_01.et"
-     }
     }
    }
-   m_sPrefabsToBuildResource "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Compositions_FreeRoamBuilding.conf"
+   m_sPrefabsToBuildResource "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Modded/Compositions_DefendBuilding.conf"
   }
   SCR_CampaignBuildingProviderComponent "{644ED76F4EB7B168}" {
    m_sProviderDisplayName "#AR-MapLocation_MilitaryBase"
@@ -1768,8 +1691,8 @@ SCR_BaseGameMode GameMode_Defend {
    Streamable Disabled
   }
  }
- coords 1893.67 10.997 1821.165
  Flags 0
+ coords 1893.67 10.997 1821.165
  PlayerControllerPrefab "{D39FCAB93FC4FB02}Prefabs/Characters/Core/DefaultPlayerControllerMP_Campaign.et"
  {
   SCR_EditorSettingsEntity {
@@ -1784,6 +1707,8 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
+ serverLoopDebugLogging 1
+ aiLoopIntervalSeconds 2
  spawnGroupsInf {
   "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }

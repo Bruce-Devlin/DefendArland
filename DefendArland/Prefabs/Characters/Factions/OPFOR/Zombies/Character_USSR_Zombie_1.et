@@ -1,12 +1,6 @@
 SCR_ChimeraCharacter : "{B6F05D4557B61C4E}Prefabs/Characters/Factions/OPFOR/USSR_Army/Spetsnaz/Character_USSR_SF_BaseLoadout.et" {
  ID "520EC961A090B1EE"
  components {
-  CharacterSoundComponent "{520EA1D2F659CF84}" {
-   Mute 1
-  }
-  SCR_CommunicationSoundComponent "{54FD05D0C92D071F}" {
-   Mute 1
-  }
   ChimeraAIControlComponent "{520EA1D2DB109F34}" {
    components {
     AIPathfindingComponent "{56349A6F9C02E7A1}" {

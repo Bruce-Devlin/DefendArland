@@ -3,9 +3,9 @@ class CheatDefender
 	static DefendManager dm;
 	static bool debugMode = false;
 	
-	static void Init(DefendManager dm)
+	static void Init(DefendManager initDM)
 	{
-		this.dm = dm;
+		this.dm = initDM;
 		DefendHelpers.Log("Starting CheatDefender", "CheatDefending is currently starting...");
 		
 		debugMode = dm.debugMode;
