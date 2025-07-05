@@ -1,0 +1,94 @@
+SCR_AIGroup : "{8DE0C0830FE0C33D}Prefabs/Groups/OPFOR/Group_USSR_Base.et" {
+ ID "0000000000000001"
+ components {
+  AIFormationComponent "{507E9DC12F541FE6}" {
+   Enabled 0
+  }
+  AIPathfindingComponent "{518A98842FFC190E}" {
+   IgnoreFlags 8
+  }
+  SCR_AIConfigComponent "{512CC1759AE69D6D}" {
+   m_EnableTakeCover 0
+   m_EnableLooking 0
+   m_EnableCommunication 0
+  }
+  SCR_AIGroupMovementComponent "{6126A0E02097C7FF}" {
+   "Min Speed" 20
+  }
+  SCR_EditableGroupComponent "{50D291F6C83FA532}" {
+   m_UIInfo SCR_EditableGroupUIInfo "{5298E609432D192D}" {
+    Name "#AR-Group_Spetsnaz_Sentry"
+    m_Image "{F144E2939227E5D6}UI/Textures/EditorPreviews/Groups/OPFOR/Spetsnaz/Group_USSR_Spetsnaz_SentryTeam.edds"
+    m_aAuthoredLabels +{
+    }
+    m_aAutoLabels {
+     70
+    }
+    m_EntityBudgetCost {
+     SCR_EntityBudgetValue "{657F091E16947230}" {
+      m_BudgetType CAMPAIGN
+      m_Value 1
+     }
+     SCR_EntityBudgetValue "{657F091E16947248}" {
+      m_BudgetType AI_SERVER
+      m_Value 0
+     }
+    }
+    m_EntityChildrenBudgetCost {
+     SCR_EntityBudgetValue "{657F091E16947246}" {
+      m_BudgetType AI
+      m_Value 2
+     }
+    }
+    m_bUseUIInfoName 1
+    m_MilitarySymbol SCR_MilitarySymbol "{657F091E16947244}" {
+     m_Identity OPFOR
+     m_Dimension LAND
+     m_Icons 0
+     m_Amplifier NONE
+    }
+   }
+  }
+  SCR_PreviewEntityComponent "{657F091E1694725D}" {
+   m_bRuntime 0
+   m_aEntries {
+    SCR_BasePreviewEntry "{657F091E1694725B}" {
+     m_iParentID -1
+     m_Mesh ""
+     m_Flags 259
+     m_Shape MESH
+     m_iPivotID ""
+     m_vScale 1 1 1
+     m_vPosition 0 -5 0
+     m_vAngles 0 0 0
+    }
+    SCR_BasePreviewEntry "{657F091E16947259}" {
+     m_iParentID 0
+     m_Mesh "{7B2420C8BC72373A}Prefabs/Characters/Core/Character_Base_Preview.et"
+     m_Flags 0
+     m_Shape PREFAB
+     m_iPivotID ""
+     m_vScale 1 1 1
+     m_vPosition 0 0 0
+     m_vAngles 0 0 0
+    }
+    SCR_BasePreviewEntry "{657F091E16947255}" {
+     m_iParentID 0
+     m_Mesh "{7B2420C8BC72373A}Prefabs/Characters/Core/Character_Base_Preview.et"
+     m_Flags 0
+     m_Shape PREFAB
+     m_iPivotID ""
+     m_vScale 1 1 1
+     m_vPosition 3 0 -3
+     m_vAngles 0 0 0
+    }
+   }
+  }
+  ZombieGroupController "{657F091E16947252}" {
+  }
+ }
+ m_aUnitPrefabSlots {
+  "{7DE1CBA32A0225EC}Prefabs/Characters/Factions/OPFOR/Zombies/Character_USSR_Zombie_Randomized.et"
+ }
+ m_iMaxMembers 1
+}

@@ -1707,12 +1707,11 @@ SCR_BaseGameMode GameMode_Defend {
 }
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
- serverLoopDebugLogging 1
  aiLoopIntervalSeconds 2
  spawnGroupsInf {
   "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }
  spawnGroupsZom {
-  "{CFFFE44802B446F8}Prefabs/Groups/OPFOR/Zombies/Group_USSR_Zombies.et"
+  "{250F552A2380724E}Prefabs/Groups/OPFOR/Zombies/Group_USSR_Zombies_Random.et"
  }
 }
