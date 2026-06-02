@@ -5,7 +5,7 @@ modded class SCR_ChimeraCharacter
 	{
 		if (_zombieController == null)
 		{
-			IEntity unitEntity = IEntity.Cast(this);
+			IEntity unitEntity = this;
 			_zombieController = ZombieController.Cast(unitEntity.FindComponent(ZombieController));
 		}
 		

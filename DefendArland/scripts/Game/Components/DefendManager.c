@@ -354,6 +354,36 @@ class DefendManager: GenericEntity
 		}
 	}
 	
+	void AutoInitArsenal()
+	{
+		IEntity arsenalEntity = GetGame().GetWorld().FindEntityByName(currentLayout + "_Arsenal");
+		
+		if (!arsenalEntity)
+        {
+            DefendHelpers.Log("Auto Arsenal", "Arsenal entity not found!");
+            return;
+        }
+
+        SCR_ArsenalInventoryStorageManagerComponent arsenalStorage = SCR_ArsenalInventoryStorageManagerComponent.Cast(
+        	arsenalEntity.FindComponent(SCR_ArsenalInventoryStorageManagerComponent)
+	    );
+	
+	    if (!arsenalStorage)
+	    {
+	        DefendHelpers.Log("Auto Arsenal", "SCR_ArsenalInventoryStorageManagerComponent not found!");
+	        return;
+	    }
+	
+		array<ResourceName> weaponPrefabs = {};
+	    	
+	    foreach (ResourceName weapon : weaponPrefabs)
+	    {
+	        arsenalStorage.TrySpawnPrefabToStorage(weapon)
+	    }
+	
+	    DefendHelpers.Log("Auto Arsenal", "Added " + weaponPrefabs.Count() + " weapons to arsenal");
+	}
+	
 	//! Initializes the mission when the gamemode starts.
 	//! -------------------------------------
 	void InitMission()
@@ -373,6 +403,7 @@ class DefendManager: GenericEntity
 
 			
 			PickLayout();
+			AutoInitArsenal();
 			DefendHelpers.Log("Picked Layout", "Will use: " + currentLayout);
 	        
 	        hud.Init(uiHUDLayout, timerLoopLogging);
@@ -741,7 +772,7 @@ class DefendManager: GenericEntity
 				continue;
 			}
 			
-	        AIGroup currGroup = AIGroup.Cast(group);
+	        AIGroup currGroup = group;
 	        if (currGroup != null)
 	        {
 	            int agentCount = currGroup.GetAgentsCount();
@@ -1478,7 +1509,7 @@ class DefendManager: GenericEntity
 			dmgManager.EnableDamageHandling(false);
 		}
 		
-		SCR_VehicleDamageManagerComponent dmgManager = SCR_VehicleDamageManagerComponent.Cast(IEntity.Cast(vehicle).FindComponent(SCR_VehicleDamageManagerComponent));
+		SCR_VehicleDamageManagerComponent dmgManager = SCR_VehicleDamageManagerComponent.Cast(vehicle.FindComponent(SCR_VehicleDamageManagerComponent));
 		dmgManager.EnableDamageHandling(false);
 	            
 		ExtractionGroup extractGroup = new ExtractionGroup();
@@ -1709,7 +1740,7 @@ class DefendManager: GenericEntity
 	    }
 	    else
 		{
-			ChimeraAIGroup groupToSave = ChimeraAIGroup.Cast(group);
+			ChimeraAIGroup groupToSave = group;
 			spawnedGroup.SetGroup(groupToSave);
 			spawnedGroup.SetState(SpawnedGroupState.SPAWNED);
 			
@@ -1879,7 +1910,7 @@ class DefendManager: GenericEntity
 	bool hintLogging;
 	[Attribute(defvalue: "0", category: WB_DEFEND_DEBUG, desc: "Should log RPC?")]
 	bool rpcLogging;
-	[Attribute(defvalue: "10", category: WB_DEFEND_DEBUG, "10 999 1", desc: "How many ticks until we consider the extraction vehicles stuck?")]
+	[Attribute(defvalue: "10", UIWidgets.Slider, category: WB_DEFEND_DEBUG, "10 999 1", desc: "How many ticks until we consider the extraction vehicles stuck?")]
 	int countUntilExtractionStuck;
 
 	const static string WB_DEFEND_LOOPS = "Defend | Loops";

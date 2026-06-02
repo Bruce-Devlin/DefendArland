@@ -1,4 +1,4 @@
-GenericEntity : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Weapons_US_Pistols.et" {
+GenericEntity Layout1_Arsenal : "{19632F112985ED4B}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Weapons_US_Pistols.et" {
  components {
   SCR_ArsenalComponent "{589F01C9C8D4A475}" {
    m_eSupplyCostType RESPAWN_COST

@@ -49,7 +49,7 @@ enum SCR_EPlayerIdType
 // Ban Server Command
 class BanCommand: ScrServerCommand
 {
-	protected ref StateBackendCallback m_Callback;
+	protected ref BackendCallback m_Callback;
 	protected ref BanListPageParams m_Params;
 	protected BanServiceApi m_BanApi;
 	protected SCR_EBanSubcommandArg m_eSubcommandArg;
@@ -62,6 +62,41 @@ class BanCommand: ScrServerCommand
 	protected int m_iPage;
 	protected string m_sBanReason = "";
 	protected string m_sPlayerName = "";
+	protected int m_iCallbackState;
+	protected EApiCode m_eLastError = EApiCode.EACODE_ERROR_OK;
+	protected EStringMatchType m_eLastMatchType = EStringMatchType.ESMT_EQUALS;
+	
+	const static int BACKEND_PENDING = 0;
+	const static int BACKEND_SUCCESS = 1;
+	const static int BACKEND_ERROR = 2;
+	const static int BACKEND_TIMEOUT = 3;
+
+	//-----------------------------------------------------------------------------
+	protected void CreateBackendCallback()
+	{
+		m_iCallbackState = BACKEND_PENDING;
+		m_eLastError = EApiCode.EACODE_ERROR_OK;
+		m_Callback = new BackendCallback();
+		m_Callback.SetOnSuccess(OnBackendSuccess);
+		m_Callback.SetOnError(OnBackendError);
+	}
+	
+	//-----------------------------------------------------------------------------
+	protected void OnBackendSuccess(BackendCallback callback)
+	{
+		m_iCallbackState = BACKEND_SUCCESS;
+	}
+	
+	//-----------------------------------------------------------------------------
+	protected void OnBackendError(BackendCallback callback)
+	{
+		m_eLastError = callback.GetApiCode();
+		
+		if (callback.GetRestResult() == ERestResult.EREST_ERROR_TIMEOUT)
+			m_iCallbackState = BACKEND_TIMEOUT;
+		else
+			m_iCallbackState = BACKEND_ERROR;
+	}
 	
 	// Handle Create Subcommand
 	//-----------------------------------------------------------------------------
@@ -149,7 +184,7 @@ class BanCommand: ScrServerCommand
 		SCR_EPlayerIdType idType = GetPlayerIdType(argv[SCR_EBanRemoveArgs.EBRA_ID]);
 		if (idType == SCR_EPlayerIdType.EPIT_USERNAME)
 		{
-			m_Callback.m_eLastMatchType = EStringMatchType.ESMT_EQUALS;
+			m_eLastMatchType = EStringMatchType.ESMT_EQUALS;
 			m_sPlayerName = argv[SCR_EBanRemoveArgs.EBRA_ID];
 			success = m_BanApi.RemoveBanByName(m_Callback, m_sPlayerName, EStringMatchType.ESMT_EQUALS);
 			PrintFormat("Requested unban of user with user name: '%1'", argv[SCR_EBanRemoveArgs.EBRA_ID]);
@@ -275,7 +310,7 @@ class BanCommand: ScrServerCommand
 		if (m_eSubcommandArg == SCR_EBanSubcommandArg.EBSA_MISSING)
 			m_eSubcommandArg = SCR_EBanSubcommandArg.EBSA_HELP;
 		
-		m_Callback = new StateBackendCallback;
+		CreateBackendCallback();
 		
 		switch(m_eSubcommandArg)
 		{
@@ -318,7 +353,7 @@ class BanCommand: ScrServerCommand
 			return SCR_EPlayerIdType.EPIT_USERNAME;
 		}
 
-		return string.Empty;
+		return SCR_EPlayerIdType.EPIT_USERNAME;
 	}
 
 	// Find playerId from given player name
@@ -458,12 +493,12 @@ class BanCommand: ScrServerCommand
 	//-----------------------------------------------------------------------------	
 	protected ScrServerCmdResult HandleFailure()
 	{
-		switch (m_Callback.m_eLastError)
+		switch (m_eLastError)
 		{
 			case EApiCode.EACODE_ERROR_MULTIPLE_TARGET_MATCH:
 			{
 				m_eSubcommandArg = SCR_EBanSubcommandArg.EBSA_LIST_FILTERED;
-				m_Callback = new StateBackendCallback;
+				CreateBackendCallback();
 
 				m_Params = new BanListPageParams();
 				m_Params.playerName = m_sPlayerName;
@@ -484,10 +519,10 @@ class BanCommand: ScrServerCommand
 
 			case EApiCode.EACODE_ERROR_NOT_FOUND:
 			{
-				if (m_Callback.m_eLastMatchType == EStringMatchType.ESMT_EQUALS)
+				if (m_eLastMatchType == EStringMatchType.ESMT_EQUALS)
 				{
-					m_Callback = new StateBackendCallback;
-					m_Callback.m_eLastMatchType = EStringMatchType.ESMT_STARTS_WITH;
+					CreateBackendCallback();
+					m_eLastMatchType = EStringMatchType.ESMT_STARTS_WITH;
 
 					bool success = m_BanApi.RemoveBanByName(m_Callback, m_sPlayerName, EStringMatchType.ESMT_STARTS_WITH);
 					PrintFormat("Retrying unban of user with user name: '%1'", m_sPlayerName);
@@ -518,12 +553,12 @@ class BanCommand: ScrServerCommand
 	//-----------------------------------------------------------------------------
 	override ref ScrServerCmdResult OnUpdate()
 	{
-		switch(m_Callback.m_eState)
+		switch(m_iCallbackState)
 		{
-			case EBackendCallbackState.EBCS_SUCCESS: return HandleSuccessfulResult();
-			case EBackendCallbackState.EBCS_PENDING: return ScrServerCmdResult(string.Empty, EServerCmdResultType.PENDING);
-			case EBackendCallbackState.EBCS_TIMEOUT: return ScrServerCmdResult("Timeout", EServerCmdResultType.ERR);
-			case EBackendCallbackState.EBCS_ERROR:	 return HandleFailure();
+			case BACKEND_SUCCESS: return HandleSuccessfulResult();
+			case BACKEND_PENDING: return ScrServerCmdResult(string.Empty, EServerCmdResultType.PENDING);
+			case BACKEND_TIMEOUT: return ScrServerCmdResult("Timeout", EServerCmdResultType.ERR);
+			case BACKEND_ERROR:	 return HandleFailure();
 		}
 		return ScrServerCmdResult(string.Empty, EServerCmdResultType.ERR);	
 	}

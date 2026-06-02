@@ -18,7 +18,7 @@ modded class SCR_BaseGameMode: SCR_EditorBaseEntity
 		dm.AddPlayer(newPlayer);
 	}
 
-	override void OnPlayerDisconnected(int playerId, int cause, int timeout)
+	override void OnPlayerDisconnected(int playerId, KickCauseCode cause, int timeout)
 	{
 		super.OnPlayerDisconnected(playerId, cause, timeout);	
 		

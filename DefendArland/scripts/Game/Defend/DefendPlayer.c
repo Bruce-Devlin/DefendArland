@@ -55,7 +55,7 @@ class DefendPlayer
 		return this.id;
 	}
 	
-	int GetUserUID()
+	string GetUserUID()
 	{
 		return this.uid;
 	}

@@ -16,7 +16,7 @@ modded class SCR_DoorOpenerEntity
 		// set state
 		foreach (DoorStruct door : m_aQueriedDoors)
 		{
-			door.component.SetControlValue(m_fControlValue);
+			door.component.SetControlValue(m_fControlValue, RplId.Invalid());
 			
 			if (m_fJamDoorOpen)
 				JamDoor(door);

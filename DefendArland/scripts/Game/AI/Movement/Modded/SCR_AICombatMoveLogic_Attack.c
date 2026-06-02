@@ -2,7 +2,7 @@ modded class SCR_AICombatMoveLogic_Attack
 {
 	protected override ENodeResult EOnTaskSimulate(AIAgent owner, float dt)
 	{
-		IEntity entity = IEntity.Cast(m_MyEntity);
+		IEntity entity = m_MyEntity;
 		SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(entity);
 		bool isZombie = false;
 		if (char.IsZombie())

@@ -53,7 +53,7 @@ Vehicle Tutorial_MobileHQ2 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_Mobile
  coords 1260.912 38 2904.69
  angleY -112.24
 }
-GenericEntity : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
+GenericEntity Layout2_Arsenal : "{3568138FF7A659A1}Prefabs/Compositions/Misc/CustomEntities/InteractionPoints/AmmoBoxArsenal_Equipment_US_Apparel.et" {
  components {
   SCR_ArsenalComponent "{589F01C9C8D4A475}" {
    m_eSupplyCostType RESPAWN_COST

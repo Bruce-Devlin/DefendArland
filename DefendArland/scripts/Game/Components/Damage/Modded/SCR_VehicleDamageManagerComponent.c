@@ -1,20 +1,20 @@
 modded class SCR_VehicleDamageManagerComponent
 {
 	protected IEntity m_Owner;
-	override void OnDamageStateChanged(EDamageState state)
+	override void OnDamageStateChanged(EDamageState newState, EDamageState previousDamageState, bool isJIP)
 	{
 		DefendManager dm = DefendHelpers.Get();
 		if (dm != null)
 		{
-			DefendHelpers.Log("Vehicle state changed", state.ToString());
-			if (state == EDamageState.DESTROYED || state == EDamageState.INTERMEDIARY)
+			DefendHelpers.Log("Vehicle state changed", newState.ToString());
+			if (newState == EDamageState.DESTROYED || newState == EDamageState.INTERMEDIARY)
 			{
 				DefendHelpers.Log("Vehicle Destroyed!", "A Vehicle has been destroyed!");
 				if (dm.activeAIVehicles.Contains(m_Owner)) dm.activeAIVehicles.RemoveItem(m_Owner);
 			}
 		}
 		
-		super.OnDamageStateChanged(state);
+		super.OnDamageStateChanged(newState, previousDamageState, isJIP);
 	}
 	
 	override void OnPostInit(IEntity owner)

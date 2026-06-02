@@ -5,7 +5,7 @@ modded class SCR_EditorManagerEntity
 		DefendManager dm = DefendHelpers.Get();
 		if (dm != null)
 		{
-			IEntity aliveEntity = IEntity.Cast(GetGame().GetPlayerController().GetControlledEntity());
+			IEntity aliveEntity = GetGame().GetPlayerController().GetControlledEntity();
 			if (dm.CanBuild())
 			{
 				super.Open(showErrorNotification);
