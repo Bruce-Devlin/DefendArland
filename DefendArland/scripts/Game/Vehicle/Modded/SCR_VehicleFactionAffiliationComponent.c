@@ -18,38 +18,40 @@ modded class SCR_VehicleFactionAffiliationComponent
 		if (!super.IsVehicleOccupied()) return 0;
 		else return m_aOccupants.Count();
 	}
-	
+
 	int CountPlayerOccupants()
 	{
 		if (!super.IsVehicleOccupied()) return 0;
 		else return m_aPlayerOccupants.Count();
 	}
-	
+
 	array<VehiclePlayerOccupant> GetPlayerOccupants()
 	{
 		return m_aPlayerOccupants;
 	}
-	
+
 	int CountAliveOccupants()
 	{
 		if (!m_iAliveOccupantCount) return 0;
 		else return m_iAliveOccupantCount;
 	}
-	
+
 	array<IEntity> GetAllOccupants()
 	{
 		return m_aOccupants;
 	}
-	
+
 	override protected void OnCompartmentEntered(IEntity vehicle, IEntity occupant, BaseCompartmentSlot compartment, bool move)
 	{
+		super.OnCompartmentEntered(vehicle, occupant, compartment, move);
+
 		SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(occupant);
 		if(!character)
 			return;
-		
-		if (m_aOccupants == null) 
+
+		if (m_aOccupants == null)
 			m_aOccupants = {};
-		if (m_aPlayerOccupants == null) 
+		if (m_aPlayerOccupants == null)
 			m_aPlayerOccupants = {};
 
 		int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(occupant);
@@ -61,19 +63,30 @@ modded class SCR_VehicleFactionAffiliationComponent
 				m_aPlayerOccupants.Insert(newPlayerOccupant);
 			}
 		}
-		
+
 		if (!m_aOccupants.Contains(occupant)) m_aOccupants.Insert(occupant);
-		super.OnCompartmentEntered(vehicle, occupant, compartment, move);
 	}
-	
+
 	override protected void OnCompartmentLeft(IEntity vehicle, IEntity occupant, BaseCompartmentSlot compartment, bool move)
 	{
+		super.OnCompartmentLeft(vehicle, occupant, compartment, move);
+
 		if (move) // moving only between compartments
 			return;
-		
-		m_aOccupants.RemoveItem(occupant);
-		
-		
-		super.OnCompartmentLeft(vehicle, occupant, compartment, move);
+
+		if (m_aOccupants != null)
+			m_aOccupants.RemoveItem(occupant);
+
+		int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(occupant);
+		if (m_aPlayerOccupants != null)
+		{
+			for (int i = m_aPlayerOccupants.Count() - 1; i >= 0; i--)
+			{
+				VehiclePlayerOccupant playerOccupant = m_aPlayerOccupants[i];
+				if (playerOccupant == null || playerOccupant.entity == occupant || playerOccupant.playerId == playerId)
+					m_aPlayerOccupants.Remove(i);
+			}
+		}
+
 	}
 }

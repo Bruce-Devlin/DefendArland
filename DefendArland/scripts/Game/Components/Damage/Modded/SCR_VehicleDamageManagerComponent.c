@@ -10,13 +10,13 @@ modded class SCR_VehicleDamageManagerComponent
 			if (newState == EDamageState.DESTROYED || newState == EDamageState.INTERMEDIARY)
 			{
 				DefendHelpers.Log("Vehicle Destroyed!", "A Vehicle has been destroyed!");
-				if (dm.activeAIVehicles.Contains(m_Owner)) dm.activeAIVehicles.RemoveItem(m_Owner);
+				dm.RemoveAIVehicle(m_Owner);
 			}
 		}
-		
+
 		super.OnDamageStateChanged(newState, previousDamageState, isJIP);
 	}
-	
+
 	override void OnPostInit(IEntity owner)
 	{
 		m_Owner = owner;

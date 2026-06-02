@@ -9,9 +9,9 @@ class SpawnedEnemyGroup
 	{
 		this._group = newGroup;
 	}
-	
-	
- 	ChimeraAIGroup GetGroup()
+
+
+	ChimeraAIGroup GetGroup()
 	{
 		if (!HasGroup())
 		{
@@ -19,14 +19,34 @@ class SpawnedEnemyGroup
 		}
 		return this._group;
 	}
-	
-	
+
+	protected Vehicle _vehicle = null;
+	bool HasVehicle()
+	{
+		return (_vehicle != null);
+	}
+
+	void SetVehicle(Vehicle newVehicle)
+	{
+		this._vehicle = newVehicle;
+	}
+
+	Vehicle GetVehicle()
+	{
+		if (!HasVehicle())
+		{
+			return null;
+		}
+		return this._vehicle;
+	}
+
+
 	protected SpawnedGroupState _state = SpawnedGroupState.SPAWNED;
 	void SetState(SpawnedGroupState newState)
 	{
 		this._state = newState;
 	}
-	
+
 	SpawnedGroupState GetState()
 	{
 		return this._state;

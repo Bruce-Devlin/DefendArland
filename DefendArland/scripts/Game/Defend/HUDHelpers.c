@@ -8,7 +8,7 @@ class HUDHelpers
     protected RichTextWidget enemiesTextWidget;
     protected ImageWidget separatorWidget;
 
-    protected bool initComplete = false; 
+    protected bool initComplete = false;
     protected int widgetId = 0;
     protected DefendManager dm = null;
 
@@ -23,8 +23,8 @@ class HUDHelpers
     //! Parameters:
     //! uiHUDLayout - The layout of the HUD (XML/Widget definition).
     //! isDebug - Flag indicating if the debug mode should be activated.
-    void Init(string uiHUDLayout, bool isDebug) 
-    { 
+    void Init(string uiHUDLayout, bool isDebug)
+    {
         DefendHelpers.Log("Init HUD", "Starting HUD");
         hudRoot = GetGame().GetWorkspace().CreateWidgets(uiHUDLayout);
         hudHelpersDebug = isDebug;
@@ -127,15 +127,18 @@ class HUDHelpers
     //! -------------------------------------
     //! This method will reset the HUD components, stop the timer, and clear any queued function calls.
     void Destroy()
-    { 
+    {
         if (!initComplete) return;
-        
+
         timerActive = false;
-        timerTimeLeft = -1; 
+        timerTimeLeft = -1;
         shouldStartTimer = false;
         initComplete = false;
-        GetGame().GetCallqueue().Clear();
-        hudRoot.RemoveFromHierarchy();
+        GetGame().GetCallqueue().RemoveByName(this, "StartTimer");
+        GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
+
+        if (hudRoot != null)
+            hudRoot.RemoveFromHierarchy();
     }
 
     //! Shows the HUD with updated wave, lives, timer, and enemy information
@@ -150,9 +153,9 @@ class HUDHelpers
     void ShowHUD(int currWave, int maxWave, int livesRemaining, int timerSeconds = 0, int totalEnemies = 0, string customText = "")
     {
         if (!initComplete) return;
-        
+
         if (hudHelpersDebug) DefendHelpers.Log("Showing HUD", "Wave: " + currWave + "/" + maxWave + " | Timer: " + timerSeconds + " | Lives Remaining: " + livesRemaining + " | Custom Text: " + customText + " | Total Enemies: " + totalEnemies);
-        
+
         if (timerActive)
         {
             timerTimeLeft = -1;
@@ -174,7 +177,7 @@ class HUDHelpers
         if (hudHelpersDebug) DefendHelpers.Log("HUD Set Visible", "The HUD should now be visible.");
     }
 
-    int timerTimeLeft = -1; 
+    int timerTimeLeft = -1;
     bool timerActive = false;
     bool shouldStartTimer = false;
     bool hudHelpersDebug = false;
@@ -196,7 +199,7 @@ class HUDHelpers
             if (hudHelpersDebug) DefendHelpers.Log("Started HUD timer", "HUD timer will start ticking.");
             GetGame().GetCallqueue().RemoveByName(this, "StartTimer");
             GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
-            
+
             shouldStartTimer = false;
             timerActive = true;
             timerTimeLeft = time;
@@ -207,7 +210,7 @@ class HUDHelpers
             GetGame().GetCallqueue().RemoveByName(this, "TimerTick");
             timerActive = false;
             timerTimeLeft = -1;
-            
+
             waveTextWidget.SetText("");
             timerTextWidget.SetText("");
             enemiesTextWidget.SetText("");
@@ -233,11 +236,11 @@ class HUDHelpers
     {
         if (timerTimeLeft > 0) timerTimeLeft = timerTimeLeft - 1;
         if (hudHelpersDebug) DefendHelpers.Log("HUD Timer Tick", "HUD timer ticked with " + timerTimeLeft + " seconds left.");
-        
+
         UpdateHUDDisplayValues(currWave, maxWave, timerTimeLeft, initalEnemiesLeft, initialLivesLeft, customText);
-        
-        if (DefendHelpers.IsHost()) dm.SendHUDUpdate(currWave, maxWave, timerTimeLeft, customText, 0);
-        
+
+        if (DefendHelpers.IsHost() && dm != null) dm.SendHUDUpdate(currWave, maxWave, timerTimeLeft, customText, 0);
+
         GetGame().GetCallqueue().Call(StartTimer, timerTimeLeft, initalEnemiesLeft, initialLivesLeft, currWave, maxWave, customText);
     }
 
@@ -256,7 +259,7 @@ class HUDHelpers
             waveTextWidget.SetText(FormatWaves(currWave, maxWave));
         else
             waveTextWidget.SetText(customText);
-		
+
         livesTextWidget.SetText(FormatLives(livesRemaining));
 
         if (timeLeft <= 0)

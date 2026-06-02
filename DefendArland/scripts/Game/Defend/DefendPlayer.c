@@ -1,6 +1,6 @@
 //! A Class to represent a Defend gamemode Player.
 class DefendPlayer
-{    
+{
     protected string name = ""; //! Name of the player
     protected int id = 0; //! Unique identifier for the player
 	protected string uid = "";
@@ -10,20 +10,20 @@ class DefendPlayer
     protected int deserterWarnings = 0; //! Number of deserter warnings issued
     protected bool isDeserter = false; //! Flag indicating if the player is considered a deserter
 	protected bool hasExtracted = false;
-	
+
 	void Create(int playerID)
-	{		
+	{
 		this.name = GetGame().GetPlayerManager().GetPlayerName(playerID);
 		this.id = playerID;
 	}
-	
+
     protected bool alive = false; //! Flag indicating if the player is alive
-	
+
 	bool IsAlive()
 	{
 		return this.alive;
 	}
-	
+
 	void SetAlive(bool value)
 	{
 		this.alive = value;
@@ -32,44 +32,52 @@ class DefendPlayer
 
 	IEntity GetEntity()
 	{
-		return GetController().GetControlledEntity();
+		PlayerController controller = GetController();
+		if (controller == null)
+			return null;
+
+		return controller.GetControlledEntity();
 	}
-	
+
 	PlayerController GetController()
 	{
 		return GetGame().GetPlayerManager().GetPlayerController(id);
 	}
-	
+
 	HUDManagerComponent GetHUDManager()
 	{
-		return GetController().GetHUDManagerComponent();
+		PlayerController controller = GetController();
+		if (controller == null)
+			return null;
+
+		return controller.GetHUDManagerComponent();
 	}
-	
+
 	string GetName()
 	{
 		return this.name;
 	}
-	
+
 	int GetID()
 	{
 		return this.id;
 	}
-	
+
 	string GetUserUID()
 	{
 		return this.uid;
 	}
-	
+
 	bool HasExtracted()
 	{
 		return this.hasExtracted;
 	}
-	
+
 	void Extract()
 	{
 		this.hasExtracted = true;
 	}
-	
+
 
     //! Increments the deserter warning count by 1
     //! -------------------------------------
@@ -78,7 +86,7 @@ class DefendPlayer
     {
         this.deserterWarnings++;
     }
-    
+
     //! Gets the current number of deserter warnings for the player
     //! -------------------------------------
     //! Returns:
@@ -87,7 +95,7 @@ class DefendPlayer
     {
         return this.deserterWarnings;
     }
-    
+
     //! Checks if the player is considered a deserter
     //! -------------------------------------
     //! Returns:
@@ -108,7 +116,7 @@ class DefendPlayer
         if (!value) this.deserterWarnings = 0;
         this.isDeserter = value;
     }
-	
+
 	void AddXP(int amountToAdd)
 	{
 		DefendHelpers.Log("Adding Player XP", "Adding " + amountToAdd + " XP to player " + GetName());
@@ -125,7 +133,7 @@ class DefendPlayer
     {
         this.kills += killsToAdd;
     }
-	
+
 	int GetKills()
 	{
 		return this.kills;
@@ -141,7 +149,7 @@ class DefendPlayer
     {
         this.deaths += deathsToAdd;
     }
-	
+
 	int GetDeaths()
 	{
 		return this.deaths;
