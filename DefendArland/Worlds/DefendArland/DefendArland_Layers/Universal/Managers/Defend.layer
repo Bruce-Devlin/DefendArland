@@ -242,7 +242,9 @@ SCR_BaseGameMode GameMode_Defend {
     }
    }
    m_aAvailableTraits {
-    29 28 108
+    TRAIT_SERVICE
+    TRAIT_FORTIFICATION
+    THEME_MILITARY
    }
   }
   SCR_CommandingManagerComponent "{644ED76F4E89AC77}" {
@@ -284,10 +286,13 @@ SCR_BaseGameMode GameMode_Defend {
     }
     SCR_DataCollectorCrimesModule "{644ED76F4E89ACCE}" {
      m_aLightBanPunishments {
-      5 15
+      5
+      15
      }
      m_aHeavyBanPunishments {
-      120 480 1440
+      120
+      480
+      1440
      }
     }
     SCR_DataCollectorAchievementsModule "{644ED76F4E89ACCA}" {
@@ -1545,13 +1550,10 @@ SCR_BaseGameMode GameMode_Defend {
    m_SpawnLogic SCR_MenuSpawnLogic "{644ED76F4E8E201B}" {
     m_sForcedFaction "US"
    }
-   m_fDeployMenuOpenDelay 5
   }
   SCR_RespawnTimerComponent "{644ED76F4E8E2003}" {
    Enabled 0
    m_fRespawnTime 2
-  }
-  SCR_SaveLoadComponent "{644ED76F4EB71749}" {
   }
   SCR_SpawnProtectionComponent "{644ED76F4EB71753}" {
    Enabled 0
@@ -1691,7 +1693,7 @@ SCR_BaseGameMode GameMode_Defend {
    Streamable Disabled
   }
  }
- Flags 0
+ Flags 0 0x3
  coords 1893.67 10.997 1821.165
  PlayerControllerPrefab "{D39FCAB93FC4FB02}Prefabs/Characters/Core/DefaultPlayerControllerMP_Campaign.et"
  {
@@ -1700,7 +1702,7 @@ SCR_BaseGameMode GameMode_Defend {
    m_bOverrideBaseModes 1
    m_BaseModes 76
    m_SkipStreamingRules {
-    2
+    CHARACTER
    }
   }
  }
@@ -1708,10 +1710,13 @@ SCR_BaseGameMode GameMode_Defend {
 DefendManager DefendManager : "{E69E342EC57213D3}Prefabs/Defend/DefendManager.et" {
  coords 1891.401 11.234 1820.923
  debugMode 1
+ debugQuickWaveTest 1
  forcedLayoutName "Layout4"
  aiLoopIntervalSeconds 2
  spawnGroupsInf {
-  "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et" "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et" "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
+  "{5B08C42EA0661A20}Prefabs/Groups/OPFOR/KLMK/Group_USSR_LightFireTeam_KLMK.et"
+  "{06F0C9675883F18A}Prefabs/Groups/OPFOR/KLMK/Group_USSR_ReconTeam.et"
+  "{657590C1EC9E27D3}Prefabs/Groups/OPFOR/Group_USSR_LightFireTeam.et"
  }
  spawnGroupsZom {
   "{250F552A2380724E}Prefabs/Groups/OPFOR/Zombies/Group_USSR_Zombies_Random.et"
