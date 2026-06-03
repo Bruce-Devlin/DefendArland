@@ -22,7 +22,7 @@ GenericEntity Layout1_Arsenal : "{19632F112985ED4B}Prefabs/Compositions/Misc/Cus
  angleY -85.068
  angleZ 5.383
 }
-Vehicle Defend_MobileHQ1 : "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et" {
+Vehicle Tutorial_MobileHQ1 : "{23569E8ACA6C4481}Prefabs/Tutorial/Tutorial_MobileHQ.et" {
  components {
   BaseLightManagerComponent "{51E210F17D2534F7}" {
    LightsEnabled 1
@@ -36,6 +36,13 @@ Vehicle Defend_MobileHQ1 : "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M9
      m_fInitialFuelTankState 0
     }
    }
+  }
+  SCR_TutorialFakeBaseComponent "{609E92594500AFA0}" {
+   m_sBaseName "DEFEND"
+   m_sBaseNameLonger "DEFEND ARLAND"
+   m_sBaseCallSign "DEFEND"
+   m_eServices 38
+   m_bAntennaWidgetVisible 1
   }
   SCR_VehicleSpawnProtectionComponent "{54D6FBC0CE49F6D9}" {
    m_bIsLocked 1

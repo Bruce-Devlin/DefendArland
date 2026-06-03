@@ -3,20 +3,19 @@ modded class SCR_DoorUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		DefendManager dm = DefendHelpers.Get();
-		if (dm == null || pOwnerEntity == null)
+		int playerID = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(pUserEntity);		
+		if (dm != null)
 		{
-			super.PerformAction(pOwnerEntity, pUserEntity);
-			return;
-		}
+			DoorComponent comp = DoorComponent.Cast(pOwnerEntity.FindComponent(DoorComponent));
+			bool isDoorJammed = (pOwnerEntity.GetName() == "JammedDoor");
 
-		int playerID = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(pUserEntity);
-		bool isDoorJammed = (pOwnerEntity.GetName() == "JammedDoor");
-
-		if (isDoorJammed)
-		{
-			if (playerID == dm.localPlayerId && dm.hint != null)
-				dm.hint.ShowHint("Can't interact with this door", "This door seems to be magically jammed open.", playerId:dm.localPlayerId, isDebug:dm.hintLogging);
+			if (isDoorJammed) 
+			{
+				if (playerID == dm.localPlayerId) 
+					dm.hint.ShowHint("Can't interact with this door", "This door seems to be magically jammed open.", playerId:dm.localPlayerId, isDebug:dm.hintLogging);
+			}
+			else super.PerformAction(pOwnerEntity, pUserEntity);
 		}
-		else super.PerformAction(pOwnerEntity, pUserEntity);
+		else super.PerformAction(pOwnerEntity, pUserEntity); 
 	}
 }
